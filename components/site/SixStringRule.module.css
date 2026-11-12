@@ -1,0 +1,17 @@
+.rule {
+  display: grid;
+  gap: var(--string-gap);
+  padding-block: 2rem;
+}
+
+.rule span {
+  display: block;
+  background: var(--ink);
+}
+
+.rule span:nth-child(1) { height: var(--string-1); }
+.rule span:nth-child(2) { height: var(--string-2); }
+.rule span:nth-child(3) { height: var(--string-3); }
+.rule span:nth-child(4) { height: var(--string-4); }
+.rule span:nth-child(5) { height: var(--string-5); }
+.rule span:nth-child(6) { height: var(--string-6); }

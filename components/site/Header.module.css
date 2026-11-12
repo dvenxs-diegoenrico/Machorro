@@ -1,0 +1,83 @@
+.header {
+  border-bottom: 1px solid var(--rule);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  padding-block: 0.75rem;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-right: auto;
+}
+
+.home {
+  font-size: 2rem;
+  text-decoration: none;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.label {
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+.nav ul {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--label-size-lg);
+}
+
+.nav a {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.nav a:not(.book):hover {
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+  text-decoration-color: var(--elvis-red);
+}
+
+.book {
+  min-height: 36px;
+  border-color: var(--elvis-red);
+}
+
+.header :focus-visible {
+  outline-color: var(--pool);
+}
+
+@media (max-width: 720px) {
+  .nav {
+    order: 3;
+    flex-basis: 100%;
+    border-top: 1px solid var(--rule);
+    padding-top: 0.25rem;
+  }
+
+  .nav ul {
+    justify-content: space-between;
+    gap: 0.6rem;
+    font-size: var(--label-size);
+    white-space: nowrap;
+  }
+
+  .book {
+    padding-inline: 0.75rem;
+  }
+}

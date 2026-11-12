@@ -1,0 +1,23 @@
+.switch {
+  display: flex;
+  align-items: center;
+  font-size: var(--label-size-lg);
+  color: var(--ink-muted);
+}
+
+.switch a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 44px;
+  text-decoration: none;
+  color: var(--ink-muted);
+}
+
+.switch a[aria-current] {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+  text-decoration-color: var(--elvis-red);
+}

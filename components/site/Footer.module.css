@@ -1,0 +1,60 @@
+.footer {
+  padding-top: 3rem;
+  overflow: hidden;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem 2rem;
+  font-size: var(--label-size-lg);
+}
+
+.handles {
+  display: flex;
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: var(--label-size-lg);
+}
+
+.footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+  text-decoration-color: var(--elvis-red);
+}
+
+.login {
+  font-size: var(--label-size-lg);
+}
+
+.giant {
+  font-size: clamp(6rem, 31vw, 30rem);
+  padding-inline: var(--gutter);
+  margin-block: 0.05em 0.12em;
+  white-space: nowrap;
+}
+
+.credit {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.25rem 2rem;
+  padding-block: 1rem;
+  border-top: 1px solid var(--rule);
+  color: var(--ink-muted);
+}
+
+.footer :focus-visible {
+  outline-color: var(--pool);
+}

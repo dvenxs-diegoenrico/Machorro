@@ -1,0 +1,47 @@
+.ticker {
+  overflow: hidden;
+  border-top: 1px solid var(--rule);
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: ticker 90s linear infinite;
+}
+
+.ticker:hover .track {
+  animation-play-state: paused;
+}
+
+.group {
+  display: flex;
+  flex: none;
+}
+
+.item {
+  display: inline-flex;
+  gap: 0.75em;
+  padding: 0.55rem 0 0.55rem 0.75em;
+}
+
+.dot {
+  color: var(--elvis-red);
+}
+
+.sep {
+  color: var(--rule);
+}
+
+@keyframes ticker {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker {
+    overflow-x: auto;
+  }
+}
