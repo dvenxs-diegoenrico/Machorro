@@ -43,3 +43,48 @@ export function ticketEdges(teeth = 5, bite = 2.2): string {
   }
   return `polygon(${points.join(", ")})`;
 }
+
+export type Point = readonly [number, number];
+
+/**
+ * A hand-ripped outline. Takes a loose polygon drawn around a figure (in image pixels),
+ * breaks every edge into short tears and nudges each one, so it reads as torn paper.
+ * Returns points as % of the bounding box plus the box itself (in image pixels).
+ */
+export function ripOutline(points: readonly Point[], seed: number, roughness = 5, pad = 6) {
+  const rand = mulberry32(seed);
+  const torn: [number, number][] = [];
+  for (let i = 0; i < points.length; i++) {
+    const [x1, y1] = points[i];
+    const [x2, y2] = points[(i + 1) % points.length];
+    const len = Math.hypot(x2 - x1, y2 - y1);
+    const steps = Math.max(1, Math.round(len / 22));
+    const nx = -(y2 - y1) / len;
+    const ny = (x2 - x1) / len;
+    for (let s = 0; s < steps; s++) {
+      const t = s / steps;
+      const j = s === 0 ? 0 : (rand() - 0.5) * 2 * roughness;
+      torn.push([x1 + (x2 - x1) * t + nx * j, y1 + (y2 - y1) * t + ny * j]);
+    }
+  }
+  const xs = torn.map((p) => p[0]);
+  const ys = torn.map((p) => p[1]);
+  const box = {
+    x: Math.min(...xs) - pad,
+    y: Math.min(...ys) - pad,
+    w: Math.max(...xs) - Math.min(...xs) + pad * 2,
+    h: Math.max(...ys) - Math.min(...ys) + pad * 2,
+  };
+  return { torn, box };
+}
+
+/** A starburst sticker outline, as an SVG points string in a 100×100 box. */
+export function burstPoints(spikes = 14, inner = 38, outer = 50): string {
+  const pts: string[] = [];
+  for (let i = 0; i < spikes * 2; i++) {
+    const r = i % 2 ? inner : outer;
+    const a = (Math.PI * i) / spikes - Math.PI / 2;
+    pts.push(`${(50 + r * Math.cos(a)).toFixed(2)},${(50 + r * Math.sin(a)).toFixed(2)}`);
+  }
+  return pts.join(" ");
+}

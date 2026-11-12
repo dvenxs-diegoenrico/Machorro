@@ -1,0 +1,15 @@
+.cutout {
+  position: relative;
+  display: block;
+  width: 100%;
+  /* white torn-paper rim, then the paper's shadow */
+  filter: drop-shadow(3px 0 0 var(--mat)) drop-shadow(-3px 0 0 var(--mat))
+    drop-shadow(0 3px 0 var(--mat)) drop-shadow(0 -3px 0 var(--mat))
+    drop-shadow(0 2px 3px rgb(26 22 18 / 0.35));
+}
+
+.cutout img {
+  position: absolute;
+  max-width: none;
+  height: auto;
+}

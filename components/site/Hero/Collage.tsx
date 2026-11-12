@@ -4,6 +4,7 @@ import { siteConfig } from "@/content/site.config";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import { ticketEdges, tornEdges } from "@/lib/shapes/torn";
+import { Cutout } from "../Cutout";
 import styles from "./Collage.module.css";
 import { Parallax } from "./Parallax";
 
@@ -149,7 +150,7 @@ function Sticker({ text }: { text: string }) {
 
 export function Collage({ locale, t }: { locale: Locale; t: Dictionary }) {
   const { nowSpinning, bookingMonth } = siteConfig;
-  const a = t.hero.alt;
+  const a = t.alt;
 
   return (
     <Parallax className={styles.collage}>
@@ -161,8 +162,8 @@ export function Collage({ locale, t }: { locale: Locale; t: Dictionary }) {
         <TornPhoto src="/assets/lolla-stage.jpg" alt={a.lollaStage} width={527} height={526} seed={23} tape="right" />
       </Piece>
 
-      <Piece place={{ x: 71, y: 39, w: 27, r: 5, z: 3, depth: 8, order: 2 }}>
-        <TornPhoto src="/assets/bw-live.jpg" alt={a.bwLive} width={527} height={593} seed={37} tape="left" />
+      <Piece place={{ x: 69, y: 36, w: 29, r: 4, z: 6, depth: 26, order: 2 }}>
+        <Cutout name="lespaul" alt={a.cutLespaul} />
       </Piece>
 
       <Piece place={{ x: 40, y: 20, w: 16, r: 6, z: 3, depth: 18, order: 3 }}>
@@ -171,10 +172,6 @@ export function Collage({ locale, t }: { locale: Locale; t: Dictionary }) {
 
       <Piece place={{ x: 33, y: 69, w: 20, r: 4, z: 4, depth: 12, order: 4 }}>
         <Art src="/assets/art-layitall.jpg" alt={a.artLayItAll} width={527} height={655} />
-      </Piece>
-
-      <Piece place={{ x: 80, y: 71, w: 17, r: -5, z: 4, depth: 20, order: 5 }}>
-        <Art src="/assets/art-babycomeon.jpg" alt={a.artBabyComeOn} width={432} height={430} />
       </Piece>
 
       <Piece place={{ x: 36, y: 0, w: 19, r: -8, z: 5, depth: 24, order: 6 }}>
@@ -191,7 +188,7 @@ export function Collage({ locale, t }: { locale: Locale; t: Dictionary }) {
         </p>
       </Piece>
 
-      <Piece place={{ x: 55, y: 62, w: 22, r: 0, z: 6, depth: 28, order: 8 }}>
+      <Piece place={{ x: 54, y: 63, w: 20, r: 0, z: 5, depth: 28, order: 8 }}>
         <Sticker text={`${t.ticker.booking} ${bookingMonth[locale]} · ${t.ticker.where}`} />
       </Piece>
 

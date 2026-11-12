@@ -11,7 +11,7 @@ export function Hero({ locale, t }: { locale: Locale; t: Dictionary }) {
         <div className={styles.cover}>
           <Image
             src="/assets/cover-elvis.jpg"
-            alt={t.hero.alt.cover}
+            alt={t.alt.cover}
             width={1014}
             height={1089}
             priority
