@@ -24,10 +24,23 @@ export const es: Dictionary = {
     open: "elvis no ha salido del edificio",
     full: "elvis ha salido del edificio",
   },
-  opening: {
-    headline: "Primero la guitarra. Luego lo que le falte a la canción.",
+  hero: {
+    ransom: ["GUITARRA", "PRIMERO."],
+    note: "Mándame el demo. Te digo qué le falta.",
+    credits: "créditos",
     book: "reserva una sesión →",
     hear: "escucha el trabajo ↓",
+    alt: {
+      cover:
+        "Portada de la revista Elvis Cave: Elvis, el husky, dormido bajo el título. Un estudio en Miami, por Daniel Machorro.",
+      stageStrat: "Guitarrista con una Stratocaster en el escenario de un festival, con andamios detrás",
+      lollaStage: "Guitarrista en plena canción en un gran escenario al aire libre, con batería y luces detrás",
+      bwLive: "Foto en blanco y negro de un guitarrista tocando bajo las luces del escenario",
+      artAquiEstoy: "Arte de Aquí Estoy: una silla vacía en el campo, en blanco y negro",
+      artLayItAll: "Arte de Lay It All: collage de una cantante con guitarra acústica junto a un lago",
+      artBabyComeOn: "Arte de Baby Come On: una camioneta roja en una calle arbolada",
+      crest: "Escudo bordado de ELVIS con la cara de un husky, est. 2018",
+    },
   },
   footer: {
     handles: "encuéntranos",
