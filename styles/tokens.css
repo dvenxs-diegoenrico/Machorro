@@ -25,6 +25,9 @@
 
 :root {
   --paper: #f5f1e5; /* hero paper */
+  --mat: #ffffff; /* white borders on release art, cut-out paper */
+  --ink-fixed: #1a1612; /* ink that does not flip with the theme (printed things) */
+  --crest-cloth: #bcb9b4; /* the grey sweatshirt behind the ELVIS crest */
 
   /* type families (variables set by next/font in app/fonts.ts) */
   --serif: var(--font-instrument-serif), "Times New Roman", serif;
