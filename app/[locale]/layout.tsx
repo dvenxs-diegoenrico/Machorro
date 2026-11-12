@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { fontVariables } from "../fonts";
+import { MotionRoot } from "@/components/motion/MotionRoot";
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { siteConfig } from "@/content/site.config";
@@ -40,8 +41,11 @@ export default async function LocaleLayout({
   const t = getDictionary(locale);
 
   return (
-    <html lang={locale} className={fontVariables}>
+    <html lang={locale} className={fontVariables} suppressHydrationWarning>
       <body>
+        {/* lets CSS hide scroll-reveal elements only when JS is there to reveal them */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        <MotionRoot />
         <a className="skip mono" href="#main">
           {t.skip}
         </a>

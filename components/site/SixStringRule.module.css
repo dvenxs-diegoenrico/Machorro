@@ -1,17 +1,34 @@
 .rule {
   display: grid;
-  gap: var(--string-gap);
   padding-block: 2rem;
 }
 
-.rule span {
+/* each string has a tall hit area so it is easy to pluck */
+.string {
+  display: block;
+  padding-block: calc(var(--string-gap) / 2);
+}
+
+.string > span {
   display: block;
   background: var(--ink);
 }
 
-.rule span:nth-child(1) { height: var(--string-1); }
-.rule span:nth-child(2) { height: var(--string-2); }
-.rule span:nth-child(3) { height: var(--string-3); }
-.rule span:nth-child(4) { height: var(--string-4); }
-.rule span:nth-child(5) { height: var(--string-5); }
-.rule span:nth-child(6) { height: var(--string-6); }
+.string:hover {
+  animation: pluck 0.4s ease-out;
+}
+
+.string:nth-child(1) > span { height: var(--string-1); }
+.string:nth-child(2) > span { height: var(--string-2); }
+.string:nth-child(3) > span { height: var(--string-3); }
+.string:nth-child(4) > span { height: var(--string-4); }
+.string:nth-child(5) > span { height: var(--string-5); }
+.string:nth-child(6) > span { height: var(--string-6); }
+
+@keyframes pluck {
+  0%, 100% { transform: translateY(0); }
+  20% { transform: translateY(-2px); }
+  40% { transform: translateY(1.5px); }
+  60% { transform: translateY(-1px); }
+  80% { transform: translateY(0.5px); }
+}

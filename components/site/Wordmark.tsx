@@ -4,7 +4,7 @@ import styles from "./Wordmark.module.css";
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
     <span className={`${styles.wordmark} ${className}`}>
-      <span className={styles.dot} aria-hidden="true" />
+      <span className={`${styles.dot} m-pulse`} aria-hidden="true" />
       chorro
     </span>
   );

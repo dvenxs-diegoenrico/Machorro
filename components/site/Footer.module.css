@@ -58,3 +58,8 @@
 .footer :focus-visible {
   outline-color: var(--pool);
 }
+
+/* the header dot breathes; the giant one stays still */
+.giant :global(.m-pulse) {
+  animation: none;
+}

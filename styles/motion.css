@@ -1,0 +1,123 @@
+/* chorro — motion system. One vocabulary for the whole site.
+
+   ENTER   paste   a cut-out dropped onto the page (photos, cards, stickers, cut-outs)
+           rise    text and rows coming up into place
+           pop     small things snapping in (letters, dots)
+           draw    lines drawn left to right (strings, rules)
+           stroke  marker scribbles drawn along their path
+           slide   poster type arriving from the side
+           words / group  children rise one after another when the parent scrolls in
+   LOOP    sway    paper breathing on the page
+           spin    stickers and records
+           marquee ticker bands
+   TOUCH   lift    hover on anything pasted
+           pluck   hover on a string
+
+   Enter animations run once, when the element scrolls into view:
+     <div data-reveal="paste" style={{ "--i": 2 }}>   (--i staggers siblings)
+   components/motion/MotionRoot.tsx adds data-in. Without JS, or with
+   prefers-reduced-motion, everything is simply visible.                       */
+
+:root {
+  --stagger: 80ms;
+  --dur-in: 0.7s;
+}
+
+@keyframes m-paste {
+  from { opacity: 0; transform: translateY(-48px) rotate(-9deg) scale(1.1); }
+  55% { opacity: 1; }
+}
+@keyframes m-rise {
+  from { opacity: 0; transform: translateY(32px); }
+}
+@keyframes m-pop {
+  from { opacity: 0; transform: scale(0.2) rotate(-20deg); }
+}
+@keyframes m-draw {
+  from { transform: scaleX(0); }
+}
+@keyframes m-stroke {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes m-slide-left {
+  from { opacity: 0; transform: translateX(-14vw); }
+}
+@keyframes m-slide-right {
+  from { opacity: 0; transform: translateX(14vw); }
+}
+@keyframes m-sway {
+  from { transform: rotate(-0.8deg) translateY(0); }
+  to { transform: rotate(1.2deg) translateY(-4px); }
+}
+@keyframes m-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes m-marquee {
+  to { transform: translateX(-50%); }
+}
+@keyframes m-pluck {
+  0%, 100% { transform: translateY(0); }
+  20% { transform: translateY(-2px); }
+  40% { transform: translateY(1.5px); }
+  60% { transform: translateY(-1px); }
+  80% { transform: translateY(0.5px); }
+}
+@keyframes m-pulse {
+  50% { transform: scale(1.35); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* hidden until they scroll in */
+  .js [data-reveal="paste"],
+  .js [data-reveal="rise"],
+  .js [data-reveal="pop"],
+  .js [data-reveal="slide-left"],
+  .js [data-reveal="slide-right"],
+  .js [data-reveal="words"] > span,
+  .js [data-reveal="group"] > * {
+    opacity: 0;
+  }
+  .js [data-reveal="draw"] {
+    transform: scaleX(0);
+  }
+  .js [data-reveal="stroke"] path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+
+  .js [data-reveal][data-in] {
+    opacity: 1;
+    animation-duration: var(--dur-in);
+    animation-delay: calc(var(--i, 0) * var(--stagger));
+    animation-fill-mode: backwards;
+  }
+  .js [data-reveal="paste"][data-in] { animation-name: m-paste; animation-timing-function: var(--ease-overshoot); }
+  .js [data-reveal="rise"][data-in] { animation-name: m-rise; animation-timing-function: var(--ease-out); }
+  .js [data-reveal="pop"][data-in] { animation-name: m-pop; animation-timing-function: var(--ease-overshoot); animation-duration: 0.45s; }
+  .js [data-reveal="slide-left"][data-in] { animation-name: m-slide-left; animation-timing-function: var(--ease-out); animation-duration: 0.9s; }
+  .js [data-reveal="slide-right"][data-in] { animation-name: m-slide-right; animation-timing-function: var(--ease-out); animation-duration: 0.9s; }
+  .js [data-reveal="draw"][data-in] { transform: none; animation-name: m-draw; animation-timing-function: var(--ease-out); animation-duration: 0.9s; }
+
+  .js [data-reveal="words"][data-in] > span,
+  .js [data-reveal="group"][data-in] > * {
+    opacity: 1;
+    animation: m-rise var(--dur-in) var(--ease-out) backwards;
+    animation-delay: calc(var(--i, 0) * 60ms);
+  }
+  .js [data-reveal="stroke"][data-in] path {
+    animation: m-stroke 0.9s var(--ease-out) forwards;
+    animation-delay: calc(var(--i, 0) * var(--stagger) + 0.3s);
+  }
+
+  /* loops */
+  .m-sway { animation: m-sway var(--sway, 6s) ease-in-out infinite alternate; }
+  .m-spin { animation: m-spin var(--spin, 36s) linear infinite; transform-origin: center; }
+  .m-pulse { animation: m-pulse 2.4s ease-in-out infinite; }
+}
+
+[data-reveal="words"] > span { display: inline-block; }
+[data-reveal="draw"] { transform-origin: left center; }
+
+/* touch */
+.m-lift { transition: transform 0.35s var(--ease-overshoot); }
+.m-lift:hover { transform: translateY(-8px) rotate(2deg) scale(1.03); }

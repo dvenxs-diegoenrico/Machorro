@@ -22,7 +22,7 @@ export function Footer({ locale, t }: { locale: Locale; t: Dictionary }) {
           {t.footer.clientLogin}
         </Link>
       </div>
-      <div className={styles.giant}>
+      <div className={styles.giant} data-reveal="rise">
         <Wordmark />
       </div>
       <div className={`wrap mono ${styles.credit}`}>
