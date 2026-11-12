@@ -1,0 +1,41 @@
+/* Shared section furniture: label, headline, spacing. */
+
+.section {
+  position: relative;
+  padding-block: clamp(3.5rem, 8vw, 7rem);
+  overflow: hidden;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  color: var(--ink-muted);
+  margin-bottom: 1.25rem;
+}
+
+.label::before {
+  content: "";
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  background: var(--elvis-red);
+}
+
+.headline {
+  font-size: var(--headline);
+  max-width: 18ch;
+}
+
+.body {
+  max-width: 46ch;
+  margin-top: 1.5rem;
+}
+
+.tape {
+  position: absolute;
+  width: 5.5rem;
+  height: 1.4rem;
+  background: color-mix(in srgb, var(--pool) 78%, transparent);
+  z-index: 2;
+}

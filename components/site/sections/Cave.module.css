@@ -1,0 +1,144 @@
+.cave {
+  overflow: hidden;
+}
+
+/* ◆ ticker bands, in the varsity lockup face */
+.band {
+  font-family: var(--varsity);
+  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--elvis-red);
+  padding-block: 0.7rem;
+  border-block: 1px solid var(--rule);
+}
+
+.poster {
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.kicker {
+  font-family: var(--varsity);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
+  color: var(--elvis-red);
+  text-align: center;
+}
+
+/* ELVIS | crest | CAVE */
+.lockup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.12em;
+  margin-top: 1rem;
+  font-family: var(--sans);
+  font-weight: 900;
+  font-stretch: var(--poster-stretch);
+  font-size: clamp(3.6rem, 16.5vw, 19rem);
+  line-height: 0.8;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.crest {
+  flex: none;
+  width: 0.72em;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--crest-cloth);
+  border: 0.02em solid var(--elvis-red);
+  outline: 0.012em dashed var(--ink-fixed);
+  outline-offset: -0.05em;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.crestSpin {
+  display: block;
+  width: 70%;
+  translate: 0 4%;
+  transition: transform 0.6s var(--ease-overshoot);
+}
+
+.crest:hover .crestSpin {
+  transform: rotate(-8deg) scale(1.08);
+}
+
+.crest img {
+  width: 100%;
+  height: auto;
+  -webkit-mask-image: radial-gradient(closest-side, #000 82%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 82%, transparent 100%);
+}
+
+.info {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  margin-top: clamp(2.5rem, 6vw, 5rem);
+  align-items: start;
+}
+
+.specs {
+  margin: 0;
+  font-size: var(--label-size-lg);
+}
+
+.specs div {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 0.8rem;
+}
+
+.line {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: var(--ink-muted);
+}
+
+.specs dt {
+  color: var(--ink-muted);
+}
+
+.specs dd {
+  margin: 0;
+  text-align: right;
+}
+
+.pitch p {
+  font-family: var(--serif);
+  font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+
+.strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0 12px clamp(2rem, 4vw, 3.5rem);
+}
+
+.strip img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .info {
+    grid-template-columns: 1fr;
+  }
+
+  .strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

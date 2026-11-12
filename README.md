@@ -15,6 +15,9 @@ npm run typecheck
 ## Where things live
 
 - `styles/tokens.css` — every color, type and motif token (Sand and Night themes)
+- `styles/motion.css` — the motion system: enter, loop and touch animations, used via `data-reveal`
+- `content/cutouts.ts` — outlines for the ripped cut-outs of Chorro
+- `content/credits.json` — rows for the credits ledger
 - `content/site.config.ts` — ticker, booking month, handles
 - `content/dictionaries/` — English and Spanish copy
 - `components/site/` — public site components

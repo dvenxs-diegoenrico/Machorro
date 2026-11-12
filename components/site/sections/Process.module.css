@@ -1,0 +1,90 @@
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.cut {
+  position: relative;
+  flex: none;
+  width: clamp(120px, 16vw, 220px);
+  rotate: 4deg;
+  margin-bottom: -2.5rem;
+  z-index: 2;
+}
+
+.tape {
+  top: -0.4rem;
+  right: 8%;
+  rotate: 14deg;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.step {
+  position: relative;
+  padding-top: 1.5rem;
+}
+
+.string {
+  position: absolute;
+  inset: 0 0 auto 0;
+  background: var(--ink);
+}
+
+.step:nth-child(1) .string { height: var(--string-1); }
+.step:nth-child(2) .string { height: var(--string-3); }
+.step:nth-child(3) .string { height: var(--string-5); }
+.step:nth-child(4) .string { height: var(--string-6); }
+
+.step:hover .string {
+  animation: pluck 0.4s ease-out;
+}
+
+@keyframes pluck {
+  0%, 100% { transform: translateY(0); }
+  20% { transform: translateY(-3px); }
+  40% { transform: translateY(2px); }
+  60% { transform: translateY(-1px); }
+  80% { transform: translateY(0.5px); }
+}
+
+.no {
+  color: var(--elvis-red);
+}
+
+.title {
+  font-size: clamp(1.6rem, 2.3vw, 2.2rem);
+  margin-top: 0.6rem;
+}
+
+.body {
+  margin-top: 0.75rem;
+  color: var(--ink-muted);
+}
+
+@media (max-width: 900px) {
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 2.5rem;
+  }
+
+  .cut {
+    margin-bottom: -3rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .steps {
+    grid-template-columns: 1fr;
+  }
+}

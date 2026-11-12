@@ -1,0 +1,152 @@
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1.5rem 3rem;
+  margin-bottom: 2rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  min-height: 44px;
+  padding-inline: 1.1rem;
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--ground);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th {
+  font-weight: 400;
+  color: var(--ink-muted);
+  padding: 0.6rem 1rem 0.6rem 0;
+  border-bottom: var(--string-1) solid var(--ink);
+}
+
+.table td {
+  padding: 0.75rem 1rem 0.75rem 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: middle;
+}
+
+.row {
+  animation: deal 0.5s var(--ease-out) backwards;
+  animation-delay: calc(var(--i) * 70ms);
+}
+
+@keyframes deal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.art {
+  width: 72px;
+}
+
+.art img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border: 3px solid var(--mat);
+  transition: transform 0.35s var(--ease-overshoot);
+}
+
+.row:hover .art img {
+  transform: scale(1.5) rotate(-6deg);
+}
+
+.row:hover .title {
+  color: var(--elvis-red);
+}
+
+.cat {
+  color: var(--elvis-red);
+  white-space: nowrap;
+}
+
+.title {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  line-height: 1.1;
+  transition: color 0.2s;
+}
+
+.listen a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.year,
+.listen,
+.roles {
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+.empty {
+  padding-block: 2rem;
+  color: var(--ink-muted);
+}
+
+.muso {
+  margin-top: 1.5rem;
+  color: var(--ink-muted);
+}
+
+/* small screens: each row becomes a little record card */
+@media (max-width: 720px) {
+  .table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .table tbody {
+    display: block;
+    border-top: var(--string-1) solid var(--ink);
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    grid-template-areas:
+      "art title cat"
+      "art artist year"
+      "art roles listen";
+    column-gap: 0.75rem;
+    align-items: baseline;
+    padding-block: 0.9rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .table td {
+    padding: 0;
+    border: 0;
+  }
+
+  .art { grid-area: art; align-self: center; }
+  .cat { grid-area: cat; text-align: right; }
+  .year { grid-area: year; text-align: right; }
+  .artist { grid-area: artist; }
+  .title { grid-area: title; }
+  .roles { grid-area: roles; }
+  .listen { grid-area: listen; text-align: right; }
+}

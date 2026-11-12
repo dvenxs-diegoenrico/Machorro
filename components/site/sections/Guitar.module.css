@@ -1,0 +1,75 @@
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+}
+
+.lead {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.photos {
+  position: relative;
+  padding-block: 1.5rem 1rem;
+}
+
+.dots {
+  left: -2.5rem;
+  top: 0;
+  width: 14rem;
+  height: 11rem;
+}
+
+/* bleeds off the right edge: the row is wider than its column and the section clips it */
+.row {
+  position: relative;
+  display: flex;
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: max-content;
+}
+
+.row img {
+  height: clamp(240px, 30vw, 440px);
+  width: auto;
+  max-width: none;
+}
+
+.cut {
+  position: absolute;
+  left: -3.5rem;
+  bottom: -1.5rem;
+  width: clamp(96px, 10.5vw, 150px);
+  rotate: -5deg;
+  z-index: 3;
+}
+
+.cutTape {
+  top: -0.5rem;
+  left: 22%;
+  rotate: -12deg;
+}
+
+.burst {
+  position: absolute;
+  top: 0.25rem;
+  left: clamp(11rem, 26vw, 24rem);
+  width: clamp(84px, 9vw, 128px);
+  rotate: 10deg;
+  z-index: 3;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cut {
+    left: -0.5rem;
+  }
+}

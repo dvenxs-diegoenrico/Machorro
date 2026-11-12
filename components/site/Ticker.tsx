@@ -10,6 +10,7 @@ export function Ticker({ locale, t }: { locale: Locale; t: Dictionary }) {
     `${t.ticker.nowSpinning}: ${nowSpinning.artist[locale]} — ${nowSpinning.song[locale]}`,
     `${t.ticker.booking} ${bookingMonth[locale]}`,
     t.ticker.where,
+    t.ticker.vibe,
     bookingOpen ? t.ticker.open : t.ticker.full,
   ];
 

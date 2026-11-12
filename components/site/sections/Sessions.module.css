@@ -1,0 +1,112 @@
+.head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.cutWrap {
+  position: relative;
+  flex: none;
+  width: clamp(120px, 17vw, 230px);
+  margin-bottom: -4.5rem; /* he stands on the cards */
+  z-index: 3;
+}
+
+.cut {
+  rotate: 5deg;
+}
+
+.dots {
+  right: -2rem;
+  top: 10%;
+  width: 150%;
+  height: 70%;
+  color: var(--elvis-red);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2vw, 1.75rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cards > li:nth-child(1) { rotate: -0.8deg; }
+.cards > li:nth-child(2) { rotate: 0.5deg; }
+.cards > li:nth-child(3) { rotate: -0.4deg; }
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: 2rem 1.5rem 1.5rem;
+}
+
+.tape {
+  top: -0.7rem;
+  left: 50%;
+  translate: -50%;
+  rotate: -3deg;
+}
+
+.no {
+  color: var(--elvis-red);
+}
+
+.title {
+  font-size: clamp(1.75rem, 2.6vw, 2.4rem);
+  margin-top: 0.5rem;
+}
+
+.body {
+  margin-top: 0.9rem;
+  flex: 1;
+}
+
+.specs {
+  margin: 1.5rem 0;
+  font-size: var(--label-size-lg);
+}
+
+.specs div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 0.55rem;
+  border-top: 1px solid var(--rule);
+}
+
+.specs div:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.specs dt {
+  color: var(--ink-muted);
+}
+
+.specs dd {
+  margin: 0;
+  text-align: right;
+}
+
+.card :global(.pill) {
+  align-self: flex-start;
+}
+
+@media (max-width: 900px) {
+  .cards {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .cutWrap {
+    margin-bottom: -3rem;
+  }
+}
