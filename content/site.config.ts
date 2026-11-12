@@ -13,6 +13,8 @@ export const siteConfig = {
   bookingMonth: { en: "[month]", es: "[mes]" } satisfies Record<Locale, string>,
   /** true → "elvis has not left the building"; false → "elvis has left the building" */
   bookingOpen: true,
+  /** Muso.AI profile for the credits ledger. null until we have it. */
+  musoUrl: null as string | null,
   handles: [
     { handle: "@chorromx", href: "https://instagram.com/chorromx" },
     { handle: "@elviscave", href: "https://instagram.com/elviscave" },

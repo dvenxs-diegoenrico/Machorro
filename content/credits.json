@@ -1,0 +1,6 @@
+[
+  { "cat": "chr-001", "year": "[year]", "artist": "[artist]", "title": "Lay It All", "roles": ["gtr", "prod"], "art": "/assets/art-layitall.jpg", "listen": null },
+  { "cat": "chr-002", "year": "[year]", "artist": "[artist]", "title": "Ser de Mí", "roles": ["gtr", "keys"], "art": "/assets/art-serdemi.jpg", "listen": null },
+  { "cat": "chr-003", "year": "[year]", "artist": "[artist]", "title": "Baby Come On", "roles": ["gtr", "bass"], "art": "/assets/art-babycomeon.jpg", "listen": null },
+  { "cat": "chr-004", "year": "[year]", "artist": "[artist]", "title": "Aquí Estoy", "roles": ["prod", "gtr"], "art": "/assets/art-aquiestoy.jpg", "listen": null }
+]
