@@ -1,0 +1,43 @@
+.hero {
+  background: var(--paper);
+  padding-block: clamp(1.5rem, 3vw, 3rem) clamp(2.5rem, 5vw, 4.5rem);
+  overflow: hidden;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1rem, 3vw, 3rem);
+  align-items: center;
+}
+
+.cover {
+  animation: slide-up 0.9s var(--ease-out) both;
+}
+
+.cover img {
+  width: 100%;
+  height: auto;
+  /* the scan's cream sits on the hero paper without a visible edge */
+  mix-blend-mode: multiply;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(48px);
+  }
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
