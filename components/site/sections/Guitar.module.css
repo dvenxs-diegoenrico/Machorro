@@ -13,6 +13,7 @@
 
 .photos {
   position: relative;
+  min-width: 0;
   padding-block: 1.5rem 1rem;
 }
 
@@ -66,7 +67,7 @@
 
 @media (max-width: 900px) {
   .grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .cut {

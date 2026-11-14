@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { Liquid } from "@/components/motion/graphics/Liquid";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import { Cutout } from "../Cutout";
@@ -10,6 +11,7 @@ export function Sessions({ locale, t }: { locale: Locale; t: Dictionary }) {
   const s = t.sessions;
   return (
     <section id="sessions" className={shared.section}>
+      <Liquid tone="sand" layout="a" />
       <div className="wrap">
         <div className={styles.head}>
           <div>

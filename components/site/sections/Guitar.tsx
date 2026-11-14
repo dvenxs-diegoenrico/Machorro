@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
+import { Liquid } from "@/components/motion/graphics/Liquid";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import { Cutout } from "../Cutout";
 import { Burst, Halftone, Scribble } from "../Sticker";
@@ -16,6 +17,7 @@ export function Guitar({ t }: { t: Dictionary }) {
 
   return (
     <section id="guitar" className={shared.section}>
+      <Liquid tone="sand" layout="b" />
       <div className={`wrap ${styles.grid}`}>
         <div className={styles.text}>
           <p className={`mono ${shared.label}`}>{t.guitar.label}</p>
@@ -36,7 +38,7 @@ export function Guitar({ t }: { t: Dictionary }) {
           <Halftone id="ht-guitar" className={styles.dots} />
           <ul className={styles.row} data-reveal="group">
             {photos.map((p, i) => (
-              <li key={p.src} style={{ "--i": i * 2 } as CSSProperties}>
+              <li key={p.src} className="scallop m-wobble" style={{ "--i": i * 2 } as CSSProperties}>
                 <Image src={p.src} alt={p.alt} width={p.w} height={p.h} sizes="(max-width: 900px) 60vw, 26vw" />
               </li>
             ))}

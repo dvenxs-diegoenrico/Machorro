@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { Equalizer } from "@/components/motion/graphics/Equalizer";
+import { Liquid } from "@/components/motion/graphics/Liquid";
 import { siteConfig } from "@/content/site.config";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
@@ -41,6 +42,7 @@ export function Booking({ locale, t }: { locale: Locale; t: Dictionary }) {
 
   return (
     <section id="book" className={shared.section}>
+      <Liquid tone="sand" layout="c" />
       <div className={`wrap ${styles.grid}`}>
         <div>
           <p className={`mono ${shared.label}`}>{b.label}</p>

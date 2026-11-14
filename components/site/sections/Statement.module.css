@@ -1,5 +1,6 @@
 .band {
   position: relative;
+  isolation: isolate;
   background: var(--elvis-red);
   color: var(--on-red);
   padding-block: clamp(4rem, 10vw, 8rem);
@@ -11,11 +12,13 @@
 }
 
 .words {
-  font-family: var(--serif);
-  font-size: clamp(2.75rem, 8.4vw, 8rem);
-  line-height: 0.98;
-  letter-spacing: -0.015em;
-  max-width: 13ch;
+  font-weight: 900;
+  font-stretch: 70%;
+  text-transform: uppercase;
+  font-size: clamp(3rem, 9vw, 8.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.01em;
+  max-width: 12ch;
 }
 
 .burst {

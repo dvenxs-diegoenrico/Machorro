@@ -2,6 +2,7 @@
 
 .section {
   position: relative;
+  isolation: isolate;
   padding-block: clamp(3.5rem, 8vw, 7rem);
   overflow: hidden;
 }
@@ -24,7 +25,7 @@
 
 .headline {
   font-size: var(--headline);
-  max-width: 18ch;
+  max-width: 15ch;
 }
 
 .body {

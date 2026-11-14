@@ -1,4 +1,6 @@
 .footer {
+  position: relative;
+  isolation: isolate;
   padding-top: 3rem;
   overflow: hidden;
 }

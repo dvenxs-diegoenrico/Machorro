@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Liquid } from "@/components/motion/graphics/Liquid";
 import { siteConfig } from "@/content/site.config";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
@@ -8,6 +9,7 @@ import { Wordmark } from "./Wordmark";
 export function Footer({ locale, t }: { locale: Locale; t: Dictionary }) {
   return (
     <footer data-theme="night" className={styles.footer}>
+      <Liquid tone="night" layout="b" />
       <div className={`wrap ${styles.meta}`}>
         <ul className={`mono ${styles.handles}`} aria-label={t.footer.handles}>
           {siteConfig.handles.map(({ handle, href }) => (

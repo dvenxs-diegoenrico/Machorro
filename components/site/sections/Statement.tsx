@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
+import { Liquid } from "@/components/motion/graphics/Liquid";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import { Burst } from "../Sticker";
 import styles from "./Statement.module.css";
@@ -9,6 +10,7 @@ export function Statement({ t }: { t: Dictionary }) {
   const words = t.statement.words.split(" ");
   return (
     <section className={styles.band}>
+      <Liquid tone="red" layout="a" />
       <div className={`wrap ${styles.inner}`}>
         <p className={styles.words} data-reveal="words">
           {words.map((w, i) => (

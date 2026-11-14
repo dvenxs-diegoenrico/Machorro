@@ -6,6 +6,7 @@ import credits from "@/content/credits.json";
 import { siteConfig } from "@/content/site.config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import styles from "./Ledger.module.css";
+import { Liquid } from "@/components/motion/graphics/Liquid";
 import { Vinyl } from "@/components/motion/graphics/Vinyl";
 import shared from "./sections.module.css";
 
@@ -20,6 +21,7 @@ export function Ledger({ t, artAlt }: { t: Dictionary; artAlt: Record<string, st
 
   return (
     <section id="work" className={shared.section}>
+      <Liquid tone="sand" layout="c" />
       <div className="wrap">
         <div className={styles.head}>
           <div>
@@ -65,7 +67,7 @@ export function Ledger({ t, artAlt }: { t: Dictionary; artAlt: Record<string, st
               {rows.map((row, i) => (
                 <tr key={row.cat} className={styles.row} style={{ "--i": i } as CSSProperties}>
                   <td className={styles.art}>
-                    <Image src={row.art} alt={artAlt[row.cat] ?? ""} width={96} height={96} />
+                    <Image className="scallop" src={row.art} alt={artAlt[row.cat] ?? ""} width={96} height={96} />
                   </td>
                   <td className={`mono ${styles.cat}`}>{row.cat}</td>
                   <td className={`mono ${styles.year}`}>{row.year}</td>

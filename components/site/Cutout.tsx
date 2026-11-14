@@ -10,11 +10,13 @@ export function Cutout({
   name,
   alt,
   sizes = "(max-width: 900px) 40vw, 18vw",
+  priority = false,
   className = "",
 }: {
   name: CutoutKey;
   alt: string;
   sizes?: string;
+  priority?: boolean;
   className?: string;
 }) {
   const { src, width, height } = cutouts[name];
@@ -25,6 +27,7 @@ export function Cutout({
       width={width}
       height={height}
       sizes={sizes}
+      priority={priority}
       className={`${styles.cutout} ${className}`}
     />
   );

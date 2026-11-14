@@ -47,6 +47,10 @@
   min-height: 44px;
 }
 
+.nav a.book {
+  display: inline-flex;
+}
+
 .nav a:not(.book):hover {
   text-decoration: underline;
   text-underline-offset: 0.35em;
@@ -54,8 +58,7 @@
 }
 
 .book {
-  min-height: 36px;
-  border-color: var(--elvis-red);
+  min-height: 40px;
 }
 
 .header :focus-visible {

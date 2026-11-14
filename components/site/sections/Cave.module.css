@@ -1,4 +1,6 @@
 .cave {
+  position: relative;
+  isolation: isolate;
   overflow: hidden;
 }
 
@@ -18,12 +20,21 @@
 }
 
 .kicker {
-  font-family: var(--varsity);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-size: clamp(0.8rem, 1.2vw, 1rem);
+  width: min(100%, 640px);
+  margin-inline: auto;
   color: var(--elvis-red);
-  text-align: center;
+}
+
+.coverCard {
+  width: min(70%, 300px);
+  rotate: -4deg;
+  margin-bottom: 1.75rem;
+  --scallop: 9px;
+}
+
+.coverCard img {
+  width: 100%;
+  height: auto;
 }
 
 /* ELVIS | crest | CAVE */
@@ -95,11 +106,8 @@
   padding-block: 0.8rem;
 }
 
-.line {
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 1px;
-  background: var(--ink-muted);
+.specs div {
+  border-top: 1px solid var(--ink-muted);
 }
 
 .specs dt {
@@ -112,9 +120,11 @@
 }
 
 .pitch p {
-  font-family: var(--serif);
-  font-size: clamp(1.6rem, 2.6vw, 2.4rem);
-  line-height: 1.1;
+  font-weight: 800;
+  font-stretch: 82%;
+  font-size: clamp(1.5rem, 2.3vw, 2.1rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
   margin-bottom: 1.5rem;
 }
 

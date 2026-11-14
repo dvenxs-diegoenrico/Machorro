@@ -102,9 +102,10 @@
 
 .message {
   flex: 1 1 14rem;
-  font-family: var(--serif);
-  font-size: 1.35rem;
-  line-height: 1.15;
+  font-weight: 800;
+  font-stretch: 82%;
+  font-size: 1.25rem;
+  line-height: 1.1;
 }
 
 .ok {
