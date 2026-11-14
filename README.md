@@ -19,6 +19,7 @@ npm run typecheck
 - `scripts/caustic.py` — generates the liquid-screen textures (inlined in `styles/motion.css`)
 - `scripts/hero_edit.py` — the hero photo edit (haze, olive blacks)
 - `content/credits.json` — rows for the credits ledger
+- `content/panas.ts` — the panas: bands and artists, their photos, Dani's story and one video each
 - `content/site.config.ts` — ticker, booking month, handles
 - `content/dictionaries/` — English and Spanish copy
 - `components/site/` — public site components

@@ -1,0 +1,75 @@
+.frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: var(--olive);
+  overflow: hidden;
+}
+
+.player,
+.facade,
+.facade img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.facade {
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.facade img {
+  object-fit: cover;
+  filter: saturate(0.85);
+  transition: transform 0.8s var(--ease-out), filter 0.4s;
+}
+
+.facade:hover img {
+  transform: scale(1.04);
+  filter: saturate(1);
+}
+
+/* a red disc with a cream triangle */
+.play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 76px;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: var(--red);
+  transition: scale 0.35s var(--ease-overshoot);
+}
+
+.play::after {
+  content: "";
+  position: absolute;
+  left: 54%;
+  top: 50%;
+  translate: -50% -50%;
+  border-style: solid;
+  border-width: 12px 0 12px 20px;
+  border-color: transparent transparent transparent var(--cream);
+}
+
+.facade:hover .play {
+  scale: 1.12;
+}
+
+.facade:focus-visible {
+  outline: 3px solid var(--red);
+  outline-offset: -3px;
+}
+
+.empty {
+  display: grid;
+  place-items: center;
+  color: var(--cream);
+  background:
+    repeating-linear-gradient(-45deg, transparent 0 14px, rgb(239 235 221 / 0.05) 14px 15px),
+    var(--olive);
+}

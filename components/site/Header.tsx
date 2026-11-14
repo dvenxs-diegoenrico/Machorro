@@ -22,9 +22,7 @@ export function Header({ locale, t }: { locale: Locale; t: Dictionary }) {
               <Link href={`${home}#elvis-cave`}>{t.nav.cave}</Link>
             </li>
             <li>
-              <Link href={`${home}/sessions`} prefetch={false}>
-                {t.nav.panas}
-              </Link>
+              <Link href={`${home}#panas`}>{t.nav.panas}</Link>
             </li>
           </ul>
         </nav>

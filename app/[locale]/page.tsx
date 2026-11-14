@@ -6,6 +6,7 @@ import { Booking } from "@/components/site/sections/Booking";
 import { Cave } from "@/components/site/sections/Cave";
 import { Guitar } from "@/components/site/sections/Guitar";
 import { Ledger } from "@/components/site/sections/Ledger";
+import { Panas } from "@/components/site/sections/Panas";
 import { Process } from "@/components/site/sections/Process";
 import { Sessions } from "@/components/site/sections/Sessions";
 import { Statement } from "@/components/site/sections/Statement";
@@ -37,6 +38,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       <Guitar t={t} />
       <Rule hint />
       <Ledger t={t} artAlt={artAlt} />
+      <Panas locale={locale} t={t} />
       <Statement t={t} />
       <Sessions locale={locale} t={t} />
       <Cave locale={locale} t={t} />
