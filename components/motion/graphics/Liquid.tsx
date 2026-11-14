@@ -25,12 +25,22 @@ const LAYOUTS: Record<string, number[][]> = {
 
 /**
  * Liquid in the blank space: slow blobs in two shades of the section's own colour.
+ * Also carries the liquid-screen ripples (styles/motion.css).
  * Put it first inside a section that has `isolation: isolate`. Decorative.
  */
-export function Liquid({ tone, layout = "a" }: { tone: Tone; layout?: keyof typeof LAYOUTS }) {
+export function Liquid({
+  tone,
+  layout = "a",
+  blobs = true,
+}: {
+  tone: Tone;
+  layout?: keyof typeof LAYOUTS;
+  /** false: only the liquid-screen ripples, no blobs (for thin bands like the header) */
+  blobs?: boolean;
+}) {
   return (
     <div className="liquid" data-tone={tone} aria-hidden="true">
-      {LAYOUTS[layout].map(([x, y, s, t, dx, dy], i) => (
+      {blobs && LAYOUTS[layout].map(([x, y, s, t, dx, dy], i) => (
         <span
           key={i}
           style={

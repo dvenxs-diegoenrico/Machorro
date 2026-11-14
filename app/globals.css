@@ -106,7 +106,8 @@ img {
   transition: transform 0.25s var(--ease-overshoot);
 }
 
-.pill::before {
+.pill::before,
+.pill::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -119,6 +120,22 @@ img {
   mask:
     linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 2 * var(--r)) calc(100% - 2 * var(--r)),
     radial-gradient(farthest-side, #000 97%, #0000) 0 0 / calc(2 * var(--r)) calc(2 * var(--r)) round;
+}
+
+/* liquid screen on the button face */
+.pill::after {
+  background: var(--caustic-light) 0 0 / 420px, var(--caustic-dark) 60px 40px / 420px;
+  opacity: 0.2;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pill:hover::after {
+    animation: pill-caustic 3s linear infinite;
+  }
+}
+
+@keyframes pill-caustic {
+  to { background-position: 420px 210px, -340px 470px; }
 }
 
 .pill-red {

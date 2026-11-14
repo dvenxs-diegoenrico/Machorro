@@ -30,10 +30,18 @@ export function WaveformLoop({ bars = 96, className = "" }: { bars?: number; cla
       <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className={styles.waveRest}>
         {rects}
       </svg>
-      <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className={styles.wavePlayed}>
-        {rects}
-      </svg>
-      <span className={styles.playhead} />
+      {/* played part: the window slides in from the left while its contents slide the
+          other way, so the red bars appear to fill up in place (transforms only) */}
+      <span className={styles.playedWindow}>
+        <span className={styles.playedInner}>
+          <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className={styles.wavePlayed}>
+            {rects}
+          </svg>
+        </span>
+      </span>
+      <span className={styles.headTrack}>
+        <span className={styles.playhead} />
+      </span>
     </div>
   );
 }

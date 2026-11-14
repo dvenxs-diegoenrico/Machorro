@@ -46,13 +46,13 @@ export function Hero({ locale, t }: { locale: Locale; t: Dictionary }) {
         {/* top plane */}
         <div className={`${styles.plane} ${styles.top}`}>
           <div className={styles.badge}>
-            <div className={`${styles.badgeFace} m-wobble`} style={{ clipPath: scallopCircle() }}>
+            <div className={`${styles.badgeFace} liquid-fill m-wobble`} style={{ clipPath: scallopCircle() }}>
               <ArcText ring spin text={`${t.ticker.booking} ${bookingMonth[locale]} · ${t.ticker.where}`} />
               <span className={styles.badgeDot} aria-hidden="true" />
             </div>
           </div>
 
-          <a className={`mono ${styles.ticket}`} href="#work" style={{ clipPath: ticketEdges() }}>
+          <a className={`mono ${styles.ticket} liquid-fill`} href="#work" style={{ clipPath: ticketEdges() }}>
             <span>
               <span aria-hidden="true">● </span>
               {t.ticker.nowSpinning} — {nowSpinning.artist[locale]} · {nowSpinning.song[locale]}

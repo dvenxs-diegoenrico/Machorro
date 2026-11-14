@@ -15,6 +15,8 @@ export function Burst({
     <span className={`${styles.burst} ${styles[tone]} ${className}`} role="img" aria-label={lines.join(" ")}>
       <svg viewBox="0 0 100 100" aria-hidden="true" className="m-spin" style={{ "--spin": "48s" } as React.CSSProperties}>
         <polygon points={burstPoints()} />
+        <polygon points={burstPoints()} fill="url(#caustic-dark)" className={styles.causticD} />
+        <polygon points={burstPoints()} fill="url(#caustic-light)" className={styles.causticL} />
       </svg>
       <span className={styles.text} aria-hidden="true">
         {lines.map((l) => (

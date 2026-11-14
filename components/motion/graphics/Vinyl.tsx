@@ -5,7 +5,7 @@ export function Vinyl({ label, className = "" }: { label: string; className?: st
   const ring = `${label} · ${label} · `;
   return (
     <svg className={`${styles.vinyl} ${className}`} viewBox="0 0 200 200" aria-hidden="true">
-      <g className={styles.vinylSpin}>
+      <g>
         <circle cx="100" cy="100" r="99" className={styles.vinylDisc} />
         {[90, 82, 74, 66, 58, 50].map((r) => (
           <circle key={r} cx="100" cy="100" r={r} className={styles.vinylGroove} />

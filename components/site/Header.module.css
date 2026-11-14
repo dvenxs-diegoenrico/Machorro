@@ -1,4 +1,6 @@
 .header {
+  position: relative;
+  isolation: isolate;
   border-bottom: 1px solid var(--rule);
 }
 

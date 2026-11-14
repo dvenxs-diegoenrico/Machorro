@@ -33,7 +33,7 @@ export function Sessions({ locale, t }: { locale: Locale; t: Dictionary }) {
         <ol className={styles.cards}>
           {s.cards.map((card, i) => (
             <li key={card.title} data-reveal="paste" style={{ "--i": i } as CSSProperties}>
-              <article className={`${styles.card} m-lift`}>
+              <article className={`${styles.card} liquid-fill m-lift`}>
                 <span className={`${shared.tape} ${styles.tape}`} aria-hidden="true" />
                 <p className={`mono ${styles.no}`}>0{i + 1}</p>
                 <h3 className={styles.title}>{card.title}</h3>

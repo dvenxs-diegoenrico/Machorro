@@ -79,9 +79,11 @@
   75% { transform: scale(1.05, 0.97) rotate(-1.5deg); }
 }
 @keyframes m-morph {
-  0% { border-radius: 58% 42% 63% 37% / 44% 61% 39% 56%; rotate: 0deg; }
-  50% { border-radius: 38% 62% 44% 56% / 60% 38% 62% 40%; }
-  100% { border-radius: 52% 48% 34% 66% / 37% 55% 45% 63%; rotate: 40deg; }
+  /* breathing and turning: transform only, so it runs on the GPU */
+  0% { transform: rotate(0deg) scale(1, 1); }
+  33% { transform: rotate(14deg) scale(1.08, 0.94); }
+  66% { transform: rotate(26deg) scale(0.95, 1.07); }
+  100% { transform: rotate(40deg) scale(1.04, 0.98); }
 }
 @keyframes m-drift {
   from { translate: 0 0; }
@@ -160,8 +162,13 @@
   aspect-ratio: 1;
   border-radius: 58% 42% 63% 37% / 44% 61% 39% 56%;
   background: var(--shade-a);
+  will-change: transform;
 }
-.liquid span:nth-child(even) { background: var(--shade-b); }
+.liquid span:nth-child(even) {
+  background: var(--shade-b);
+  border-radius: 41% 59% 38% 62% / 57% 43% 60% 40%;
+}
+.liquid span:nth-child(3n) { border-radius: 63% 37% 54% 46% / 39% 58% 42% 61%; }
 .liquid[data-tone="sand"] { --shade-a: var(--sand-a); --shade-b: var(--sand-b); }
 .liquid[data-tone="paper"] { --shade-a: var(--paper-a); --shade-b: var(--paper-b); }
 .liquid[data-tone="pop"] { --shade-a: var(--pop-a); --shade-b: var(--pop-b); }
@@ -174,6 +181,93 @@
       m-drift calc(var(--t, 14s) * 1.6) ease-in-out infinite alternate;
   }
   .m-wobble:hover { animation: m-wobble 0.6s var(--ease-out); }
+}
+
+
+/* ── liquid screen ──────────────────────────────────────────────────────────
+   Caustic ripples over every solid colour, like light moving through water.
+   Two tileable 480px textures (public/assets/caustic-*.webp, made by
+   scripts/caustic.py): thin light lines and soft dark
+   troughs, drifting in different directions. Over any colour they read as its
+   own lighter and darker shades. Strength per surface:
+     --caustic-l  light lines    --caustic-d  dark troughs
+   Used by .liquid (section grounds), .liquid-fill (header, cards, badges),
+   .pill (buttons) and the <Burst> stickers (SVG pattern).                   */
+:root {
+  /* bitmap tiles: for surfaces whose texture flows (repainted every frame) */
+  --caustic-light: url("/assets/caustic-light.webp");
+  --caustic-dark: url("/assets/caustic-dark.webp");
+  /* the same textures as inline vectors: for the big sliding layers. They arrive
+     with the stylesheet, so the hero never waits on an image request, and they
+     only slide (composited), so the filter is drawn once. */
+  --caustic-light-vec: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22480%22 height=%22480%22%3E%3Cfilter id=%22l%22 x=%220%22 y=%220%22 width=%22100%25%22 height=%22100%25%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.0085 0.011%22 numOctaves=%221%22 seed=%227%22 stitchTiles=%22stitch%22/%3E%3CfeColorMatrix values=%220 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1.6 0 0 0 -0.3%22/%3E%3CfeComponentTransfer%3E%3CfeFuncA type=%22table%22 tableValues=%220 0 0 0.9 0 0 0 0 0.75 0 0 0 0 0.65 0 0%22/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url%28%23l%29%22/%3E%3C/svg%3E");
+  --caustic-dark-vec: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22480%22 height=%22480%22%3E%3Cfilter id=%22d%22 x=%220%22 y=%220%22 width=%22100%25%22 height=%22100%25%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.006 0.008%22 numOctaves=%221%22 seed=%2221%22 stitchTiles=%22stitch%22/%3E%3CfeColorMatrix values=%220 0 0 0 0.02 0 0 0 0 0.12 0 0 0 0 0.08 1.6 0 0 0 -0.3%22/%3E%3CfeComponentTransfer%3E%3CfeFuncA type=%22table%22 tableValues=%220 0.6 0 0 0 0.55 0 0 0.5 0%22/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url%28%23d%29%22/%3E%3C/svg%3E");
+  --caustic-size: 760px;
+  --caustic-l: 0.7;
+  --caustic-d: 0.06;
+}
+[data-theme="night"] { --caustic-l: 0.09; --caustic-d: 0.22; }
+.liquid[data-tone="pop"] { --caustic-l: 0.16; --caustic-d: 0.16; }
+
+/* section grounds and the header: big layers that slide (transform only, cheap to
+   animate). Being much larger than the screen also keeps them out of the browser's
+   "largest contentful paint" pick, which a small dense layer would win. */
+/* Drawn as a flat colour shaped by the texture (mask), not as a background image:
+   same look, but browsers don't count masks as the page's "largest paint", so a
+   decorative layer never delays that metric. */
+.liquid::before,
+.liquid::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--caustic-size) * -1);
+  z-index: 1;
+  -webkit-mask-size: var(--caustic-size);
+  mask-size: var(--caustic-size);
+  will-change: transform;
+}
+.liquid::before {
+  background: rgb(5 31 20);
+  -webkit-mask-image: var(--caustic-dark-vec);
+  mask-image: var(--caustic-dark-vec);
+  opacity: var(--caustic-d);
+}
+.liquid::after {
+  background: #fff;
+  -webkit-mask-image: var(--caustic-light-vec);
+  mask-image: var(--caustic-light-vec);
+  opacity: var(--caustic-l);
+}
+
+/* smaller surfaces (cards, badge, ticket): the texture flows across a fixed box */
+/* the element must be positioned itself (relative or absolute) */
+.liquid-fill {
+  isolation: isolate;
+}
+.liquid-fill::before,
+.liquid-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-size: var(--caustic-size);
+}
+.liquid-fill::before { background-image: var(--caustic-dark); opacity: var(--caustic-d); }
+.liquid-fill::after { background-image: var(--caustic-light); opacity: var(--caustic-l); }
+
+@keyframes m-caustic-a { to { transform: translate(var(--caustic-size), var(--caustic-size)); } }
+@keyframes m-caustic-b { to { transform: translate(calc(var(--caustic-size) * -1), var(--caustic-size)); } }
+@keyframes m-caustic-pos-a { to { background-position: var(--caustic-size) var(--caustic-size); } }
+@keyframes m-caustic-pos-b { to { background-position: calc(var(--caustic-size) * -1) var(--caustic-size); } }
+
+/* Big layers drift all the time (composited, cheap). Small surfaces hold still
+   and rush when touched: flowing texture on many small boxes would keep the main
+   thread busy every frame. */
+@media (prefers-reduced-motion: no-preference) {
+  .liquid::before { animation: m-caustic-a 70s linear infinite; }
+  .liquid::after { animation: m-caustic-b 46s linear infinite; }
+  .liquid-fill:hover::before { animation: m-caustic-pos-a 9s linear infinite; }
+  .liquid-fill:hover::after { animation: m-caustic-pos-b 6s linear infinite; }
 }
 
 /* touch */

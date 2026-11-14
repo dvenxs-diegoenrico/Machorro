@@ -58,7 +58,7 @@ export function Booking({ locale, t }: { locale: Locale; t: Dictionary }) {
           </p>
         </div>
 
-        <form className={styles.form} onSubmit={onSubmit} data-reveal="paste">
+        <form className={`${styles.form} liquid-fill`} onSubmit={onSubmit} data-reveal="paste">
           <span className={`${shared.tape} ${styles.tape}`} aria-hidden="true" />
           <div className={styles.pair}>
             <label className={styles.field}>

@@ -23,6 +23,9 @@
 .ink { color: var(--paper); }
 .ink polygon { fill: var(--ink-fixed); }
 
+.burst .causticD { fill: url(#caustic-dark); opacity: 0.2; }
+.burst .causticL { fill: url(#caustic-light); opacity: 0.3; }
+
 .text {
   position: relative;
   display: grid;

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Liquid } from "@/components/motion/graphics/Liquid";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import styles from "./Header.module.css";
@@ -10,6 +11,7 @@ export function Header({ locale, t }: { locale: Locale; t: Dictionary }) {
   const home = `/${locale}`;
   return (
     <header data-theme="night" className={styles.header}>
+      <Liquid tone="night" blobs={false} />
       <div className={`wrap ${styles.bar}`}>
         <div className={styles.brand}>
           <Link href={home} className={styles.home} aria-label="chorro">

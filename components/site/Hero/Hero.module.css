@@ -119,6 +119,8 @@
 
 .badgeFace {
   position: relative;
+  --caustic-l: 0.22;
+  --caustic-d: 0.18;
   aspect-ratio: 1;
   background: var(--magenta);
   color: var(--on-pop);
@@ -137,6 +139,8 @@
 
 .ticket {
   position: absolute;
+  --caustic-l: 0.35;
+  --caustic-d: 0.12;
   left: 4%;
   top: 56%;
   display: flex;
