@@ -44,7 +44,6 @@ export function Guitar({ t }: { t: Dictionary }) {
           <div className={styles.cut} data-reveal="paste" style={{ "--i": 5 } as CSSProperties}>
             <div className="m-sway">
               <Cutout name="strat" alt={t.alt.cutStrat} />
-              <span className={`${shared.tape} ${styles.cutTape}`} aria-hidden="true" />
             </div>
           </div>
           <div className={styles.burst} data-reveal="pop" style={{ "--i": 9 } as CSSProperties}>

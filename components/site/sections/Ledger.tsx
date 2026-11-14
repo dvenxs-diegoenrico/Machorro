@@ -6,6 +6,7 @@ import credits from "@/content/credits.json";
 import { siteConfig } from "@/content/site.config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import styles from "./Ledger.module.css";
+import { Vinyl } from "@/components/motion/graphics/Vinyl";
 import shared from "./sections.module.css";
 
 const ROLES = ["all", "gtr", "prod", "bass", "keys"] as const;
@@ -26,6 +27,9 @@ export function Ledger({ t, artAlt }: { t: Dictionary; artAlt: Record<string, st
             <h2 className={shared.headline} data-reveal="rise">
               {t.ledger.headline}
             </h2>
+          </div>
+          <div className={styles.vinyl} data-reveal="slide-right">
+            <Vinyl label={rows[0]?.cat ?? "chr"} />
           </div>
           <div className={styles.chips} role="group" aria-label={t.ledger.filterLabel}>
             {ROLES.map((r) => (

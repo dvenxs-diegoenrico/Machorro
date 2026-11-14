@@ -3,22 +3,11 @@
   justify-content: space-between;
   align-items: end;
   gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.wave {
   margin-bottom: 3rem;
-}
-
-.cut {
-  position: relative;
-  flex: none;
-  width: clamp(120px, 16vw, 220px);
-  rotate: 4deg;
-  margin-bottom: -2.5rem;
-  z-index: 2;
-}
-
-.tape {
-  top: -0.4rem;
-  right: 8%;
-  rotate: 14deg;
 }
 
 .steps {
@@ -76,10 +65,6 @@
   .steps {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     row-gap: 2.5rem;
-  }
-
-  .cut {
-    margin-bottom: -3rem;
   }
 }
 

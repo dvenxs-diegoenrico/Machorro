@@ -162,7 +162,7 @@ export function Collage({ locale, t }: { locale: Locale; t: Dictionary }) {
         <TornPhoto src="/assets/lolla-stage.jpg" alt={a.lollaStage} width={527} height={526} seed={23} tape="right" />
       </Piece>
 
-      <Piece place={{ x: 69, y: 36, w: 29, r: 4, z: 6, depth: 26, order: 2 }}>
+      <Piece place={{ x: 72, y: 37, w: 25, r: 4, z: 6, depth: 26, order: 2 }}>
         <Cutout name="lespaul" alt={a.cutLespaul} />
       </Piece>
 

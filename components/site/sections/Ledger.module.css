@@ -1,10 +1,24 @@
 .head {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto;
   align-items: end;
   gap: 1.5rem 3rem;
   margin-bottom: 2rem;
+}
+
+.vinyl {
+  grid-row: span 2;
+  width: clamp(120px, 15vw, 210px);
+  margin-bottom: -3.2rem; /* half tucked behind the ledger, like a record in a sleeve */
+}
+
+.chips {
+  grid-column: 1;
+}
+
+.table {
+  position: relative;
+  background: var(--ground);
 }
 
 .chips {
@@ -111,6 +125,11 @@
 
 /* small screens: each row becomes a little record card */
 @media (max-width: 720px) {
+  .vinyl {
+    width: 104px;
+    margin-right: -2.5rem;
+  }
+
   .table thead {
     position: absolute;
     width: 1px;

@@ -56,7 +56,7 @@ export function Cave({ locale, t }: { locale: Locale; t: Dictionary }) {
         </div>
       </div>
 
-      <ul className={styles.strip}>
+      <ul className={styles.strip} tabIndex={0} aria-label={t.cave.specsLabel}>
         {photos.map((p, i) => (
           <li key={p.src} data-reveal="paste" style={{ "--i": i } as CSSProperties}>
             <Image className="m-lift" src={p.src} alt={p.alt} width={p.w} height={p.h} sizes="(max-width: 900px) 50vw, 25vw" />

@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/lib/i18n/dictionary";
-import { Cutout } from "../Cutout";
+import { WaveformLoop } from "@/components/motion/graphics/WaveformLoop";
 import styles from "./Process.module.css";
 import shared from "./sections.module.css";
 
@@ -16,13 +16,9 @@ export function Process({ t }: { t: Dictionary }) {
               {t.process.headline}
             </h2>
           </div>
-          <div className={styles.cut} data-reveal="paste" style={{ "--i": 2 } as CSSProperties}>
-            <div className="m-sway">
-              <Cutout name="bw" alt={t.alt.cutBw} />
-              <span className={`${shared.tape} ${styles.tape}`} aria-hidden="true" />
-            </div>
-          </div>
         </div>
+
+        <WaveformLoop className={styles.wave} />
 
         <ol className={styles.steps}>
           {t.process.steps.map(([title, body], i) => (

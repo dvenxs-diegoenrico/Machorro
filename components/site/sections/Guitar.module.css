@@ -19,8 +19,8 @@
 .dots {
   left: -2.5rem;
   top: 0;
-  width: 14rem;
-  height: 11rem;
+  width: 12rem;
+  height: 12rem;
 }
 
 /* bleeds off the right edge: the row is wider than its column and the section clips it */
@@ -35,16 +35,16 @@
 }
 
 .row img {
-  height: clamp(240px, 30vw, 440px);
+  height: clamp(220px, 26vw, 378px);
   width: auto;
   max-width: none;
 }
 
 .cut {
   position: absolute;
-  left: -3.5rem;
-  bottom: -1.5rem;
-  width: clamp(96px, 10.5vw, 150px);
+  left: -3rem;
+  bottom: -1.25rem;
+  width: clamp(84px, 8.5vw, 122px);
   rotate: -5deg;
   z-index: 3;
 }

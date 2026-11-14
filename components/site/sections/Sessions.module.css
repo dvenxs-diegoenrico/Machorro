@@ -9,8 +9,8 @@
 .cutWrap {
   position: relative;
   flex: none;
-  width: clamp(120px, 17vw, 230px);
-  margin-bottom: -4.5rem; /* he stands on the cards */
+  width: clamp(104px, 12vw, 168px);
+  margin-bottom: -3.25rem; /* he stands on the cards */
   z-index: 3;
 }
 
@@ -19,10 +19,10 @@
 }
 
 .dots {
-  right: -2rem;
-  top: 10%;
-  width: 150%;
-  height: 70%;
+  left: -35%;
+  top: 2%;
+  width: 170%;
+  aspect-ratio: 1;
   color: var(--elvis-red);
 }
 
