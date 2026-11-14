@@ -1,15 +1,10 @@
 .cutout {
-  position: relative;
   display: block;
   width: 100%;
-  /* white torn-paper rim, then the paper's shadow */
-  filter: drop-shadow(3px 0 0 var(--mat)) drop-shadow(-3px 0 0 var(--mat))
-    drop-shadow(0 3px 0 var(--mat)) drop-shadow(0 -3px 0 var(--mat))
-    drop-shadow(0 2px 3px rgb(26 22 18 / 0.35));
-}
-
-.cutout img {
-  position: absolute;
-  max-width: none;
   height: auto;
+  --rim: max(2px, 0.22vw);
+  /* white paper rim on all sides, then the paper's shadow */
+  filter: drop-shadow(var(--rim) 0 0 var(--mat)) drop-shadow(calc(var(--rim) * -1) 0 0 var(--mat))
+    drop-shadow(0 var(--rim) 0 var(--mat)) drop-shadow(0 calc(var(--rim) * -1) 0 var(--mat))
+    drop-shadow(0 2px 3px rgb(26 22 18 / 0.35));
 }
