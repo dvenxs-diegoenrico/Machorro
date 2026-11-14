@@ -96,8 +96,8 @@ export const es: Dictionary = {
     cta: "platiquemos →",
     cards: [
       {
-        title: "Guitarra de sesión y en vivo",
-        body: "Eléctrica, acústica, nylon. Partes que sirven a la canción y que da gusto tocar.",
+        title: "Sesión: guitarra en vivo, bajo, teclas y lo demás",
+        body: "Eléctrica, acústica, nylon, más bajo, teclas y percusión. Partes que sirven a la canción, en el estudio o en el escenario.",
         turnaround: "[x días]",
         delivery: "[stems · wav]",
         from: "[$]",
@@ -110,13 +110,19 @@ export const es: Dictionary = {
         from: "[$]",
       },
       {
-        title: "Bajo, teclas y lo demás",
-        body: "Lo que le falte a la canción. Bajo, teclas, percusión, un segundo par de oídos.",
+        title: "Mezcla y/o master",
+        body: "Mándame los stems. La mezclo, la masterizo o las dos, hasta que suene como la canción que tienes en la cabeza.",
         turnaround: "[x días]",
-        delivery: "[stems · wav]",
+        delivery: "[mezcla · master · wav]",
         from: "[$]",
       },
     ],
+    ps: {
+      label: "P.D.",
+      no: "04",
+      title: "Un pana",
+      body: "Viene con cada sesión. Sin costo extra.",
+    },
   },
   cave: {
     kicker: "un estudio en miami, por daniel machorro",
@@ -158,9 +164,9 @@ export const es: Dictionary = {
       message: "algo más",
     },
     needs: [
-      "guitarra de sesión y en vivo",
+      "sesión: guitarra, bajo, teclas y lo demás",
       "producción",
-      "bajo, teclas y lo demás",
+      "mezcla y/o master",
       "el cuarto en la cueva de elvis",
       "todavía no sé",
     ],

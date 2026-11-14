@@ -50,6 +50,14 @@ export function Sessions({ locale, t }: { locale: Locale; t: Dictionary }) {
             </li>
           ))}
         </ol>
+
+        {/* the postscript: the fourth thing you get */}
+        <p className={styles.ps} data-reveal="rise">
+          <span className={`caps ${styles.psLabel}`}>{s.ps.label}</span>
+          <span className={`mono ${styles.no}`}>{s.ps.no}</span>
+          <span className={styles.psTitle}>{s.ps.title}</span>
+          <span className={styles.psBody}>{s.ps.body}</span>
+        </p>
       </div>
     </section>
   );

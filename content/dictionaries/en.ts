@@ -94,8 +94,8 @@ export const en = {
     cta: "let’s talk →",
     cards: [
       {
-        title: "Session & live guitar",
-        body: "Electric, acoustic, nylon. Parts that serve the song and feel good to play along to.",
+        title: "Session: live guitar, bass, keys & the rest",
+        body: "Electric, acoustic, nylon, plus bass, keys and percussion. Parts that serve the song, in the studio or on stage.",
         turnaround: "[x days]",
         delivery: "[stems · wav]",
         from: "[$]",
@@ -108,13 +108,19 @@ export const en = {
         from: "[$]",
       },
       {
-        title: "Bass, keys & the rest",
-        body: "Whatever the song is missing. Bass, keys, percussion, a second set of ears.",
+        title: "Mix and/or master",
+        body: "Send the stems. I’ll mix it, master it, or both, until it sounds like the song in your head.",
         turnaround: "[x days]",
-        delivery: "[stems · wav]",
+        delivery: "[mix · master · wav]",
         from: "[$]",
       },
     ],
+    ps: {
+      label: "P.S.",
+      no: "04",
+      title: "A pana",
+      body: "Comes with every session. No extra charge.",
+    },
   },
   cave: {
     kicker: "a miami studio, by daniel machorro",
@@ -156,9 +162,9 @@ export const en = {
       message: "anything else",
     },
     needs: [
-      "session & live guitar",
+      "session: guitar, bass, keys & the rest",
       "production",
-      "bass, keys & the rest",
+      "mix and/or master",
       "the room at elvis cave",
       "not sure yet",
     ],
