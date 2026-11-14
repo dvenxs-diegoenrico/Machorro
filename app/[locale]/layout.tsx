@@ -25,6 +25,15 @@ export async function generateMetadata({
     metadataBase: new URL(siteConfig.url),
     title: t.meta.title,
     description: t.meta.description,
+    openGraph: {
+      title: t.meta.title,
+      description: t.meta.description,
+      url: `/${locale}`,
+      siteName: "chorro",
+      locale: locale === "es" ? "es_MX" : "en_US",
+      type: "website",
+    },
+    twitter: { card: "summary_large_image" },
     alternates: {
       canonical: `/${locale}`,
       languages: { en: "/en", es: "/es" },

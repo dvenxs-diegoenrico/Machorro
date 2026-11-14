@@ -1,0 +1,124 @@
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  margin-top: 2rem;
+  font-size: var(--label-size-lg);
+}
+
+.eq {
+  color: var(--elvis-red);
+  font-size: 1.3em;
+}
+
+.form {
+  position: relative;
+  display: grid;
+  gap: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  rotate: 0.5deg;
+}
+
+.tape {
+  top: -0.7rem;
+  left: 12%;
+  rotate: -4deg;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+  align-content: start;
+}
+
+.field > span {
+  color: var(--ink-muted);
+}
+
+.field small {
+  color: var(--ink-muted);
+  font-size: var(--label-size);
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px; /* no zoom on iOS */
+}
+
+.field textarea {
+  resize: vertical;
+}
+
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--elvis-red);
+  outline-offset: 2px;
+}
+
+.trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+
+.actions button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.message {
+  flex: 1 1 14rem;
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  line-height: 1.15;
+}
+
+.ok {
+  color: var(--elvis-red);
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .pair {
+    grid-template-columns: 1fr;
+  }
+}
