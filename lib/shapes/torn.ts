@@ -54,3 +54,15 @@ export function burstPoints(spikes = 14, inner = 38, outer = 50): string {
   }
   return pts.join(" ");
 }
+
+/** A scalloped circle (bottle cap), as a CSS polygon(). */
+export function scallopCircle(bumps = 18, depth = 5): string {
+  const pts: string[] = [];
+  const steps = bumps * 12;
+  for (let i = 0; i < steps; i++) {
+    const a = (Math.PI * 2 * i) / steps;
+    const r = 50 - depth + depth * Math.abs(Math.cos((bumps * a) / 2));
+    pts.push(`${pct(50 + r * Math.cos(a))} ${pct(50 + r * Math.sin(a))}`);
+  }
+  return `polygon(${pts.join(", ")})`;
+}

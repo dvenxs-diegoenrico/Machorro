@@ -35,12 +35,29 @@
   --mono: var(--font-plex-mono), ui-monospace, Menlo, monospace;
   --varsity: var(--font-graduate), "Rockwell", serif;
 
+  /* display type: bold, tight, slightly condensed */
+  --display-weight: 900;
+  --display-stretch: 78%;
+
+  /* liquid: two shades either side of each ground, for the blobs in blank space */
+  --sand-a: #e0d5be;
+  --sand-b: #f5efe2;
+  --paper-a: #eae3d1;
+  --paper-b: #fdfbf4;
+  --red-a: #ad0c26;
+  --red-b: #dc2f49;
+  --night-a: #262019;
+  --night-b: #100d0a;
+
+  /* scalloped edges: radius of one scallop */
+  --scallop: 10px;
+
   /* type scale */
   --body-size: 17px;
   --body-leading: 27px;
   --label-size: 12px;
   --label-size-lg: 13px;
-  --headline: clamp(2.25rem, 5.2vw, 4.5rem);
+  --headline: clamp(2.4rem, 5.6vw, 5rem);
   --poster-stretch: 62%;
 
   /* six-string rule: thick to thin */

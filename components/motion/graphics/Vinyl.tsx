@@ -11,8 +11,8 @@ export function Vinyl({ label, className = "" }: { label: string; className?: st
           <circle key={r} cx="100" cy="100" r={r} className={styles.vinylGroove} />
         ))}
         {/* the sheen: two short arcs, so you can see it turn */}
-        <path d="M100 12 A88 88 0 0 1 166 42" className={styles.vinylSheen} />
-        <path d="M100 188 A88 88 0 0 1 34 158" className={styles.vinylSheen} />
+        <path d="M100 32 A68 68 0 0 1 151 55" className={styles.vinylSheen} />
+        <path d="M100 168 A68 68 0 0 1 49 145" className={styles.vinylSheen} />
         <circle cx="100" cy="100" r="36" className={styles.vinylLabel} />
         <defs>
           <path id="vinyl-ring" d="M100,100 m-26,0 a26,26 0 1,1 52,0 a26,26 0 1,1 -52,0" />

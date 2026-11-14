@@ -14,7 +14,7 @@
 
 .vinylDisc { fill: var(--ink-fixed); }
 .vinylGroove { fill: none; stroke: #3a332a; stroke-width: 0.6; }
-.vinylSheen { fill: none; stroke: #6b6255; stroke-width: 14; stroke-linecap: butt; opacity: 0.35; }
+.vinylSheen { fill: none; stroke: #6b6255; stroke-width: 34; stroke-linecap: butt; opacity: 0.16; }
 .vinylLabel { fill: var(--elvis-red); }
 .vinylHole { fill: var(--paper); }
 

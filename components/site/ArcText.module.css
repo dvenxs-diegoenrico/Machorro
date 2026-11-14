@@ -1,0 +1,30 @@
+.arc {
+  display: block;
+  width: 100%;
+}
+
+.arc svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.arcText,
+.ringText {
+  font-family: var(--sans);
+  font-weight: 900;
+  font-stretch: 80%;
+  text-transform: uppercase;
+  fill: currentColor;
+}
+
+.arcText {
+  font-size: 46px;
+  letter-spacing: 0.04em;
+}
+
+.ringText {
+  font-size: 23px;
+  letter-spacing: 0.02em;
+}

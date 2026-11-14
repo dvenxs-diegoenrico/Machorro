@@ -10,8 +10,10 @@
    LOOP    sway    paper breathing on the page
            spin    stickers and records
            marquee ticker bands
-   TOUCH   lift    hover on anything pasted
+   TOUCH   jelly   squash and stretch on hover (buttons, photos, stickers)
+           lift    hover on anything pasted
            pluck   hover on a string
+   SPACE   liquid  slow blobs in shades of the section's own colour
 
    Enter animations run once, when the element scrolls into view:
      <div data-reveal="paste" style={{ "--i": 2 }}>   (--i staggers siblings)
@@ -61,6 +63,29 @@
   40% { transform: translateY(1.5px); }
   60% { transform: translateY(-1px); }
   80% { transform: translateY(0.5px); }
+}
+@keyframes m-jelly {
+  0% { transform: scale(1); }
+  28% { transform: scale(1.28, 0.78) rotate(-2deg); }
+  48% { transform: scale(0.86, 1.18) rotate(-3deg); }
+  66% { transform: scale(1.14, 0.94) rotate(-2.5deg); }
+  82% { transform: scale(1.04, 1.1) rotate(-2.5deg); }
+  100% { transform: scale(1.08) rotate(-2.5deg); }
+}
+@keyframes m-wobble {
+  0%, 100% { transform: scale(1) rotate(0); }
+  25% { transform: scale(1.12, 0.9) rotate(-4deg); }
+  50% { transform: scale(0.94, 1.1) rotate(3deg); }
+  75% { transform: scale(1.05, 0.97) rotate(-1.5deg); }
+}
+@keyframes m-morph {
+  0% { border-radius: 58% 42% 63% 37% / 44% 61% 39% 56%; rotate: 0deg; }
+  50% { border-radius: 38% 62% 44% 56% / 60% 38% 62% 40%; }
+  100% { border-radius: 52% 48% 34% 66% / 37% 55% 45% 63%; rotate: 40deg; }
+}
+@keyframes m-drift {
+  from { translate: 0 0; }
+  to { translate: var(--dx, 6vw) var(--dy, -4vw); }
 }
 @keyframes m-pulse {
   50% { transform: scale(1.35); }
@@ -118,6 +143,39 @@
 [data-reveal="words"] > span { display: inline-block; }
 [data-reveal="draw"] { transform-origin: left center; }
 
+/* liquid: blobs in the blank space, in shades of the section's own colour.
+   The section needs `isolation: isolate`. */
+.liquid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+.liquid span {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--s);
+  aspect-ratio: 1;
+  border-radius: 58% 42% 63% 37% / 44% 61% 39% 56%;
+  background: var(--shade-a);
+}
+.liquid span:nth-child(even) { background: var(--shade-b); }
+.liquid[data-tone="sand"] { --shade-a: var(--sand-a); --shade-b: var(--sand-b); }
+.liquid[data-tone="paper"] { --shade-a: var(--paper-a); --shade-b: var(--paper-b); }
+.liquid[data-tone="red"] { --shade-a: var(--red-a); --shade-b: var(--red-b); }
+.liquid[data-tone="night"] { --shade-a: var(--night-a); --shade-b: var(--night-b); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .liquid span {
+    animation:
+      m-morph var(--t, 14s) ease-in-out infinite alternate,
+      m-drift calc(var(--t, 14s) * 1.6) ease-in-out infinite alternate;
+  }
+  .m-wobble:hover { animation: m-wobble 0.6s var(--ease-out); }
+}
+
 /* touch */
 .m-lift { transition: transform 0.35s var(--ease-overshoot); }
-.m-lift:hover { transform: translateY(-8px) rotate(2deg) scale(1.03); }
+.m-lift:hover { transform: translateY(-14px) rotate(3deg) scale(1.06); }
