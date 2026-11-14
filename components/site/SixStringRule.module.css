@@ -1,6 +1,10 @@
 .rule {
+  position: relative;
   display: grid;
   padding-block: 2rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
 .string {
@@ -15,9 +19,7 @@
   fill: none;
   stroke: var(--ink);
   vector-effect: non-scaling-stroke;
-  transform-box: fill-box;
-  transform-origin: center;
-  transform: scaleY(0.01);
+  stroke-linecap: round;
 }
 
 .string:nth-child(1) path { stroke-width: var(--string-1); }
@@ -27,35 +29,11 @@
 .string:nth-child(5) path { stroke-width: var(--string-5); }
 .string:nth-child(6) path { stroke-width: var(--string-6); }
 
-/* strummed top to bottom when the rule scrolls in */
-.rule[data-in] .string path {
-  animation: ring 1.1s ease-out backwards;
-  animation-delay: calc(var(--i) * 55ms);
-}
-
-.string:hover path {
-  animation: ring-again 0.9s ease-out;
-}
-
-@keyframes ring {
-  0% { transform: scaleY(0.01); }
-  8% { transform: scaleY(1); }
-  22% { transform: scaleY(-0.8); }
-  36% { transform: scaleY(0.6); }
-  50% { transform: scaleY(-0.42); }
-  64% { transform: scaleY(0.26); }
-  78% { transform: scaleY(-0.14); }
-  90% { transform: scaleY(0.06); }
-  100% { transform: scaleY(0.01); }
-}
-
-@keyframes ring-again {
-  0% { transform: scaleY(0.01); }
-  10% { transform: scaleY(-0.9); }
-  25% { transform: scaleY(0.7); }
-  40% { transform: scaleY(-0.5); }
-  55% { transform: scaleY(0.32); }
-  70% { transform: scaleY(-0.18); }
-  85% { transform: scaleY(0.08); }
-  100% { transform: scaleY(0.01); }
+.hint {
+  position: absolute;
+  right: 0;
+  bottom: 0.4rem;
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+  pointer-events: none;
 }
