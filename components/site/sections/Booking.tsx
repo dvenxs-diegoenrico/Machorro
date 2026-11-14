@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { Equalizer } from "@/components/motion/graphics/Equalizer";
 import { siteConfig } from "@/content/site.config";
 import type { Locale } from "@/lib/i18n/config";
+import { Words } from "@/components/motion/Words";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import styles from "./Booking.module.css";
 import shared from "./sections.module.css";
@@ -43,9 +44,9 @@ export function Booking({ locale, t }: { locale: Locale; t: Dictionary }) {
     <section id="book" className={shared.section}>
       <div className={`wrap ${styles.grid}`}>
         <div>
-          <p className={`caps ${shared.label}`}>{b.label}</p>
-          <h2 className={shared.headline} data-reveal="rise">
-            {b.headline}
+          <p className={`caps ${shared.label}`} data-reveal="rise">{b.label}</p>
+          <h2 className={shared.headline} data-reveal="mask">
+            <Words text={b.headline} />
           </h2>
           <p className={shared.body} data-reveal="rise" style={{ "--i": 1 } as React.CSSProperties}>
             {b.intro}

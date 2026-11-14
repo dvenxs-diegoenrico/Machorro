@@ -154,6 +154,7 @@ export const en = {
     error: "That didn’t send. Try again in a minute.",
     notConfigured: "The form isn’t connected yet. Write to [booking email] for now.",
   },
+  strings: { hint: "tap a string ♪" },
   footer: {
     handles: "find us",
     clientLogin: "panas login →",

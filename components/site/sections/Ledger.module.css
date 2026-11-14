@@ -56,17 +56,7 @@
   vertical-align: middle;
 }
 
-.row {
-  animation: deal 0.5s var(--ease-out) backwards;
-  animation-delay: calc(var(--i) * 70ms);
-}
 
-@keyframes deal {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-}
 
 .art {
   width: 72px;

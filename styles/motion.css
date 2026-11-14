@@ -31,7 +31,20 @@
   from { opacity: 0; transform: translateY(32px); }
 }
 @keyframes m-pop {
-  from { opacity: 0; transform: scale(0.2) rotate(-20deg); }
+  from { opacity: 0; transform: scale(0.6); }
+}
+@keyframes m-popup {
+  from { opacity: 0; transform: translateY(42px) scale(0.96); }
+}
+@keyframes m-mask {
+  from { transform: translateY(108%); }
+}
+@keyframes m-wipe {
+  from { clip-path: inset(100% 0 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes m-settle {
+  from { scale: 1.22; }
 }
 @keyframes m-draw {
   from { transform: scaleX(0); }
@@ -81,6 +94,15 @@
   .js [data-reveal="group"] > * {
     opacity: 0;
   }
+  .js [data-reveal="mask"] .mask > span {
+    transform: translateY(108%);
+  }
+  .js [data-reveal="wipe"] > * {
+    clip-path: inset(100% 0 0 0);
+  }
+  .js [data-reveal="rows"] tbody tr {
+    opacity: 0;
+  }
   .js [data-reveal="draw"] {
     transform: scaleX(0);
   }
@@ -102,11 +124,33 @@
   .js [data-reveal="slide-right"][data-in] { animation-name: m-slide-right; animation-timing-function: var(--ease-out); animation-duration: 0.9s; }
   .js [data-reveal="draw"][data-in] { transform: none; animation-name: m-draw; animation-timing-function: var(--ease-out); animation-duration: 0.9s; }
 
-  .js [data-reveal="words"][data-in] > span,
-  .js [data-reveal="group"][data-in] > * {
+  .js [data-reveal="words"][data-in] > span {
     opacity: 1;
     animation: m-rise var(--dur-in) var(--ease-out) backwards;
     animation-delay: calc(var(--i, 0) * 60ms);
+  }
+  /* lists of things pop up one after another */
+  .js [data-reveal="group"][data-in] > *,
+  .js [data-reveal="rows"][data-in] tbody tr {
+    opacity: 1;
+    animation: m-popup 0.75s var(--ease-overshoot) backwards;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+  /* headlines: each word rises out of its own slot */
+  .js [data-reveal="mask"][data-in] .mask > span {
+    transform: none;
+    animation: m-mask 0.9s var(--ease-out) backwards;
+    animation-delay: calc(var(--i, 0) * 55ms);
+  }
+  /* photos: wipe up from the bottom, then the picture settles inside its frame */
+  .js [data-reveal="wipe"][data-in] > * {
+    clip-path: inset(0 0 0 0);
+    animation: m-wipe 1s var(--ease-out) backwards;
+    animation-delay: calc(var(--i, 0) * 90ms);
+  }
+  .js [data-reveal="wipe"][data-in] > * img {
+    animation: m-settle 1.6s var(--ease-out) backwards;
+    animation-delay: calc(var(--i, 0) * 90ms);
   }
   .js [data-reveal="stroke"][data-in] path {
     animation: m-stroke 0.9s var(--ease-out) forwards;
@@ -118,6 +162,58 @@
 }
 
 [data-reveal="words"] > span { display: inline-block; }
+
+/* a word in its slot: clipped below only, so descenders and hover lifts aren't cut */
+.mask {
+  display: inline-block;
+  clip-path: inset(-0.3em -0.1em 0 -0.1em);
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+.mask > span { display: inline-block; }
+
+/* ambient: a thin red line along the top shows how far down the page you are */
+.progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 3px;
+  z-index: 50;
+  background: var(--elvis-red);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+  pointer-events: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .progress {
+      animation: m-progress linear both;
+      animation-timeline: scroll(root);
+    }
+    /* photos drift a little inside their frames as they pass
+       (put .m-drift-in on the list; each item is a frame) */
+    .m-drift-in > * {
+      overflow: hidden;
+    }
+    .m-drift-in img {
+      scale: 1.14;
+      animation: m-drift-in linear both;
+      animation-timeline: view();
+    }
+    .js .m-drift-in[data-reveal="wipe"][data-in] > * img {
+      animation:
+        m-settle 1.6s var(--ease-out) backwards,
+        m-drift-in linear both;
+      animation-timeline: auto, view();
+      animation-delay: calc(var(--i, 0) * 90ms), 0s;
+    }
+  }
+}
+@keyframes m-progress { to { transform: scaleX(1); } }
+@keyframes m-drift-in {
+  from { translate: 0 -5%; }
+  to { translate: 0 5%; }
+}
 [data-reveal="draw"] { transform-origin: left center; }
 
 /* liquid: blobs in the blank space, in shades of the section's own colour.

@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { Words } from "@/components/motion/Words";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import { WaveformLoop } from "@/components/motion/graphics/WaveformLoop";
 import styles from "./Process.module.css";
@@ -11,10 +12,10 @@ export function Process({ t }: { t: Dictionary }) {
       <div className="wrap">
         <div className={styles.head}>
           <div>
-            <p className={`caps ${shared.label}`}>{t.process.label}</p>
-            <h2 className={shared.headline} data-reveal="rise">
-              {t.process.headline}
-            </h2>
+            <p className={`caps ${shared.label}`} data-reveal="rise">{t.process.label}</p>
+            <h2 className={shared.headline} data-reveal="mask">
+            <Words text={t.process.headline} />
+          </h2>
           </div>
         </div>
 

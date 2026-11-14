@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { Words } from "@/components/motion/Words";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import styles from "./Sessions.module.css";
@@ -11,9 +12,9 @@ export function Sessions({ locale, t }: { locale: Locale; t: Dictionary }) {
       <div className="wrap">
         <div className={styles.head}>
           <div>
-            <p className={`caps ${shared.label}`}>{s.label}</p>
-            <h2 className={shared.headline} data-reveal="rise">
-              {s.headline}
+            <p className={`caps ${shared.label}`} data-reveal="rise">{s.label}</p>
+            <h2 className={shared.headline} data-reveal="mask">
+              <Words text={s.headline} />
             </h2>
           </div>
           <p className={styles.intro} data-reveal="rise" style={{ "--i": 1 } as CSSProperties}>

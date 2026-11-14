@@ -6,6 +6,7 @@ import credits from "@/content/credits.json";
 import { siteConfig } from "@/content/site.config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import styles from "./Ledger.module.css";
+import { Words } from "@/components/motion/Words";
 import { Vinyl } from "@/components/motion/graphics/Vinyl";
 import shared from "./sections.module.css";
 
@@ -23,9 +24,9 @@ export function Ledger({ t, artAlt }: { t: Dictionary; artAlt: Record<string, st
       <div className="wrap">
         <div className={styles.head}>
           <div>
-            <p className={`caps ${shared.label}`}>{t.ledger.label}</p>
-            <h2 className={shared.headline} data-reveal="rise">
-              {t.ledger.headline}
+            <p className={`caps ${shared.label}`} data-reveal="rise">{t.ledger.label}</p>
+            <h2 className={shared.headline} data-reveal="mask">
+              <Words text={t.ledger.headline} />
             </h2>
           </div>
           <div className={styles.vinyl} data-reveal="slide-right">
@@ -46,7 +47,7 @@ export function Ledger({ t, artAlt }: { t: Dictionary; artAlt: Record<string, st
           </div>
         </div>
 
-        <div data-reveal="rise" style={{ "--i": 1 } as CSSProperties}>
+        <div data-reveal="rows">
           <table className={styles.table}>
             <caption className="sr-only">{t.ledger.caption}</caption>
             <thead className="mono">

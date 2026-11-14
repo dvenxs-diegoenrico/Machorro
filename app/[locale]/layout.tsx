@@ -55,6 +55,7 @@ export default async function LocaleLayout({
         {/* lets CSS hide scroll-reveal elements only when JS is there to reveal them */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <MotionRoot />
+        <div className="progress" aria-hidden="true" />
         <Header locale={locale} t={t} />
         <main id="main">{children}</main>
         <Footer locale={locale} t={t} />

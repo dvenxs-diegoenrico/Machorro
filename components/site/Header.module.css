@@ -89,14 +89,16 @@
     padding-inline: 0.9rem;
   }
 
+  /* links and en/es share the whole second row: links left, en/es right */
   .nav {
     grid-row: 2;
-    grid-column: 1;
+    grid-column: 1 / -1;
+    justify-self: start;
   }
 
   .end > :first-child {
     grid-row: 2;
-    grid-column: 2;
+    grid-column: 1 / -1;
     justify-self: end;
   }
 

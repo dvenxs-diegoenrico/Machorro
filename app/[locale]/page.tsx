@@ -24,9 +24,9 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
     "chr-004": t.alt.artAquiEstoy,
   };
 
-  const Rule = () => (
+  const Rule = ({ hint }: { hint?: boolean }) => (
     <div className="wrap">
-      <SixStringRule />
+      <SixStringRule hint={hint ? t.strings.hint : undefined} />
     </div>
   );
 
@@ -35,7 +35,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       <Hero t={t} />
       <Ticker locale={locale} t={t} />
       <Guitar t={t} />
-      <Rule />
+      <Rule hint />
       <Ledger t={t} artAlt={artAlt} />
       <Statement t={t} />
       <Sessions locale={locale} t={t} />
@@ -43,6 +43,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       <Process t={t} />
       <Rule />
       <Booking locale={locale} t={t} />
+      <Rule />
     </>
   );
 }

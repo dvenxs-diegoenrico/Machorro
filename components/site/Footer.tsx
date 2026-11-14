@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Words } from "@/components/motion/Words";
 import { Liquid } from "@/components/motion/graphics/Liquid";
 import { siteConfig } from "@/content/site.config";
 import type { Locale } from "@/lib/i18n/config";
@@ -23,8 +24,8 @@ export function Footer({ locale, t }: { locale: Locale; t: Dictionary }) {
           {t.footer.clientLogin}
         </Link>
       </div>
-      <p className={styles.giant} aria-hidden="true" data-reveal="rise">
-        {t.hero.word}
+      <p className={styles.giant} data-reveal="mask">
+        <Words text={t.hero.word} by="letter" />
       </p>
       <div className={`wrap mono ${styles.credit}`}>
         <span>© {new Date().getFullYear()} chorro {t.brandLabel}</span>
