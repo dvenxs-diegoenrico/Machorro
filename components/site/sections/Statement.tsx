@@ -10,7 +10,7 @@ export function Statement({ t }: { t: Dictionary }) {
   const words = t.statement.words.split(" ");
   return (
     <section className={styles.band}>
-      <Liquid tone="red" layout="a" />
+      <Liquid tone="pop" layout="a" />
       <div className={`wrap ${styles.inner}`}>
         <p className={styles.words} data-reveal="words">
           {words.map((w, i) => (
@@ -20,7 +20,7 @@ export function Statement({ t }: { t: Dictionary }) {
           ))}
         </p>
         <div className={styles.burst} data-reveal="pop" style={{ "--i": 8 } as CSSProperties}>
-          <Burst lines={t.statement.burst} tone="pool" />
+          <Burst lines={t.statement.burst} tone="electric" />
         </div>
       </div>
       <div className={styles.elvis} data-reveal="slide-right">

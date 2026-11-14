@@ -1,33 +1,46 @@
 /* chorro — design tokens. The only place colors, type and motifs are defined. */
 
-:root,
-[data-theme="sand"] {
-  --ground: #ece4d3;
-  --surface: #f6f1e6;
-  --ink: #1a1612;
-  --ink-muted: #6b6255;
-  --rule: #cfc5b0;
-  --elvis-red: #c8102e;
-  --on-red: #ece4d3;
-  --pool: #8fc1c0;
+/* palette — the raw colours. Everything else refers to these. */
+:root {
+  --celta: #0f382a; /* verde celta: the principal colour */
+  --electric: #5aa9ff; /* azul eléctrico: cold contrast */
+  --magenta: #e60067; /* fucsia audaz: the pop */
+  --eucalipto: #279163; /* verde eucalipto claro: soft transitions */
+  --bone: #eaeaea; /* blanco hueso / piedra */
+  --red: #c8102e; /* elvis red: small accents only (book button, dots, catalogue numbers) */
 }
 
+/* Day: bone ground, celta ink */
+:root,
+[data-theme="sand"] {
+  --ground: var(--bone);
+  --surface: #f7f7f5;
+  --ink: var(--celta);
+  --ink-muted: #4d6158;
+  --rule: #c6cfca;
+  --elvis-red: var(--red);
+  --on-red: var(--bone);
+}
+
+/* Night (header, Elvis Cave, footer, console): celta ground, bone ink */
 [data-theme="night"] {
-  --ground: #1a1612;
-  --surface: #26211b;
-  --ink: #ece4d3;
-  --ink-muted: #a99f8f;
-  --rule: #3a332a;
-  --elvis-red: #f0485a;
-  --on-red: #1a1612;
-  --pool: #8fc1c0;
+  --ground: var(--celta);
+  --surface: #154434;
+  --ink: var(--bone);
+  --ink-muted: #a9c4b8;
+  --rule: #1f5c45;
+  --elvis-red: var(--red);
+  --on-red: var(--bone);
 }
 
 :root {
-  --paper: #f5f1e5; /* hero paper */
-  --mat: #ffffff; /* white borders on release art, cut-out paper */
-  --ink-fixed: #1a1612; /* ink that does not flip with the theme (printed things) */
+  --paper: #f4f4f2; /* hero ground: a lighter bone */
+  --mat: #ffffff; /* white rims on cut-outs and release art */
+  --ink-fixed: var(--celta); /* ink that does not flip with the theme (printed things) */
+  --on-pop: #ffffff; /* text on magenta */
+  --on-electric: var(--celta); /* text on electric blue */
   --crest-cloth: #bcb9b4; /* the grey sweatshirt behind the ELVIS crest */
+  --shadow: rgb(15 56 42 / 0.35);
 
   /* type families (variables set by next/font in app/fonts.ts) */
   --serif: var(--font-instrument-serif), "Times New Roman", serif;
@@ -40,14 +53,14 @@
   --display-stretch: 78%;
 
   /* liquid: two shades either side of each ground, for the blobs in blank space */
-  --sand-a: #e0d5be;
-  --sand-b: #f5efe2;
-  --paper-a: #eae3d1;
-  --paper-b: #fdfbf4;
-  --red-a: #ad0c26;
-  --red-b: #dc2f49;
-  --night-a: #262019;
-  --night-b: #100d0a;
+  --sand-a: #dcdfdc;
+  --sand-b: #f5f5f3;
+  --paper-a: #e4e8e5;
+  --paper-b: #fcfcfb;
+  --pop-a: #c8005a;
+  --pop-b: #f2207c;
+  --night-a: #17503b;
+  --night-b: #0a2b1f;
 
   /* scalloped edges: radius of one scallop */
   --scallop: 10px;

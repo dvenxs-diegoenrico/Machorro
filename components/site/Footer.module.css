@@ -58,7 +58,7 @@
 }
 
 .footer :focus-visible {
-  outline-color: var(--pool);
+  outline-color: var(--electric);
 }
 
 /* the header dot breathes; the giant one stays still */

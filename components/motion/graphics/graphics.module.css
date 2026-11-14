@@ -12,10 +12,10 @@
   animation: spin 5.4s linear infinite;
 }
 
-.vinylDisc { fill: var(--ink-fixed); }
-.vinylGroove { fill: none; stroke: #3a332a; stroke-width: 0.6; }
-.vinylSheen { fill: none; stroke: #6b6255; stroke-width: 34; stroke-linecap: butt; opacity: 0.16; }
-.vinylLabel { fill: var(--elvis-red); }
+.vinylDisc { fill: #0a2219; }
+.vinylGroove { fill: none; stroke: #1e4a39; stroke-width: 0.6; }
+.vinylSheen { fill: none; stroke: #8fb3a4; stroke-width: 34; stroke-linecap: butt; opacity: 0.16; }
+.vinylLabel { fill: var(--magenta); }
 .vinylHole { fill: var(--paper); }
 
 .vinylText {
@@ -23,7 +23,7 @@
   font-size: 8.5px;
   font-weight: 500;
   text-transform: lowercase;
-  fill: var(--on-red);
+  fill: var(--on-pop);
 }
 
 @keyframes spin {

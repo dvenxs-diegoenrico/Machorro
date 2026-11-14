@@ -126,9 +126,14 @@ img {
   --btn-ink: var(--on-red);
 }
 
-.pill-pool {
-  --btn-bg: var(--pool);
-  --btn-ink: var(--ink-fixed);
+.pill-pop {
+  --btn-bg: var(--magenta);
+  --btn-ink: var(--on-pop);
+}
+
+.pill-electric {
+  --btn-bg: var(--electric);
+  --btn-ink: var(--on-electric);
 }
 
 /* exaggerated feedback: jelly on hover, squash on press */

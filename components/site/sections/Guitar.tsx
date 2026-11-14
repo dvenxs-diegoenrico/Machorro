@@ -49,7 +49,7 @@ export function Guitar({ t }: { t: Dictionary }) {
             </div>
           </div>
           <div className={styles.burst} data-reveal="pop" style={{ "--i": 9 } as CSSProperties}>
-            <Burst lines={t.guitar.burst} tone="red" />
+            <Burst lines={t.guitar.burst} tone="euca" />
           </div>
         </div>
       </div>

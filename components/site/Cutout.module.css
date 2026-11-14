@@ -7,5 +7,5 @@
   /* white paper rim on all sides, then the paper's shadow */
   filter: drop-shadow(var(--rim) 0 0 var(--mat)) drop-shadow(calc(var(--rim) * -1) 0 0 var(--mat))
     drop-shadow(0 var(--rim) 0 var(--mat)) drop-shadow(0 calc(var(--rim) * -1) 0 var(--mat))
-    drop-shadow(0 2px 3px rgb(26 22 18 / 0.35));
+    drop-shadow(0 2px 3px var(--shadow));
 }

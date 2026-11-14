@@ -164,7 +164,7 @@
 .liquid span:nth-child(even) { background: var(--shade-b); }
 .liquid[data-tone="sand"] { --shade-a: var(--sand-a); --shade-b: var(--sand-b); }
 .liquid[data-tone="paper"] { --shade-a: var(--paper-a); --shade-b: var(--paper-b); }
-.liquid[data-tone="red"] { --shade-a: var(--red-a); --shade-b: var(--red-b); }
+.liquid[data-tone="pop"] { --shade-a: var(--pop-a); --shade-b: var(--pop-b); }
 .liquid[data-tone="night"] { --shade-a: var(--night-a); --shade-b: var(--night-b); }
 
 @media (prefers-reduced-motion: no-preference) {

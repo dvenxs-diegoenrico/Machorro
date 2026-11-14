@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 
-type Tone = "sand" | "paper" | "red" | "night";
+type Tone = "sand" | "paper" | "pop" | "night";
 
 /** Blob layouts: [x%, y%, size (vw), seconds, drift x (vw), drift y (vw)] */
 const LAYOUTS: Record<string, number[][]> = {

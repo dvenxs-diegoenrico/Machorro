@@ -23,7 +23,7 @@
   top: 2%;
   width: 170%;
   aspect-ratio: 1;
-  color: var(--elvis-red);
+  color: var(--magenta);
 }
 
 .cards {
@@ -55,6 +55,9 @@
   translate: -50%;
   rotate: -3deg;
 }
+
+.cards > li:nth-child(2) .tape { background: color-mix(in srgb, var(--eucalipto) 80%, transparent); }
+.cards > li:nth-child(3) .tape { background: color-mix(in srgb, var(--magenta) 70%, transparent); }
 
 .no {
   color: var(--elvis-red);

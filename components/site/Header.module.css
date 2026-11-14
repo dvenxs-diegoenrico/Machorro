@@ -62,7 +62,7 @@
 }
 
 .header :focus-visible {
-  outline-color: var(--pool);
+  outline-color: var(--electric);
 }
 
 @media (max-width: 720px) {

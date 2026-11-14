@@ -4,11 +4,11 @@ import styles from "./Sticker.module.css";
 /** A starburst sticker with two short lines of poster type. Wobbles slowly. */
 export function Burst({
   lines,
-  tone = "red",
+  tone = "pop",
   className = "",
 }: {
   lines: readonly string[];
-  tone?: "red" | "pool" | "ink";
+  tone?: "pop" | "electric" | "euca" | "ink";
   className?: string;
 }) {
   return (

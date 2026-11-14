@@ -10,7 +10,7 @@
   font-size: clamp(1rem, 1.6vw, 1.35rem);
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--elvis-red);
+  color: var(--electric);
   padding-block: 0.7rem;
   border-block: 1px solid var(--rule);
 }
@@ -22,7 +22,7 @@
 .kicker {
   width: min(100%, 640px);
   margin-inline: auto;
-  color: var(--elvis-red);
+  color: var(--electric);
 }
 
 .coverCard {

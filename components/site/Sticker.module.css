@@ -14,10 +14,12 @@
   height: 100%;
 }
 
-.red { color: var(--on-red); }
-.red polygon { fill: var(--elvis-red); }
-.pool { color: var(--ink-fixed); }
-.pool polygon { fill: var(--pool); }
+.pop { color: var(--on-pop); }
+.pop polygon { fill: var(--magenta); }
+.electric { color: var(--on-electric); }
+.electric polygon { fill: var(--electric); }
+.euca { color: var(--bone); }
+.euca polygon { fill: var(--eucalipto); }
 .ink { color: var(--paper); }
 .ink polygon { fill: var(--ink-fixed); }
 
@@ -54,7 +56,7 @@
 .halftone {
   position: absolute;
   clip-path: circle(50%);
-  color: var(--pool);
+  color: var(--electric);
 }
 
 .halftone circle {

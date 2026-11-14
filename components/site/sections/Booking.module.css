@@ -109,7 +109,7 @@
 }
 
 .ok {
-  color: var(--elvis-red);
+  color: var(--eucalipto);
 }
 
 @media (max-width: 900px) {

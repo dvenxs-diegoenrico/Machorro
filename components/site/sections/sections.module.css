@@ -37,6 +37,6 @@
   position: absolute;
   width: 5.5rem;
   height: 1.4rem;
-  background: color-mix(in srgb, var(--pool) 78%, transparent);
+  background: color-mix(in srgb, var(--electric) 78%, transparent);
   z-index: 2;
 }

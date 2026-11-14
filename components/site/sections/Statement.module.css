@@ -1,8 +1,8 @@
 .band {
   position: relative;
   isolation: isolate;
-  background: var(--elvis-red);
-  color: var(--on-red);
+  background: var(--magenta);
+  color: var(--on-pop);
   padding-block: clamp(4rem, 10vw, 8rem);
   overflow: hidden;
 }

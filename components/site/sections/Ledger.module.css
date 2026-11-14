@@ -92,7 +92,7 @@
 }
 
 .row:hover .title {
-  color: var(--elvis-red);
+  color: var(--magenta);
 }
 
 .cat {
