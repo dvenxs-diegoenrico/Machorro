@@ -1,26 +1,17 @@
 import Link from "next/link";
-import { Liquid } from "@/components/motion/graphics/Liquid";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import styles from "./Header.module.css";
 import { LocaleSwitch } from "./LocaleSwitch";
-import { Ticker } from "./Ticker";
-import { Wordmark } from "./Wordmark";
 
+/** Sits over the hero photo: links left, his name in the middle, book on the right. */
 export function Header({ locale, t }: { locale: Locale; t: Dictionary }) {
   const home = `/${locale}`;
   return (
-    <header data-theme="night" className={styles.header}>
-      <Liquid tone="night" blobs={false} />
-      <div className={`wrap ${styles.bar}`}>
-        <div className={styles.brand}>
-          <Link href={home} className={styles.home} aria-label="chorro">
-            <Wordmark />
-          </Link>
-          <span className={`mono ${styles.label}`}>{t.brandLabel}</span>
-        </div>
+    <header className={styles.header}>
+      <div className={styles.bar}>
         <nav aria-label={t.nav.label} className={styles.nav}>
-          <ul className="mono">
+          <ul className="caps">
             <li>
               <Link href={`${home}#work`}>{t.nav.work}</Link>
             </li>
@@ -31,15 +22,22 @@ export function Header({ locale, t }: { locale: Locale; t: Dictionary }) {
               <Link href={`${home}#elvis-cave`}>{t.nav.cave}</Link>
             </li>
             <li>
-              <Link href={`${home}#book`} className={`pill pill-red ${styles.book}`}>
-                {t.nav.book}
+              <Link href={`${home}/sessions`} prefetch={false}>
+                {t.nav.panas}
               </Link>
             </li>
           </ul>
         </nav>
-        <LocaleSwitch locale={locale} label={t.localeSwitch} />
+        <Link href={home} className={styles.name}>
+          {t.hero.name}
+        </Link>
+        <div className={styles.end}>
+          <LocaleSwitch locale={locale} label={t.localeSwitch} />
+          <Link href={`${home}#book`} className={`btn ${styles.book}`}>
+            {t.nav.book}
+          </Link>
+        </div>
       </div>
-      <Ticker locale={locale} t={t} />
     </header>
   );
 }

@@ -32,16 +32,9 @@
   padding-inline: 1.1rem;
 }
 
-.chip {
-  --btn-bg: var(--rule);
-  --btn-ink: var(--ink);
-}
-
 .chip[aria-pressed="true"] {
-  --btn-bg: var(--ink);
-  --btn-ink: var(--ground);
-  animation: m-jelly 0.55s var(--ease-out);
-  transform: scale(1.08) rotate(-2.5deg);
+  background: var(--ink);
+  color: var(--ground);
 }
 
 .table {
@@ -83,16 +76,15 @@
   width: 60px;
   height: 60px;
   object-fit: cover;
-  --r: 4px;
-  transition: transform 0.35s var(--ease-overshoot);
+  transition: transform 0.45s var(--ease-out);
 }
 
 .row:hover .art img {
-  transform: scale(1.9) rotate(-8deg);
+  transform: scale(1.6);
 }
 
 .row:hover .title {
-  color: var(--magenta);
+  color: var(--elvis-red);
 }
 
 .cat {
@@ -102,10 +94,10 @@
 
 .title {
   font-weight: 800;
-  font-stretch: 82%;
-  font-size: 1.45rem;
-  line-height: 1.05;
-  letter-spacing: -0.01em;
+  font-stretch: 70%;
+  font-size: 1.6rem;
+  line-height: 1;
+  text-transform: uppercase;
   transition: color 0.2s;
 }
 

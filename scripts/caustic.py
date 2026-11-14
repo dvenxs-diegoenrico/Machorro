@@ -3,13 +3,10 @@ Generates the two "liquid screen" textures (caustic ripples) as SVG data URIs.
 
     python3 scripts/caustic.py   # writes caustic-light.svg / caustic-dark.svg here
 
-Then rasterise each SVG to a 480x480 transparent tile (open it in a browser and
-screenshot without background, or any SVG renderer) and save as
-public/assets/caustic-light.webp and caustic-dark.webp.
-
-The big sliding section layers use the SVG itself, inlined in styles/motion.css
-(--caustic-*-vec). Surfaces whose texture flows by background-position use the
-bitmaps: an SVG filter repainted every frame costs seconds of main-thread time.
+Then URL-encode each SVG into --caustic-light-vec / --caustic-dark-vec in
+styles/motion.css. They are used as masks on layers that only slide (composited),
+so the filter is drawn once. Don't animate them by background-position: an SVG
+filter repainted every frame costs seconds of main-thread time.
 Tweak frequency / seed / table to change the look.
 """
 SIZE = 480

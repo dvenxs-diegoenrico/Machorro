@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import "../globals.css";
 import { fontVariables } from "../fonts";
-import { CausticDefs } from "@/components/motion/graphics/CausticDefs";
 import { MotionRoot } from "@/components/motion/MotionRoot";
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
@@ -56,7 +55,6 @@ export default async function LocaleLayout({
         {/* lets CSS hide scroll-reveal elements only when JS is there to reveal them */}
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
         <MotionRoot />
-        <CausticDefs />
         <Header locale={locale} t={t} />
         <main id="main">{children}</main>
         <Footer locale={locale} t={t} />

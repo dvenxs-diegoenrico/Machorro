@@ -1,73 +1,52 @@
+import Image from "next/image";
 import type { CSSProperties } from "react";
-import { Liquid } from "@/components/motion/graphics/Liquid";
-import { siteConfig } from "@/content/site.config";
-import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
-import { scallopCircle, ticketEdges } from "@/lib/shapes/torn";
-import { ArcText } from "../ArcText";
-import { Cutout } from "../Cutout";
 import styles from "./Hero.module.css";
 import { Parallax } from "./Parallax";
 
 /**
- * The hero, in three planes:
- *   back   the headline, as big as the page allows
- *   middle Chorro, cut out, really big, standing over the type
- *   top    buttons, the booking badge and the now-spinning ticket
- * The planes move at different speeds with the pointer and on scroll.
+ * The hero: his stage photo, full-bleed, with a warm haze (scripts/hero_edit.py),
+ * and CHORRO across the bottom as big as the page allows. The header sits on top.
  */
-export function Hero({ locale, t }: { locale: Locale; t: Dictionary }) {
-  const { nowSpinning, bookingMonth } = siteConfig;
-  const lines = t.hero.ransom;
-  const longest = Math.max(...lines.map((l) => l.length));
+export function Hero({ t }: { t: Dictionary }) {
+  const letters = [...t.hero.word.toUpperCase()];
 
   return (
     <section className={styles.hero}>
-      <Liquid tone="paper" layout="a" />
       <Parallax className={styles.stage}>
-        {/* back plane */}
-        <div className={`${styles.plane} ${styles.back}`}>
-          <h1 className={styles.type} style={{ "--n": longest } as CSSProperties} aria-label={lines.join(" ")}>
-            {lines.map((line, i) => (
-              <span key={line} className={styles.line} aria-hidden="true">
-                <span style={{ "--i": i } as CSSProperties}>{line}</span>
+        <div className={styles.photo}>
+          <Image
+            src="/assets/hero-stage.jpg"
+            alt={t.alt.heroStage}
+            fill
+            priority
+            sizes="100vw"
+            className={styles.img}
+          />
+        </div>
+        <div className={styles.wash} aria-hidden="true" />
+
+        <div className={styles.content}>
+          <div className={styles.row}>
+            <div className={styles.ctas}>
+              <a className="btn btn-red" href="#book">
+                {t.hero.book}
+              </a>
+              <a className="btn" href="#work">
+                {t.hero.hear}
+              </a>
+            </div>
+            <p className={styles.role}>
+              {t.hero.name} — {t.hero.role}
+            </p>
+          </div>
+          <h1 className={styles.word} aria-label={`${t.hero.word} — ${t.hero.name}`}>
+            {letters.map((ch, i) => (
+              <span key={i} aria-hidden="true" className={styles.slot}>
+                <span style={{ "--i": i } as CSSProperties}>{ch}</span>
               </span>
             ))}
           </h1>
-        </div>
-
-        {/* middle plane */}
-        <div className={`${styles.plane} ${styles.mid}`}>
-          <div className={styles.subject}>
-            <Cutout name="lespaul" alt={t.alt.cutLespaul} sizes="(max-width: 900px) 80vw, 40vw" priority className="m-wobble" />
-          </div>
-        </div>
-
-        {/* top plane */}
-        <div className={`${styles.plane} ${styles.top}`}>
-          <div className={styles.badge}>
-            <div className={`${styles.badgeFace} liquid-fill m-wobble`} style={{ clipPath: scallopCircle() }}>
-              <ArcText ring spin text={`${t.ticker.booking} ${bookingMonth[locale]} · ${t.ticker.where}`} />
-              <span className={styles.badgeDot} aria-hidden="true" />
-            </div>
-          </div>
-
-          <a className={`mono ${styles.ticket} liquid-fill`} href="#work" style={{ clipPath: ticketEdges() }}>
-            <span>
-              <span aria-hidden="true">● </span>
-              {t.ticker.nowSpinning} — {nowSpinning.artist[locale]} · {nowSpinning.song[locale]}
-            </span>
-            <span className={styles.stub}>{t.hero.credits} →</span>
-          </a>
-
-          <div className={styles.ctas}>
-            <a className="pill pill-red" href="#book">
-              {t.hero.book}
-            </a>
-            <a className="pill" href="#work">
-              {t.hero.hear}
-            </a>
-          </div>
         </div>
       </Parallax>
     </section>

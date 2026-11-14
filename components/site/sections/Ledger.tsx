@@ -6,7 +6,6 @@ import credits from "@/content/credits.json";
 import { siteConfig } from "@/content/site.config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import styles from "./Ledger.module.css";
-import { Liquid } from "@/components/motion/graphics/Liquid";
 import { Vinyl } from "@/components/motion/graphics/Vinyl";
 import shared from "./sections.module.css";
 
@@ -21,11 +20,10 @@ export function Ledger({ t, artAlt }: { t: Dictionary; artAlt: Record<string, st
 
   return (
     <section id="work" className={shared.section}>
-      <Liquid tone="sand" layout="c" />
       <div className="wrap">
         <div className={styles.head}>
           <div>
-            <p className={`mono ${shared.label}`}>{t.ledger.label}</p>
+            <p className={`caps ${shared.label}`}>{t.ledger.label}</p>
             <h2 className={shared.headline} data-reveal="rise">
               {t.ledger.headline}
             </h2>
@@ -38,7 +36,7 @@ export function Ledger({ t, artAlt }: { t: Dictionary; artAlt: Record<string, st
               <button
                 key={r}
                 type="button"
-                className={`pill ${styles.chip}`}
+                className={`btn ${styles.chip}`}
                 aria-pressed={role === r}
                 onClick={() => setRole(r)}
               >
@@ -67,7 +65,7 @@ export function Ledger({ t, artAlt }: { t: Dictionary; artAlt: Record<string, st
               {rows.map((row, i) => (
                 <tr key={row.cat} className={styles.row} style={{ "--i": i } as CSSProperties}>
                   <td className={styles.art}>
-                    <Image className="scallop" src={row.art} alt={artAlt[row.cat] ?? ""} width={96} height={96} />
+                    <Image src={row.art} alt={artAlt[row.cat] ?? ""} width={96} height={96} />
                   </td>
                   <td className={`mono ${styles.cat}`}>{row.cat}</td>
                   <td className={`mono ${styles.year}`}>{row.year}</td>

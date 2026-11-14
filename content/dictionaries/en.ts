@@ -12,6 +12,7 @@ export const en = {
     sessions: "sessions",
     cave: "elvis cave",
     book: "book",
+    panas: "panas",
   },
   localeSwitch: "language",
   ticker: {
@@ -19,25 +20,25 @@ export const en = {
     booking: "booking",
     where: "miami & remote",
     vibe: "good music, good vibes",
+    panas: "no clients here, just panas",
     open: "elvis has not left the building",
     full: "elvis has left the building",
   },
   hero: {
-    ransom: ["GUITAR", "FIRST."],
-    note: "Send me the song. Let’s make it feel good.",
-    credits: "credits",
-    book: "let’s make music →",
+    name: "Daniel Chorro Machorro",
+    word: "Chorro",
+    role: "performer, producer, engineer",
+    book: "book a session",
     hear: "hear the work ↓",
   },
   alt: {
+    heroStage:
+      "Chorro on a festival stage, hands on his head and tongue out, a worn cream Stratocaster across his chest and the crowd behind him",
     cover:
       "Elvis Cave magazine cover: Elvis the husky asleep under the title. A Miami studio, by Daniel Machorro.",
     stageStrat: "Chorro with a Stratocaster on a festival stage, scaffolding behind him",
     lollaStage: "Chorro mid-song on a big outdoor stage, drum kit and lighting rig behind him",
     bwLive: "Black and white photo of Chorro playing guitar under stage lights",
-    cutLespaul: "Chorro, torn out of a photo, laughing with a sunburst Les Paul",
-    cutStrat: "Chorro, torn out of a photo, looking down at his Stratocaster",
-    cutLolla: "Chorro, torn out of a photo, in a grey suit with a white Stratocaster",
     artAquiEstoy: "Release art for Aquí Estoy: an empty chair in a field, in black and white",
     artLayItAll: "Release art for Lay It All: a collage of a singer with an acoustic guitar by a lake",
     artBabyComeOn: "Release art for Baby Come On: a red pickup on a tree-lined road",
@@ -55,11 +56,10 @@ export const en = {
     headlineLead: "Guitar first.",
     headlineRest: "Then whatever the song is missing.",
     body: "I play for the song. Some days that’s one clean take on a Strat. Some days it’s bass, keys and a shaker at two in the morning. The plan is always the same: good people, good sounds, and a take that makes you nod your head.",
-    burst: ["good", "vibes"],
   },
   ledger: {
     label: "credits",
-    headline: "Songs I got to play on.",
+    headline: "Songs with my panas.",
     caption: "Credits",
     filterLabel: "filter by role",
     chips: { all: "all", gtr: "gtr", prod: "prod", bass: "bass", keys: "keys" },
@@ -71,11 +71,11 @@ export const en = {
   },
   statement: {
     words: "Send me the song. Let’s make it feel good.",
-    burst: ["good", "vibes", "only"],
   },
   sessions: {
     label: "sessions",
     headline: "Three ways to play together.",
+    body: "Everyone I work with ends up a pana. This is how we usually start.",
     specs: { turnaround: "turnaround", delivery: "delivery", from: "from" },
     cta: "let’s talk →",
     cards: [
@@ -129,7 +129,7 @@ export const en = {
   },
   book: {
     label: "book",
-    headline: "Tell me about the song.",
+    headline: "Tell me about the song, pana.",
     intro: "Send a link, say what it needs, and I’ll write back after a proper listen.",
     fields: {
       name: "your name",
@@ -156,7 +156,7 @@ export const en = {
   },
   footer: {
     handles: "find us",
-    clientLogin: "client sessions →",
+    clientLogin: "panas login →",
     credit: "site by Diego Enrico · Soluciones Creativas",
   },
 };

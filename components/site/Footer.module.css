@@ -41,10 +41,16 @@
 }
 
 .giant {
-  font-size: clamp(6rem, 31vw, 30rem);
-  padding-inline: var(--gutter);
-  margin-block: 0.05em 0.12em;
+  container-type: inline-size;
+  padding-inline: var(--edge);
+  font-weight: 800;
+  font-stretch: 70%;
+  font-size: calc(var(--word-k) * (100cqw - 2 * var(--edge)));
+  line-height: 0.78;
+  text-transform: uppercase;
+  text-align: center;
   white-space: nowrap;
+  margin-block: 0.12em 0.04em;
 }
 
 .credit {
@@ -59,9 +65,4 @@
 
 .footer :focus-visible {
   outline-color: var(--electric);
-}
-
-/* the header dot breathes; the giant one stays still */
-.giant :global(.m-pulse) {
-  animation: none;
 }

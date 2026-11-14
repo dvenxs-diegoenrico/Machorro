@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Hero } from "@/components/site/Hero/Hero";
+import { Ticker } from "@/components/site/Ticker";
 import { SixStringRule } from "@/components/site/SixStringRule";
 import { Booking } from "@/components/site/sections/Booking";
 import { Cave } from "@/components/site/sections/Cave";
@@ -31,7 +32,8 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
 
   return (
     <>
-      <Hero locale={locale} t={t} />
+      <Hero t={t} />
+      <Ticker locale={locale} t={t} />
       <Guitar t={t} />
       <Rule />
       <Ledger t={t} artAlt={artAlt} />

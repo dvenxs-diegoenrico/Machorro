@@ -11,7 +11,7 @@ export function LocaleSwitch({ locale, label }: { locale: Locale; label: string 
   const rest = pathname.replace(/^\/(en|es)(?=\/|$)/, "");
 
   return (
-    <nav aria-label={label} className={`mono ${styles.switch}`}>
+    <nav aria-label={label} className={styles.switch}>
       {locales.map((l, i) => (
         <span key={l}>
           {i > 0 && <span aria-hidden="true">/</span>}

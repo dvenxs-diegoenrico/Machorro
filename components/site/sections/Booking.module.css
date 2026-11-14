@@ -25,14 +25,8 @@
   background: var(--surface);
   border: 1px solid var(--rule);
   padding: clamp(1.5rem, 3vw, 2.5rem);
-  rotate: 0.5deg;
 }
 
-.tape {
-  top: -0.7rem;
-  left: 12%;
-  rotate: -4deg;
-}
 
 .pair {
   display: grid;
@@ -103,13 +97,14 @@
 .message {
   flex: 1 1 14rem;
   font-weight: 800;
-  font-stretch: 82%;
-  font-size: 1.25rem;
-  line-height: 1.1;
+  font-stretch: 70%;
+  font-size: 1.35rem;
+  line-height: 1.05;
+  text-transform: uppercase;
 }
 
 .ok {
-  color: var(--eucalipto);
+  color: var(--ink);
 }
 
 @media (max-width: 900px) {

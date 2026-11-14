@@ -1,60 +1,15 @@
 .band {
   position: relative;
   isolation: isolate;
-  background: var(--magenta);
-  color: var(--on-pop);
-  padding-block: clamp(4rem, 10vw, 8rem);
+  padding-block: clamp(4.5rem, 11vw, 9rem);
   overflow: hidden;
 }
 
-.inner {
-  position: relative;
-}
-
 .words {
-  font-weight: 900;
+  font-weight: 800;
   font-stretch: 70%;
   text-transform: uppercase;
-  font-size: clamp(3rem, 9vw, 8.5rem);
+  font-size: clamp(3rem, 9.4vw, 9rem);
   line-height: 0.86;
-  letter-spacing: -0.01em;
-  max-width: 12ch;
-}
-
-.burst {
-  position: absolute;
-  top: -2.5rem;
-  right: clamp(1rem, 36vw, 34rem);
-  width: clamp(92px, 11vw, 150px);
-  rotate: 12deg;
-}
-
-.elvis {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  width: clamp(220px, 34vw, 520px);
-}
-
-.elvis img {
-  width: 100%;
-  height: auto;
-  transform: scaleX(-1); /* facing into the page; his cropped side sits on the edge */
-}
-
-@media (max-width: 900px) {
-  .band {
-    padding-bottom: 44vw;
-  }
-
-  .burst {
-    top: auto;
-    bottom: -40vw;
-    right: auto;
-    left: 0;
-  }
-
-  .elvis {
-    width: 62vw;
-  }
+  max-width: 13ch;
 }

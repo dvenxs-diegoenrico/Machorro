@@ -5,72 +5,39 @@
   align-items: center;
 }
 
-.lead {
-  position: relative;
-  display: inline-block;
-  white-space: nowrap;
-}
-
-.photos {
-  position: relative;
-  min-width: 0;
-  padding-block: 1.5rem 1rem;
-}
-
-.dots {
-  left: -2.5rem;
-  top: 0;
-  width: 12rem;
-  height: 12rem;
+.rest {
+  color: var(--ink-muted);
 }
 
 /* bleeds off the right edge: the row is wider than its column and the section clips it */
 .row {
-  position: relative;
   display: flex;
-  gap: 12px;
+  gap: 10px;
   list-style: none;
   margin: 0;
   padding: 0;
   width: max-content;
 }
 
+.row li {
+  overflow: hidden;
+}
+
 .row img {
-  height: clamp(220px, 26vw, 378px);
+  height: clamp(240px, 27vw, 378px);
   width: auto;
   max-width: none;
+  transition: transform 0.8s var(--ease-out), filter 0.4s;
+  filter: saturate(0.85);
 }
 
-.cut {
-  position: absolute;
-  left: -3rem;
-  bottom: -1.25rem;
-  width: clamp(84px, 8.5vw, 122px);
-  rotate: -5deg;
-  z-index: 3;
-}
-
-.cutTape {
-  top: -0.5rem;
-  left: 22%;
-  rotate: -12deg;
-}
-
-.burst {
-  position: absolute;
-  top: 0.25rem;
-  left: clamp(11rem, 26vw, 24rem);
-  width: clamp(84px, 9vw, 128px);
-  rotate: 10deg;
-  z-index: 3;
+.row li:hover img {
+  transform: scale(1.05);
+  filter: saturate(1);
 }
 
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .cut {
-    left: -0.5rem;
   }
 }

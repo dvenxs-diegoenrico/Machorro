@@ -1,6 +1,7 @@
 import { siteConfig } from "@/content/site.config";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
+import { Liquid } from "@/components/motion/graphics/Liquid";
 import { Equalizer } from "@/components/motion/graphics/Equalizer";
 import styles from "./Ticker.module.css";
 
@@ -12,6 +13,7 @@ export function Ticker({ locale, t }: { locale: Locale; t: Dictionary }) {
     `${t.ticker.booking} ${bookingMonth[locale]}`,
     t.ticker.where,
     t.ticker.vibe,
+    t.ticker.panas,
     bookingOpen ? t.ticker.open : t.ticker.full,
   ];
 
@@ -29,7 +31,8 @@ export function Ticker({ locale, t }: { locale: Locale; t: Dictionary }) {
   );
 
   return (
-    <div className={`mono ${styles.ticker}`}>
+    <div className={`caps ${styles.ticker}`} data-theme="night">
+      <Liquid tone="night" blobs={false} />
       <p className="sr-only">{items.join(" · ")}</p>
       <div className={styles.track} aria-hidden="true">
         {group("a")}

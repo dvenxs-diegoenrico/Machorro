@@ -2,7 +2,6 @@
 
 import { useState, type FormEvent } from "react";
 import { Equalizer } from "@/components/motion/graphics/Equalizer";
-import { Liquid } from "@/components/motion/graphics/Liquid";
 import { siteConfig } from "@/content/site.config";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
@@ -42,10 +41,9 @@ export function Booking({ locale, t }: { locale: Locale; t: Dictionary }) {
 
   return (
     <section id="book" className={shared.section}>
-      <Liquid tone="sand" layout="c" />
       <div className={`wrap ${styles.grid}`}>
         <div>
-          <p className={`mono ${shared.label}`}>{b.label}</p>
+          <p className={`caps ${shared.label}`}>{b.label}</p>
           <h2 className={shared.headline} data-reveal="rise">
             {b.headline}
           </h2>
@@ -58,8 +56,7 @@ export function Booking({ locale, t }: { locale: Locale; t: Dictionary }) {
           </p>
         </div>
 
-        <form className={`${styles.form} liquid-fill`} onSubmit={onSubmit} data-reveal="paste">
-          <span className={`${shared.tape} ${styles.tape}`} aria-hidden="true" />
+        <form className={styles.form} onSubmit={onSubmit} data-reveal="rise">
           <div className={styles.pair}>
             <label className={styles.field}>
               <span className="mono">{f.name}</span>
@@ -102,7 +99,7 @@ export function Booking({ locale, t }: { locale: Locale; t: Dictionary }) {
           <input name="company" type="text" tabIndex={-1} autoComplete="off" className={styles.trap} aria-hidden="true" />
 
           <div className={styles.actions}>
-            <button type="submit" className="pill pill-red" disabled={state === "sending"}>
+            <button type="submit" className="btn btn-red" disabled={state === "sending"}>
               {state === "sending" ? b.sending : b.send}
             </button>
             <p role="status" aria-live="polite" className={`${styles.message} ${state === "sent" ? styles.ok : ""}`}>

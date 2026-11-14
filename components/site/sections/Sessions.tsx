@@ -1,9 +1,6 @@
 import type { CSSProperties } from "react";
-import { Liquid } from "@/components/motion/graphics/Liquid";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
-import { Cutout } from "../Cutout";
-import { Halftone } from "../Sticker";
 import styles from "./Sessions.module.css";
 import shared from "./sections.module.css";
 
@@ -11,30 +8,23 @@ export function Sessions({ locale, t }: { locale: Locale; t: Dictionary }) {
   const s = t.sessions;
   return (
     <section id="sessions" className={shared.section}>
-      <Liquid tone="sand" layout="a" />
       <div className="wrap">
         <div className={styles.head}>
           <div>
-            <p className={`mono ${shared.label}`}>{s.label}</p>
+            <p className={`caps ${shared.label}`}>{s.label}</p>
             <h2 className={shared.headline} data-reveal="rise">
               {s.headline}
             </h2>
           </div>
-          <div className={styles.cutWrap}>
-            <Halftone id="ht-sessions" className={styles.dots} />
-            <div className={styles.cut} data-reveal="paste" style={{ "--i": 2 } as CSSProperties}>
-              <div className="m-sway">
-                <Cutout name="lolla" alt={t.alt.cutLolla} />
-              </div>
-            </div>
-          </div>
+          <p className={styles.intro} data-reveal="rise" style={{ "--i": 1 } as CSSProperties}>
+            {s.body}
+          </p>
         </div>
 
-        <ol className={styles.cards}>
+        <ol className={styles.cards} data-reveal="group">
           {s.cards.map((card, i) => (
-            <li key={card.title} data-reveal="paste" style={{ "--i": i } as CSSProperties}>
-              <article className={`${styles.card} liquid-fill m-lift`}>
-                <span className={`${shared.tape} ${styles.tape}`} aria-hidden="true" />
+            <li key={card.title} style={{ "--i": i * 2 } as CSSProperties}>
+              <article className={styles.card}>
                 <p className={`mono ${styles.no}`}>0{i + 1}</p>
                 <h3 className={styles.title}>{card.title}</h3>
                 <p className={styles.body}>{card.body}</p>
@@ -52,7 +42,7 @@ export function Sessions({ locale, t }: { locale: Locale; t: Dictionary }) {
                     <dd>{card.from}</dd>
                   </div>
                 </dl>
-                <a className={`pill ${i === 0 ? "pill-red" : ""}`} href={`/${locale}#book`}>
+                <a className={`btn ${i === 0 ? "btn-red" : ""}`} href={`/${locale}#book`}>
                   {s.cta}
                 </a>
               </article>

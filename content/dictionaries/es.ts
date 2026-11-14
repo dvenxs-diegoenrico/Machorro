@@ -14,6 +14,7 @@ export const es: Dictionary = {
     sessions: "sesiones",
     cave: "cueva de elvis",
     book: "reservar",
+    panas: "panas",
   },
   localeSwitch: "idioma",
   ticker: {
@@ -21,25 +22,25 @@ export const es: Dictionary = {
     booking: "agenda",
     where: "miami y remoto",
     vibe: "buena música, buena vibra",
+    panas: "aquí no hay clientes, hay panas",
     open: "elvis no ha salido del edificio",
     full: "elvis ha salido del edificio",
   },
   hero: {
-    ransom: ["GUITARRA", "PRIMERO."],
-    note: "Mándame la canción. Hagamos que se sienta bien.",
-    credits: "créditos",
-    book: "hagamos música →",
+    name: "Daniel Chorro Machorro",
+    word: "Chorro",
+    role: "músico, productor, ingeniero",
+    book: "reserva una sesión",
     hear: "escucha el trabajo ↓",
   },
   alt: {
+    heroStage:
+      "Chorro en el escenario de un festival, con las manos en la cabeza y la lengua de fuera, una Stratocaster crema gastada al frente y el público detrás",
     cover:
       "Portada de la revista Elvis Cave: Elvis, el husky, dormido bajo el título. Un estudio en Miami, por Daniel Machorro.",
     stageStrat: "Chorro con una Stratocaster en el escenario de un festival, con andamios detrás",
     lollaStage: "Chorro en plena canción en un gran escenario al aire libre, con batería y luces detrás",
     bwLive: "Foto en blanco y negro de Chorro tocando la guitarra bajo las luces del escenario",
-    cutLespaul: "Chorro, arrancado de una foto, riendo con una Les Paul sunburst",
-    cutStrat: "Chorro, arrancado de una foto, mirando su Stratocaster",
-    cutLolla: "Chorro, arrancado de una foto, de traje gris con una Stratocaster blanca",
     artAquiEstoy: "Arte de Aquí Estoy: una silla vacía en el campo, en blanco y negro",
     artLayItAll: "Arte de Lay It All: collage de una cantante con guitarra acústica junto a un lago",
     artBabyComeOn: "Arte de Baby Come On: una camioneta roja en una calle arbolada",
@@ -57,11 +58,10 @@ export const es: Dictionary = {
     headlineLead: "Primero la guitarra.",
     headlineRest: "Luego lo que le falte a la canción.",
     body: "Toco para la canción. Hay días que es una toma limpia con la Strat. Otros es bajo, teclas y un shaker a las dos de la mañana. El plan siempre es el mismo: buena gente, buenos sonidos y una toma que te haga mover la cabeza.",
-    burst: ["buena", "vibra"],
   },
   ledger: {
     label: "créditos",
-    headline: "Canciones en las que me tocó tocar.",
+    headline: "Canciones con mis panas.",
     caption: "Créditos",
     filterLabel: "filtrar por rol",
     chips: { all: "todo", gtr: "gtr", prod: "prod", bass: "bajo", keys: "teclas" },
@@ -73,11 +73,11 @@ export const es: Dictionary = {
   },
   statement: {
     words: "Mándame la canción. Hagamos que se sienta bien.",
-    burst: ["pura", "buena", "vibra"],
   },
   sessions: {
     label: "sesiones",
     headline: "Tres formas de tocar juntos.",
+    body: "Todos con los que trabajo terminan siendo panas. Así empezamos casi siempre.",
     specs: { turnaround: "tiempo", delivery: "entrega", from: "desde" },
     cta: "platiquemos →",
     cards: [
@@ -131,7 +131,7 @@ export const es: Dictionary = {
   },
   book: {
     label: "reservar",
-    headline: "Cuéntame de la canción.",
+    headline: "Cuéntame de la canción, pana.",
     intro: "Manda un enlace, dime qué le falta y te escribo después de escucharla con calma.",
     fields: {
       name: "tu nombre",
@@ -158,7 +158,7 @@ export const es: Dictionary = {
   },
   footer: {
     handles: "encuéntranos",
-    clientLogin: "sesiones de clientes →",
+    clientLogin: "acceso panas →",
     credit: "sitio por Diego Enrico · Soluciones Creativas",
   },
 };

@@ -1,6 +1,6 @@
 /* chorro — motion system. One vocabulary for the whole site.
 
-   ENTER   paste   a cut-out dropped onto the page (photos, cards, stickers, cut-outs)
+   ENTER   paste   a card set down onto the page
            rise    text and rows coming up into place
            pop     small things snapping in (letters, dots)
            draw    lines drawn left to right (strings, rules)
@@ -10,10 +10,8 @@
    LOOP    sway    paper breathing on the page
            spin    stickers and records
            marquee ticker bands
-   TOUCH   jelly   squash and stretch on hover (buttons, photos, stickers)
-           lift    hover on anything pasted
-           pluck   hover on a string
-   SPACE   liquid  slow blobs in shades of the section's own colour
+   TOUCH   pluck   hover on a string
+   SPACE   liquid  slow blobs and ripples on the olive bands
 
    Enter animations run once, when the element scrolls into view:
      <div data-reveal="paste" style={{ "--i": 2 }}>   (--i staggers siblings)
@@ -47,10 +45,6 @@
 @keyframes m-slide-right {
   from { opacity: 0; transform: translateX(14vw); }
 }
-@keyframes m-sway {
-  from { transform: rotate(-0.8deg) translateY(0); }
-  to { transform: rotate(1.2deg) translateY(-4px); }
-}
 @keyframes m-spin {
   to { transform: rotate(360deg); }
 }
@@ -64,20 +58,6 @@
   60% { transform: translateY(-1px); }
   80% { transform: translateY(0.5px); }
 }
-@keyframes m-jelly {
-  0% { transform: scale(1); }
-  28% { transform: scale(1.28, 0.78) rotate(-2deg); }
-  48% { transform: scale(0.86, 1.18) rotate(-3deg); }
-  66% { transform: scale(1.14, 0.94) rotate(-2.5deg); }
-  82% { transform: scale(1.04, 1.1) rotate(-2.5deg); }
-  100% { transform: scale(1.08) rotate(-2.5deg); }
-}
-@keyframes m-wobble {
-  0%, 100% { transform: scale(1) rotate(0); }
-  25% { transform: scale(1.12, 0.9) rotate(-4deg); }
-  50% { transform: scale(0.94, 1.1) rotate(3deg); }
-  75% { transform: scale(1.05, 0.97) rotate(-1.5deg); }
-}
 @keyframes m-morph {
   /* breathing and turning: transform only, so it runs on the GPU */
   0% { transform: rotate(0deg) scale(1, 1); }
@@ -88,9 +68,6 @@
 @keyframes m-drift {
   from { translate: 0 0; }
   to { translate: var(--dx, 6vw) var(--dy, -4vw); }
-}
-@keyframes m-pulse {
-  50% { transform: scale(1.35); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -137,9 +114,7 @@
   }
 
   /* loops */
-  .m-sway { animation: m-sway var(--sway, 6s) ease-in-out infinite alternate; }
   .m-spin { animation: m-spin var(--spin, 36s) linear infinite; transform-origin: center; }
-  .m-pulse { animation: m-pulse 2.4s ease-in-out infinite; }
 }
 
 [data-reveal="words"] > span { display: inline-block; }
@@ -169,9 +144,6 @@
   border-radius: 41% 59% 38% 62% / 57% 43% 60% 40%;
 }
 .liquid span:nth-child(3n) { border-radius: 63% 37% 54% 46% / 39% 58% 42% 61%; }
-.liquid[data-tone="sand"] { --shade-a: var(--sand-a); --shade-b: var(--sand-b); }
-.liquid[data-tone="paper"] { --shade-a: var(--paper-a); --shade-b: var(--paper-b); }
-.liquid[data-tone="pop"] { --shade-a: var(--pop-a); --shade-b: var(--pop-b); }
 .liquid[data-tone="night"] { --shade-a: var(--night-a); --shade-b: var(--night-b); }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -180,7 +152,6 @@
       m-morph var(--t, 14s) ease-in-out infinite alternate,
       m-drift calc(var(--t, 14s) * 1.6) ease-in-out infinite alternate;
   }
-  .m-wobble:hover { animation: m-wobble 0.6s var(--ease-out); }
 }
 
 
@@ -191,23 +162,16 @@
    troughs, drifting in different directions. Over any colour they read as its
    own lighter and darker shades. Strength per surface:
      --caustic-l  light lines    --caustic-d  dark troughs
-   Used by .liquid (section grounds), .liquid-fill (header, cards, badges),
-   .pill (buttons) and the <Burst> stickers (SVG pattern).                   */
+   Used by .liquid, on the olive bands.                   */
 :root {
-  /* bitmap tiles: for surfaces whose texture flows (repainted every frame) */
-  --caustic-light: url("/assets/caustic-light.webp");
-  --caustic-dark: url("/assets/caustic-dark.webp");
-  /* the same textures as inline vectors: for the big sliding layers. They arrive
-     with the stylesheet, so the hero never waits on an image request, and they
-     only slide (composited), so the filter is drawn once. */
+  /* inline vectors: they arrive with the stylesheet (no image request), and the
+     layers only slide (composited), so the filter is drawn once. */
   --caustic-light-vec: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22480%22 height=%22480%22%3E%3Cfilter id=%22l%22 x=%220%22 y=%220%22 width=%22100%25%22 height=%22100%25%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.0085 0.011%22 numOctaves=%221%22 seed=%227%22 stitchTiles=%22stitch%22/%3E%3CfeColorMatrix values=%220 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1.6 0 0 0 -0.3%22/%3E%3CfeComponentTransfer%3E%3CfeFuncA type=%22table%22 tableValues=%220 0 0 0.9 0 0 0 0 0.75 0 0 0 0 0.65 0 0%22/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url%28%23l%29%22/%3E%3C/svg%3E");
   --caustic-dark-vec: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22480%22 height=%22480%22%3E%3Cfilter id=%22d%22 x=%220%22 y=%220%22 width=%22100%25%22 height=%22100%25%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.006 0.008%22 numOctaves=%221%22 seed=%2221%22 stitchTiles=%22stitch%22/%3E%3CfeColorMatrix values=%220 0 0 0 0.02 0 0 0 0 0.12 0 0 0 0 0.08 1.6 0 0 0 -0.3%22/%3E%3CfeComponentTransfer%3E%3CfeFuncA type=%22table%22 tableValues=%220 0.6 0 0 0 0.55 0 0 0.5 0%22/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url%28%23d%29%22/%3E%3C/svg%3E");
   --caustic-size: 760px;
-  --caustic-l: 0.7;
-  --caustic-d: 0.06;
+  --caustic-l: 0.09;
+  --caustic-d: 0.22;
 }
-[data-theme="night"] { --caustic-l: 0.09; --caustic-d: 0.22; }
-.liquid[data-tone="pop"] { --caustic-l: 0.16; --caustic-d: 0.16; }
 
 /* section grounds and the header: big layers that slide (transform only, cheap to
    animate). Being much larger than the screen also keeps them out of the browser's
@@ -238,38 +202,12 @@
   opacity: var(--caustic-l);
 }
 
-/* smaller surfaces (cards, badge, ticket): the texture flows across a fixed box */
-/* the element must be positioned itself (relative or absolute) */
-.liquid-fill {
-  isolation: isolate;
-}
-.liquid-fill::before,
-.liquid-fill::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background-size: var(--caustic-size);
-}
-.liquid-fill::before { background-image: var(--caustic-dark); opacity: var(--caustic-d); }
-.liquid-fill::after { background-image: var(--caustic-light); opacity: var(--caustic-l); }
-
 @keyframes m-caustic-a { to { transform: translate(var(--caustic-size), var(--caustic-size)); } }
 @keyframes m-caustic-b { to { transform: translate(calc(var(--caustic-size) * -1), var(--caustic-size)); } }
-@keyframes m-caustic-pos-a { to { background-position: var(--caustic-size) var(--caustic-size); } }
-@keyframes m-caustic-pos-b { to { background-position: calc(var(--caustic-size) * -1) var(--caustic-size); } }
 
-/* Big layers drift all the time (composited, cheap). Small surfaces hold still
-   and rush when touched: flowing texture on many small boxes would keep the main
-   thread busy every frame. */
+/* the layers drift all the time (composited, cheap) */
 @media (prefers-reduced-motion: no-preference) {
   .liquid::before { animation: m-caustic-a 70s linear infinite; }
   .liquid::after { animation: m-caustic-b 46s linear infinite; }
-  .liquid-fill:hover::before { animation: m-caustic-pos-a 9s linear infinite; }
-  .liquid-fill:hover::after { animation: m-caustic-pos-b 6s linear infinite; }
 }
 
-/* touch */
-.m-lift { transition: transform 0.35s var(--ease-overshoot); }
-.m-lift:hover { transform: translateY(-14px) rotate(3deg) scale(1.06); }

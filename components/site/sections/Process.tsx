@@ -1,5 +1,4 @@
 import type { CSSProperties } from "react";
-import { Liquid } from "@/components/motion/graphics/Liquid";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import { WaveformLoop } from "@/components/motion/graphics/WaveformLoop";
 import styles from "./Process.module.css";
@@ -9,11 +8,10 @@ import shared from "./sections.module.css";
 export function Process({ t }: { t: Dictionary }) {
   return (
     <section id="process" className={shared.section}>
-      <Liquid tone="sand" layout="b" />
       <div className="wrap">
         <div className={styles.head}>
           <div>
-            <p className={`mono ${shared.label}`}>{t.process.label}</p>
+            <p className={`caps ${shared.label}`}>{t.process.label}</p>
             <h2 className={shared.headline} data-reveal="rise">
               {t.process.headline}
             </h2>

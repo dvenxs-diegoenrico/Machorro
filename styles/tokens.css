@@ -2,45 +2,39 @@
 
 /* palette — the raw colours. Everything else refers to these. */
 :root {
-  --celta: #0f382a; /* verde celta: the principal colour */
-  --electric: #5aa9ff; /* azul eléctrico: cold contrast */
-  --magenta: #e60067; /* fucsia audaz: the pop */
-  --eucalipto: #279163; /* verde eucalipto claro: soft transitions */
-  --bone: #eaeaea; /* blanco hueso / piedra */
+  --olive: #2e310d; /* the main colour: Chorro's olive, taken from his own hero */
+  --cream: #efebdd; /* warm bone: the ground, matched to the photo's haze */
   --red: #c8102e; /* elvis red: small accents only (book button, dots, catalogue numbers) */
+  --electric: #5aa9ff; /* cool contrast, kept for the console's solo state */
 }
 
-/* Day: bone ground, celta ink */
+/* Day: cream ground, olive ink */
 :root,
 [data-theme="sand"] {
-  --ground: var(--bone);
-  --surface: #f7f7f5;
-  --ink: var(--celta);
-  --ink-muted: #4d6158;
-  --rule: #c6cfca;
+  --ground: var(--cream);
+  --surface: #f7f4ea;
+  --ink: var(--olive);
+  --ink-muted: #5f6236;
+  --rule: #d2cdb6;
   --elvis-red: var(--red);
-  --on-red: var(--bone);
+  --on-red: var(--cream);
 }
 
-/* Night (header, Elvis Cave, footer, console): celta ground, bone ink */
+/* Night (olive bands: ticker, statement, Elvis Cave, footer, console) */
 [data-theme="night"] {
-  --ground: var(--celta);
-  --surface: #154434;
-  --ink: var(--bone);
-  --ink-muted: #a9c4b8;
-  --rule: #1f5c45;
+  --ground: var(--olive);
+  --surface: #3b3e17;
+  --ink: var(--cream);
+  --ink-muted: #c4c19c;
+  --rule: #4f5226;
   --elvis-red: var(--red);
-  --on-red: var(--bone);
+  --on-red: var(--cream);
 }
 
 :root {
-  --paper: #f4f4f2; /* hero ground: a lighter bone */
-  --mat: #ffffff; /* white rims on cut-outs and release art */
-  --ink-fixed: var(--celta); /* ink that does not flip with the theme (printed things) */
-  --on-pop: #ffffff; /* text on magenta */
-  --on-electric: var(--celta); /* text on electric blue */
+  --ink-fixed: var(--olive); /* ink that does not flip with the theme */
   --crest-cloth: #bcb9b4; /* the grey sweatshirt behind the ELVIS crest */
-  --shadow: rgb(15 56 42 / 0.35);
+  --haze: rgb(239 235 221); /* the hero's cream wash, for gradients */
 
   /* type families (variables set by next/font in app/fonts.ts) */
   --serif: var(--font-instrument-serif), "Times New Roman", serif;
@@ -48,30 +42,24 @@
   --mono: var(--font-plex-mono), ui-monospace, Menlo, monospace;
   --varsity: var(--font-graduate), "Rockwell", serif;
 
-  /* display type: bold, tight, slightly condensed */
-  --display-weight: 900;
-  --display-stretch: 78%;
+  /* display type: bold condensed caps, like the hero */
+  --display-weight: 800;
+  --display-stretch: 70%;
 
-  /* liquid: two shades either side of each ground, for the blobs in blank space */
-  --sand-a: #dcdfdc;
-  --sand-b: #f5f5f3;
-  --paper-a: #e4e8e5;
-  --paper-b: #fcfcfb;
-  --pop-a: #c8005a;
-  --pop-b: #f2207c;
-  --night-a: #17503b;
-  --night-b: #0a2b1f;
-
-  /* scalloped edges: radius of one scallop */
-  --scallop: 10px;
+  /* liquid: two shades of olive, for the blobs on olive bands */
+  --night-a: #363912;
+  --night-b: #282b0b;
 
   /* type scale */
   --body-size: 17px;
   --body-leading: 27px;
   --label-size: 12px;
   --label-size-lg: 13px;
-  --headline: clamp(2.4rem, 5.6vw, 5rem);
+  --headline: clamp(2.6rem, 6.4vw, 5.75rem);
   --poster-stretch: 62%;
+  /* CHORRO set edge to edge: font-size = word-k × width (measured for Archivo 800 at 70%) */
+  --word-k: 0.2925;
+  --edge: clamp(0.5rem, 1.6vw, 2rem); /* side margin of the giant word */
 
   /* six-string rule: thick to thin */
   --string-1: 3px;
