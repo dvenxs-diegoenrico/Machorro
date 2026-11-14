@@ -1,6 +1,7 @@
 import { siteConfig } from "@/content/site.config";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
+import { Equalizer } from "@/components/motion/graphics/Equalizer";
 import styles from "./Ticker.module.css";
 
 /** Slow now-spinning marquee under the header. Content comes from content/site.config.ts. */
@@ -19,7 +20,7 @@ export function Ticker({ locale, t }: { locale: Locale; t: Dictionary }) {
       {[0, 1, 2].map((n) =>
         items.map((item, i) => (
           <span key={`${n}-${i}`} className={styles.item}>
-            <span className={i === 0 ? styles.dot : styles.sep}>{i === 0 ? "●" : "·"}</span>
+            {i === 0 ? <Equalizer className={styles.dot} /> : <span className={styles.sep}>·</span>}
             {item}
           </span>
         )),
