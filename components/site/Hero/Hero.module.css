@@ -1,43 +1,222 @@
 .hero {
-  background: var(--paper);
-  padding-block: clamp(1.5rem, 3vw, 3rem) clamp(2.5rem, 5vw, 4.5rem);
+  position: relative;
+  isolation: isolate;
   overflow: hidden;
+  background: var(--paper);
 }
 
-.grid {
+.stage {
+  position: relative;
+  max-width: var(--max);
+  margin-inline: auto;
+  height: clamp(560px, 56vw, 820px);
+  container-type: inline-size;
+  --mx: 0;
+  --my: 0;
+  --sy: 0;
+}
+
+/* a plane moves with the pointer (--depth) and against the scroll (--scroll) */
+.plane {
+  position: absolute;
+  inset: 0;
+  translate: calc(var(--mx) * var(--depth) * 1px)
+    calc(var(--my) * var(--depth) * 1px + var(--sy) * var(--scroll) * 1px);
+  transition: translate 0.5s var(--ease-out);
+  pointer-events: none;
+}
+
+.plane > * {
+  pointer-events: auto;
+}
+
+/* ── back: big type ─────────────────────────────── */
+
+.back {
+  --depth: -10;
+  --scroll: 0.28;
+  z-index: 1;
+}
+
+.type {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(1rem, 3vw, 3rem);
-  align-items: center;
+  justify-items: center;
+  padding-top: 3cqw;
+  font-family: var(--sans);
+  font-weight: 900;
+  font-stretch: var(--poster-stretch);
+  font-size: calc(172cqw / var(--n));
+  line-height: 0.8;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.cover {
-  animation: slide-up 0.9s var(--ease-out) both;
+.line {
+  display: block;
+  overflow: hidden; /* the words rise out of a slot */
+  padding-block: 0.02em;
 }
 
-.cover img {
-  width: 100%;
-  height: auto;
-  /* the scan's cream sits on the hero paper without a visible edge */
-  mix-blend-mode: multiply;
+.line > span {
+  display: block;
+  animation: type-up 0.9s var(--ease-out) calc(var(--i) * 0.14s) both;
+}
+
+.line:nth-child(2) {
+  color: var(--elvis-red);
+}
+
+@keyframes type-up {
+  from { transform: translateY(105%) skewY(6deg); }
+}
+
+/* ── middle: the subject, really big ─────────────── */
+
+.mid {
+  --depth: 16;
+  --scroll: 0.06;
+  z-index: 2;
+}
+
+.subject {
+  position: absolute;
+  left: 50%;
+  bottom: -9%;
+  height: 104%;
+  aspect-ratio: 638 / 1180;
+  translate: -52% 0;
+  --rim: max(3px, 0.4cqw);
+  animation: subject-in 1s var(--ease-overshoot) 0.35s both;
+  transform-origin: 50% 100%;
+}
+
+.subject img {
+  --rim: inherit;
+}
+
+@keyframes subject-in {
+  from { opacity: 0; transform: translateY(40%) rotate(8deg) scale(0.86); }
+  55% { opacity: 1; }
+}
+
+/* ── top: buttons, badge, ticket, arch ───────────── */
+
+.top {
+  --depth: 34;
+  --scroll: -0.08;
+  z-index: 3;
+}
+
+.badge {
+  position: absolute;
+  right: 6%;
+  top: 46%;
+  width: clamp(112px, 15cqw, 200px);
+  rotate: 10deg;
+  animation: pop-in 0.6s var(--ease-overshoot) 1.15s both;
+}
+
+.badgeFace {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--elvis-red);
+  color: var(--on-red);
+  display: grid;
+  place-items: center;
+  padding: 7%;
+}
+
+.badgeDot {
+  position: absolute;
+  width: 16%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--on-red);
+}
+
+.ticket {
+  position: absolute;
+  left: 4%;
+  top: 56%;
+  display: flex;
+  align-items: stretch;
+  rotate: -6deg;
+  background: var(--pool);
+  color: var(--ink-fixed);
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: max(11px, 1.05cqw);
+  animation: pop-in 0.6s var(--ease-overshoot) 1.3s both;
+  transition: transform 0.3s var(--ease-overshoot);
+}
+
+.ticket:hover {
+  transform: scale(1.1) rotate(4deg);
+}
+
+.ticket > span {
+  padding: 0.9em 1.3em;
+}
+
+.stub {
+  border-left: 1px dashed var(--ink-fixed);
 }
 
 .ctas {
+  position: absolute;
+  left: 50%;
+  bottom: 7%;
+  translate: -50% 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  gap: 0.9rem;
+  animation: pop-in 0.6s var(--ease-overshoot) 0.9s both;
 }
 
-@keyframes slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(48px);
+.ctas :global(.pill) {
+  min-height: 56px;
+  padding-inline: 2rem;
+  font-size: 0.95rem;
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.3) rotate(-14deg); }
+}
+
+@media (max-width: 720px) {
+  .stage {
+    height: 150vw;
+    max-height: 640px;
   }
-}
 
-@media (max-width: 900px) {
-  .grid {
-    grid-template-columns: 1fr;
+  .type {
+    padding-top: 6cqw;
+  }
+
+  .subject {
+    height: 86%;
+    bottom: -8%;
+  }
+
+  .badge {
+    right: 2%;
+    top: 40%;
+  }
+
+  .ticket {
+    left: 2%;
+    top: 47%;
+    font-size: 10px;
+  }
+
+  .stub {
+    display: none;
+  }
+
+  .ctas {
+    bottom: 5%;
+    flex-direction: column;
+    align-items: stretch;
+    width: min(78%, 300px);
   }
 }

@@ -3,9 +3,10 @@
 import { useEffect, useRef, type ReactNode } from "react";
 
 /**
- * Sets --mx / --my (−1…1) on its box from the pointer position.
- * Pieces multiply those by their own --depth in CSS. Desktop pointers only,
- * and never under prefers-reduced-motion.
+ * Drives the hero's three planes. Sets on its box:
+ *   --mx / --my  pointer position, −1…1 (desktop pointers only)
+ *   --sy         how far the page has scrolled, in px
+ * Each plane multiplies those by its own depth in CSS. Off under prefers-reduced-motion.
  */
 export function Parallax({ className, children }: { className?: string; children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -33,13 +34,19 @@ export function Parallax({ className, children }: { className?: string; children
       el.style.setProperty("--mx", "0");
       el.style.setProperty("--my", "0");
     };
+    const onScroll = () => {
+      if (reduced.matches) return;
+      el.style.setProperty("--sy", String(Math.min(window.scrollY, 1200)));
+    };
 
     el.addEventListener("pointermove", onMove);
     el.addEventListener("pointerleave", onLeave);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       cancelAnimationFrame(frame);
       el.removeEventListener("pointermove", onMove);
       el.removeEventListener("pointerleave", onLeave);
+      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
