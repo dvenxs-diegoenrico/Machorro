@@ -206,7 +206,7 @@ export function SixStringRule({ hint, chords }: { hint?: string; chords?: { labe
               type="button"
               className={styles.chord}
               aria-pressed={held?.id === c.id}
-              aria-label={c.spoken}
+              aria-label={`${c.label}, ${c.spoken}`}
               onClick={() => choose(c)}
             >
               {c.label}
