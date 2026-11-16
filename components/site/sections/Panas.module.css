@@ -316,3 +316,38 @@
     grid-template-columns: 1fr;
   }
 }
+
+.press {
+  margin: 1.5rem 0 0;
+  padding-left: 1rem;
+  border-left: var(--string-1) solid var(--elvis-red);
+}
+
+.press blockquote {
+  margin: 0;
+  font-weight: 800;
+  font-stretch: 70%;
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.press figcaption {
+  margin-top: 0.5rem;
+  color: var(--ink-muted);
+}
+
+.more {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-top: 0.9rem;
+  color: var(--ink-muted);
+}
+
+.more a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  color: var(--ink);
+}

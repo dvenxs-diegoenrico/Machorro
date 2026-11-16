@@ -36,9 +36,14 @@ export function Panas({ locale, t }: { locale: Locale; t: Dictionary }) {
 
   // open straight from a shared link
   useEffect(() => {
-    const slug = location.hash.startsWith(HASH) ? location.hash.slice(HASH.length) : null;
-    const pana = slug && panas.find((x) => x.slug === slug);
-    if (pana) open(pana);
+    const fromHash = () => {
+      const slug = location.hash.startsWith(HASH) ? location.hash.slice(HASH.length) : null;
+      const pana = slug && panas.find((x) => x.slug === slug);
+      if (pana && !dialog.current?.open) open(pana);
+    };
+    fromHash();
+    addEventListener("hashchange", fromHash);
+    return () => removeEventListener("hashchange", fromHash);
   }, [open]);
 
   // the floating photo follows the pointer over the list (desktop only)
@@ -122,7 +127,8 @@ export function Panas({ locale, t }: { locale: Locale; t: Dictionary }) {
             <header className={styles.sheetHead}>
               <div>
                 <p className="caps">
-                  {active.role[locale]} · {active.years}
+                  {active.role[locale]}
+                  {active.years && ` · ${active.years}`}
                 </p>
                 <h3 id="pana-name" className={styles.sheetName}>
                   {active.name}
@@ -151,6 +157,16 @@ export function Panas({ locale, t }: { locale: Locale; t: Dictionary }) {
                     {para}
                   </p>
                 ))}
+                {active.press && (
+                  <figure className={styles.press}>
+                    <blockquote>“{active.press.quote[locale]}”</blockquote>
+                    <figcaption className="mono">
+                      <a href={active.press.url} rel="noopener" target="_blank">
+                        {active.press.source} ↗
+                      </a>
+                    </figcaption>
+                  </figure>
+                )}
               </section>
 
               {active.media && (
@@ -166,6 +182,16 @@ export function Panas({ locale, t }: { locale: Locale; t: Dictionary }) {
                     playLabel={p.play}
                     emptyLabel={p.noVideo}
                   />
+                  {active.more && (
+                    <p className={`mono ${styles.more}`}>
+                      {p.more}:{" "}
+                      {active.more.map((url, i) => (
+                        <a key={url} href={url} rel="noopener" target="_blank">
+                          {String(i + 2).padStart(2, "0")} ↗
+                        </a>
+                      ))}
+                    </p>
+                  )}
                 </section>
               )}
             </div>
