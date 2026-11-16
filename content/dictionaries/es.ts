@@ -176,7 +176,7 @@ export const es: Dictionary = {
     error: "No se envió. Intenta de nuevo en un minuto.",
     notConfigured: "El formulario todavía no está conectado. Por ahora escribe a [correo de reservas].",
   },
-  strings: { hint: "toca una cuerda ♪" },
+  strings: { hint: "toca una cuerda o escoge un acorde ♪", chords: "acordes", release: "soltar" },
   footer: {
     handles: "encuéntranos",
     clientLogin: "acceso panas →",

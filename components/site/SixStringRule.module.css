@@ -37,3 +37,198 @@
   color: var(--ink-muted);
   pointer-events: none;
 }
+
+/* ── the neck: chord mode ───────────────────── */
+
+.instrument {
+  display: grid;
+  gap: 0.75rem;
+  padding-block: 1.5rem;
+}
+
+.instrument .rule {
+  padding-block: 0.5rem;
+}
+
+/* strings spaced like a real neck so fingers fit between them */
+.neck {
+  --pitch: 18px;
+  --nut: 1.9rem; /* room left of the nut for open / muted marks */
+  --neck: min(34%, 26rem); /* nut to fret 5 */
+}
+
+.neck .string {
+  height: var(--pitch);
+  margin-block: 0;
+}
+
+.frets {
+  position: absolute;
+  inset: 0.5rem 0;
+  pointer-events: none;
+}
+
+.nut,
+.fret {
+  position: absolute;
+  top: calc(var(--pitch) / 2 - 2px);
+  bottom: calc(var(--pitch) / 2 - 2px);
+  background: var(--ink);
+}
+
+.nut {
+  left: var(--nut);
+  width: 4px;
+}
+
+.fret {
+  left: calc(var(--nut) + var(--neck) * var(--x));
+  width: 1.5px;
+  opacity: 0.45;
+}
+
+/* a finger: centred between two frets, on its string */
+.dot,
+.open,
+.mute {
+  position: absolute;
+  top: calc(var(--pitch) * var(--s) + var(--pitch) / 2);
+  translate: -50% -50%;
+}
+
+.dot {
+  left: calc(var(--nut) + var(--neck) * var(--x));
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--elvis-red);
+  box-shadow: 0 0 0 2px var(--ground);
+}
+
+.open {
+  left: calc(var(--nut) / 2);
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--ground);
+}
+
+.mute {
+  left: calc(var(--nut) / 2);
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 1;
+  color: var(--ink-muted);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dot {
+    animation: press 0.42s var(--ease-overshoot) backwards;
+    animation-delay: calc(var(--k) * 40ms);
+  }
+
+  .open,
+  .mute {
+    animation: fade 0.3s ease-out backwards;
+  }
+}
+
+@keyframes press {
+  from {
+    scale: 0;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+/* the four chords, set in Climate Crisis; the held one melts */
+.chords {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.chord {
+  min-height: 48px;
+  padding: 0.35rem 1.1rem;
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-climate), var(--sans);
+  font-variation-settings: "YEAR" 1979;
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    font-variation-settings 0.6s var(--ease-out),
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.chord:hover {
+  font-variation-settings: "YEAR" 2005;
+}
+
+.chord[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--ground);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chord[aria-pressed="true"] {
+    animation: melt 2.6s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes melt {
+  from {
+    font-variation-settings: "YEAR" 1979;
+  }
+  to {
+    font-variation-settings: "YEAR" 2040;
+  }
+}
+
+.chordHint {
+  margin-left: auto;
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+}
+
+.release {
+  min-height: 48px;
+  padding: 0 0.6rem;
+  border: 0;
+  background: none;
+  color: var(--ink-muted);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+@media (max-width: 720px) {
+  .neck {
+    --neck: calc(100% - var(--nut) - 1rem);
+  }
+
+  .chords {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .release {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .chordHint {
+    grid-column: 1 / -1;
+    margin-left: 0;
+  }
+}

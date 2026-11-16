@@ -174,7 +174,7 @@ export const en = {
     error: "That didn’t send. Try again in a minute.",
     notConfigured: "The form isn’t connected yet. Write to [booking email] for now.",
   },
-  strings: { hint: "tap a string ♪" },
+  strings: { hint: "tap a string or pick a chord ♪", chords: "chords", release: "let go" },
   footer: {
     handles: "find us",
     clientLogin: "panas login →",

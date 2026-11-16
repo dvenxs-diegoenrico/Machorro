@@ -1,4 +1,4 @@
-import { Archivo, Graduate, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
+import { Archivo, Climate_Crisis, Graduate, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
 
 export const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
@@ -30,9 +30,19 @@ export const graduate = Graduate({
   display: "swap",
 });
 
+/** Option 09: letters that melt along the YEAR axis. Only the chord buttons use it. */
+export const climateCrisis = Climate_Crisis({
+  subsets: ["latin"],
+  axes: ["YEAR"],
+  variable: "--font-climate",
+  display: "swap",
+  preload: false,
+});
+
 export const fontVariables = [
   instrumentSerif.variable,
   archivo.variable,
   plexMono.variable,
   graduate.variable,
+  climateCrisis.variable,
 ].join(" ");

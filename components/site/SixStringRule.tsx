@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type CSSProperties } from "react";
+import { CHORDS, heldChord, holdChord, NECK_FRETS, stringPitch, useHeldChord, type Chord } from "@/lib/audio/chords";
 import { isUnlocked, pluck, STANDARD_TUNING, unlock } from "@/lib/audio/pluck";
 import styles from "./SixStringRule.module.css";
 
@@ -9,15 +10,22 @@ const STRINGS = [0, 1, 2, 3, 4, 5]; // top (thick, low E) to bottom (thin, high 
 
 type Ring = { amp: number; at: number; start: number; hz: number; tau: number };
 
+/** Where fret n sits along the drawn neck, 0–1 (real guitar spacing, nut to fret NECK_FRETS). */
+const fretAt = (n: number) => (1 - 2 ** (-n / 12)) / (1 - 2 ** (-NECK_FRETS / 12));
+
 /**
  * Section divider: six strings, thick to thin, that you can play.
  * Run the pointer across them and each one bends where you crossed it and rings out.
  * Tap or click a string to hear it (standard tuning); after that, strumming sounds too.
- * They strum themselves once when they scroll into view. Decorative for assistive tech.
+ * With `chords`, it becomes a neck: four buttons place the fingers for a chord (shown as
+ * dots), and the strings then play that voicing. The held chord is shared by every set of
+ * strings on the page. They strum themselves once when they scroll into view.
  */
-export function SixStringRule({ hint }: { hint?: string }) {
+export function SixStringRule({ hint, chords }: { hint?: string; chords?: { label: string; release: string } }) {
   const root = useRef<HTMLDivElement>(null);
   const paths = useRef<(SVGPathElement | null)[]>([]);
+  const strumRef = useRef<(velocity: number) => void>(() => {});
+  const held = useHeldChord();
 
   useEffect(() => {
     const el = root.current;
@@ -59,8 +67,22 @@ export function SixStringRule({ hint }: { hint?: string }) {
       }
     };
 
+    // a fretted string sounds higher; a muted one only thuds (no note)
     const sound = (i: number, at: number, velocity: number) => {
-      pluck(STANDARD_TUNING[i], velocity, (at - 0.5) * 1.2);
+      const hz = stringPitch(STANDARD_TUNING[i], i, heldChord());
+      if (hz) pluck(hz, velocity, (at - 0.5) * 1.2);
+    };
+    const muted = (i: number) => heldChord()?.frets[i] === null;
+
+    // a strum, low string to high, skipping muted strings
+    strumRef.current = (velocity: number) => {
+      STRINGS.forEach((i, k) =>
+        setTimeout(() => {
+          if (muted(i)) return;
+          ring(i, 0.62, 0.8);
+          sound(i, 0.62, velocity);
+        }, k * 32),
+      );
     };
 
     // y-centre of each string, relative to the rule
@@ -83,7 +105,7 @@ export function SixStringRule({ hint }: { hint?: string }) {
         centres().forEach((c, i) => {
           if ((lastY! - c) * (y - c) <= 0 && lastY !== y && now - lastHit[i] > 90) {
             lastHit[i] = now;
-            ring(i, at, 0.45 + speed * 0.9);
+            ring(i, at, (muted(i) ? 0.15 : 0.45) + speed * (muted(i) ? 0.1 : 0.9));
             if (isUnlocked()) sound(i, at, 0.25 + Math.min(0.35, speed * 0.4));
           }
         });
@@ -102,7 +124,7 @@ export function SixStringRule({ hint }: { hint?: string }) {
       const at = (e.clientX - box.left) / box.width;
       const c = centres();
       const i = c.reduce((best, cy, k) => (Math.abs(cy - y) < Math.abs(c[best] - y) ? k : best), 0);
-      ring(i, at, 1);
+      ring(i, at, muted(i) ? 0.2 : 1);
       if (await unlock()) sound(i, at, 0.8);
     };
 
@@ -129,19 +151,75 @@ export function SixStringRule({ hint }: { hint?: string }) {
     };
   }, []);
 
+  const choose = async (chord: Chord) => {
+    holdChord(held?.id === chord.id ? null : chord);
+    if (await unlock()) strumRef.current(0.6);
+  };
+
   return (
-    <div className={styles.rule} ref={root} aria-hidden="true">
-      {STRINGS.map((i) => (
-        <svg key={i} className={styles.string} viewBox="0 0 1000 16" preserveAspectRatio="none">
-          <path
-            ref={(p) => {
-              paths.current[i] = p;
-            }}
-            d={REST}
-          />
-        </svg>
-      ))}
-      {hint && <span className={`caps ${styles.hint}`}>{hint}</span>}
+    <div className={chords ? styles.instrument : undefined}>
+      <div className={`${styles.rule} ${chords ? styles.neck : ""}`} ref={root} aria-hidden="true">
+        {STRINGS.map((i) => (
+          <svg key={i} className={styles.string} viewBox="0 0 1000 16" preserveAspectRatio="none">
+            <path
+              ref={(p) => {
+                paths.current[i] = p;
+              }}
+              d={REST}
+            />
+          </svg>
+        ))}
+
+        {chords && (
+          <div className={styles.frets}>
+            <span className={styles.nut} />
+            {Array.from({ length: NECK_FRETS }, (_, n) => (
+              <span key={n} className={styles.fret} style={{ "--x": fretAt(n + 1) } as CSSProperties} />
+            ))}
+            {held &&
+              held.frets.map((fret, i) =>
+                fret === null ? (
+                  <span key={`${held.id}-${i}`} className={styles.mute} style={{ "--s": i } as CSSProperties}>
+                    ×
+                  </span>
+                ) : fret === 0 ? (
+                  <span key={`${held.id}-${i}`} className={styles.open} style={{ "--s": i } as CSSProperties} />
+                ) : (
+                  <span
+                    key={`${held.id}-${i}`}
+                    className={styles.dot}
+                    style={{ "--s": i, "--x": (fretAt(fret - 1) + fretAt(fret)) / 2, "--k": i } as CSSProperties}
+                  />
+                ),
+              )}
+          </div>
+        )}
+
+        {hint && !chords && <span className={`caps ${styles.hint}`}>{hint}</span>}
+      </div>
+
+      {chords && (
+        <div className={styles.chords} role="group" aria-label={chords.label}>
+          {CHORDS.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              className={styles.chord}
+              aria-pressed={held?.id === c.id}
+              aria-label={c.spoken}
+              onClick={() => choose(c)}
+            >
+              {c.label}
+            </button>
+          ))}
+          {held && (
+            <button type="button" className={`caps ${styles.release}`} onClick={() => holdChord(null)}>
+              {chords.release}
+            </button>
+          )}
+          {hint && <span className={`caps ${styles.chordHint}`}>{hint}</span>}
+        </div>
+      )}
     </div>
   );
 }

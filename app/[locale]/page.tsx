@@ -27,7 +27,10 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
 
   const Rule = ({ hint }: { hint?: boolean }) => (
     <div className="wrap">
-      <SixStringRule hint={hint ? t.strings.hint : undefined} />
+      <SixStringRule
+        hint={hint ? t.strings.hint : undefined}
+        chords={hint ? { label: t.strings.chords, release: t.strings.release } : undefined}
+      />
     </div>
   );
 
