@@ -36,7 +36,7 @@ Dani uploads, panas listen. Nobody downloads.
 - `/[locale]/sessions/demo`: the console with a generated session, no account needed
 
 How audio is handled (`lib/audio/codec.ts`):
-1. The WAV is decoded and compressed **in Dani's browser** to Opus 256 kbps (AAC where Opus isn't available). It never leaves his computer.
+1. A WAV/AIFF/FLAC is decoded and compressed **in Dani's browser** to Opus 320 kbps stereo / 192 kbps mono (AAC at the same rates where Opus isn't available). It never leaves his computer. MP3s and other already-compressed files are kept byte for byte, with no second compression.
 2. The compressed file is wrapped in our own container (`.chorro`) and encrypted with a fresh AES-256 key.
 3. Only the ciphertext is uploaded, to a private bucket. The key goes to `track_keys`, which nobody can read directly.
 4. A pana's console gets a 60-second signed URL and one key at a time through `get_track_key()`, which checks access, rate-limits and logs the listen.

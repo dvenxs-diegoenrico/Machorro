@@ -1,13 +1,17 @@
 /**
  * The session file format: compress in the producer's browser, encrypt, and only then upload.
  *
- *   WAV (any bit depth / rate)  ─decode→  PCM @ 48 kHz  ─WebCodecs→  Opus 256 kbps
- *   (or AAC 256 kbps where Opus encoding isn't available)  ─pack→  .chorro  ─AES-GCM→  upload
+ *   WAV / AIFF / FLAC  ─decode→  PCM @ 48 kHz  ─WebCodecs→  Opus 320 kbps (192 mono)
+ *   (or AAC at the same rates where Opus encoding isn't available)  ─pack→  .chorro  ─AES-GCM→  upload
+ *
+ *   MP3 / AAC / M4A / OGG (already compressed)  ─kept byte for byte (no second compression,
+ *   so no further loss)  ─pack→  .chorro  ─AES-GCM→  upload
  *
  * Why:
- *   * Quality: Opus at 256 kbps stereo is transparent for listening (blind tests can't tell it
- *     from the WAV). Mono stems get 160 kbps, which is the same quality per channel.
- *   * Size: about 1/6 of a 16-bit WAV and 1/9 of a 24-bit/48k one. The WAV never leaves Dani's computer.
+ *   * Quality: Opus at 320 kbps stereo is above the transparency threshold (blind tests can't
+ *     tell it from the WAV) and beats MP3 at the same rate; 320 is also the most MP3 can do.
+ *     Mono stems get 192 kbps, a little more per channel than stereo.
+ *   * Size: about 1/4.4 of a 16-bit WAV and 1/7 of a 24-bit/48k one. The WAV never leaves Dani's computer.
  *   * Protection: a .chorro file is our own container, encrypted with a per-track key. Downloaded
  *     on its own it is noise; it only plays inside the console, after the server hands over the key.
  *
@@ -18,7 +22,7 @@
  */
 
 export type StreamHeader = {
-  codec: string; // "opus" or "mp4a.40.2"
+  codec: string; // "opus", "mp4a.40.2", or "file" (an already-compressed file kept as uploaded)
   sampleRate: number;
   channels: number;
   /** length of the original audio, in sample frames at sampleRate */
@@ -70,7 +74,7 @@ export function isEffectivelyMono(buffer: AudioBuffer): boolean {
 }
 
 async function pickConfig(channels: number): Promise<AudioEncoderConfig> {
-  const bitrate = channels === 1 ? 160_000 : 256_000;
+  const bitrate = channels === 1 ? 192_000 : 320_000;
   const opus: AudioEncoderConfig = {
     codec: "opus",
     sampleRate: RATE,
@@ -161,6 +165,20 @@ export async function encode(buffer: AudioBuffer, onProgress?: (p: number) => vo
   const { packets, description } = await run(config, planes, onProgress);
   onProgress?.(1);
   return { header: { codec: config.codec, sampleRate: RATE, channels, frames: buffer.length, description, priming }, packets };
+}
+
+/** Formats that are already compressed: keep them as they are, don't compress again. */
+export function isCompressed(file: File): boolean {
+  return /\.(mp3|m4a|aac|ogg|oga|opus|webm)$/i.test(file.name) || /audio\/(mpeg|mp3|mp4|aac|ogg|opus|webm)/i.test(file.type);
+}
+
+/** An already-compressed file, kept byte for byte. `pcm` is its decoded audio (for length). */
+export async function keepAsIs(file: File, pcm: AudioBuffer): Promise<Encoded> {
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  return {
+    header: { codec: "file", sampleRate: pcm.sampleRate, channels: Math.min(2, pcm.numberOfChannels), frames: pcm.length, priming: 0 },
+    packets: [bytes],
+  };
 }
 
 /** Encoded → bytes in the .chorro container. */
@@ -265,6 +283,10 @@ async function decodeRaw(enc: Encoded): Promise<Float32Array> {
 /** Encoded → an AudioBuffer in `ctx`, trimmed to the original audio (drops the encoder delay). */
 export async function decodeToBuffer(enc: Encoded, ctx: BaseAudioContext): Promise<AudioBuffer> {
   const { header } = enc;
+  if (header.codec === "file") {
+    // the browser's own decoder handles MP3, AAC and friends; copy so the original bytes stay intact
+    return ctx.decodeAudioData(enc.packets[0].slice().buffer);
+  }
   const { planes } = await decodePlanes(enc);
   const skip = header.priming;
   const out = ctx.createBuffer(header.channels, header.frames, header.sampleRate);

@@ -260,7 +260,7 @@ export const en = {
     tracks: "Tracks",
     noTracks: "No tracks in this version yet.",
     upload: "Add audio",
-    uploadHint: "Drop WAV files (or AIFF, FLAC). They're compressed and encrypted on this computer; only the compressed copy is uploaded. Keep your WAVs.",
+    uploadHint: "Drop WAV, AIFF or FLAC files: they’re compressed on this computer to Opus 320 kbps (better than the best MP3), encrypted, and only that copy is uploaded. MP3s are kept exactly as they are. Keep your WAVs.",
     chooseFiles: "Choose files",
     kind: "Type",
     kinds: { stem: "stem", group: "group", mix: "mix", master: "master" },

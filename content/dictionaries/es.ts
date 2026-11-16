@@ -262,7 +262,7 @@ export const es: Dictionary = {
     tracks: "Pistas",
     noTracks: "Todavía no hay pistas en esta versión.",
     upload: "Agregar audio",
-    uploadHint: "Suelta archivos WAV (o AIFF, FLAC). Se comprimen y cifran en esta computadora; solo se sube la copia comprimida. Guarda tus WAV.",
+    uploadHint: "Suelta archivos WAV, AIFF o FLAC: se comprimen en esta computadora a Opus 320 kbps (mejor que el mejor MP3), se cifran y solo se sube esa copia. Los MP3 se guardan tal cual. Conserva tus WAV.",
     chooseFiles: "Elegir archivos",
     kind: "Tipo",
     kinds: { stem: "stem", group: "grupo", mix: "mezcla", master: "master" },

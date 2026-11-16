@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { Icon } from "@/components/ui/Icon";
-import { canEncode, decodeFile, encode, encrypt, pack, peaks } from "@/lib/audio/codec";
+import { canEncode, decodeFile, encode, encrypt, isCompressed, keepAsIs, pack, peaks } from "@/lib/audio/codec";
 import { clock } from "@/lib/audio/mixState";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
@@ -405,7 +405,7 @@ function Uploader({ projectId, versionId, start, t, onDone }: { projectId: strin
 
   const addFiles = (files: FileList | null) => {
     if (!files) return;
-    setItems((x) => [...x, ...[...files].filter((f) => /audio|wav|aiff|flac/i.test(f.type + f.name)).map((file) => ({ file, ...guess(file), step: "queued" as const, pct: 0 }))]);
+    setItems((x) => [...x, ...[...files].filter((f) => /audio|wav|aiff?|flac|mp3|m4a|aac|ogg|opus/i.test(f.type + f.name)).map((file) => ({ file, ...guess(file), step: "queued" as const, pct: 0 }))]);
   };
   const patch = (i: number, p: Partial<Item>) => setItems((x) => x.map((it, k) => (k === i ? { ...it, ...p } : it)));
 
@@ -419,7 +419,8 @@ function Uploader({ projectId, versionId, start, t, onDone }: { projectId: strin
         patch(i, { step: "decoding", pct: 0 });
         const pcm = await decodeFile(it.file);
         patch(i, { step: "encoding" });
-        const enc = await encode(pcm, (pct) => patch(i, { pct }));
+        // MP3 and other compressed files are kept as they are; WAV/AIFF/FLAC get compressed
+        const enc = isCompressed(it.file) ? await keepAsIs(it.file, pcm) : await encode(pcm, (pct) => patch(i, { pct }));
         const wave = peaks(pcm, 800);
         patch(i, { step: "encrypting", pct: 0 });
         const { cipher, key } = await encrypt(pack(enc));
@@ -475,7 +476,7 @@ function Uploader({ projectId, versionId, start, t, onDone }: { projectId: strin
         <button type="button" className="btn" onClick={() => input.current?.click()}>
           {p.chooseFiles}
         </button>
-        <input ref={input} type="file" accept="audio/*,.wav,.aif,.aiff,.flac" multiple hidden onChange={(e) => addFiles(e.target.files)} />
+        <input ref={input} type="file" accept="audio/*,.wav,.aif,.aiff,.flac,.mp3,.m4a,.aac,.ogg,.opus" multiple hidden onChange={(e) => addFiles(e.target.files)} />
       </div>
       {items.length > 0 && (
         <>
