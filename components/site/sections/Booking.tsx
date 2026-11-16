@@ -8,6 +8,7 @@ import { Words } from "@/components/motion/Words";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import styles from "./Booking.module.css";
 import shared from "./sections.module.css";
+import { Icon } from "@/components/ui/Icon";
 
 type State = "idle" | "sending" | "sent" | "error" | "not_configured";
 
@@ -101,7 +102,7 @@ export function Booking({ locale, t }: { locale: Locale; t: Dictionary }) {
 
           <div className={styles.actions}>
             <button type="submit" className="btn btn-red" disabled={state === "sending"}>
-              {state === "sending" ? b.sending : b.send}
+              {state === "sending" ? b.sending : <>{b.send} <Icon name="arrow-right" /></>}
             </button>
             <p role="status" aria-live="polite" className={`${styles.message} ${state === "sent" ? styles.ok : ""}`}>
               {message}

@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import styles from "./Hero.module.css";
 import { Parallax } from "./Parallax";
+import { Icon } from "@/components/ui/Icon";
 
 /**
  * The hero: his stage photo, full-bleed, with a warm haze (scripts/hero_edit.py),
@@ -30,10 +31,10 @@ export function Hero({ t }: { t: Dictionary }) {
           <div className={styles.row}>
             <div className={styles.ctas}>
               <a className="btn btn-red" href="#book">
-                {t.hero.book}
+                {t.hero.book} <Icon name="arrow-right" />
               </a>
               <a className="btn" href="#work">
-                {t.hero.hear}
+                {t.hero.hear} <Icon name="arrow-down" />
               </a>
             </div>
             <p className={styles.role}>

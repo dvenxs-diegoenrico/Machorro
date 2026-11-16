@@ -1,16 +1,15 @@
 import type { CSSProperties } from "react";
 import styles from "./Marquee.module.css";
+import { Icon } from "@/components/ui/Icon";
 
 /** A ticker band. Text repeats and scrolls; pauses on hover; static under reduced motion. */
 export function Marquee({
   items,
-  sep = "◆",
   reverse = false,
   seconds = 40,
   className = "",
 }: {
   items: readonly string[];
-  sep?: string;
   reverse?: boolean;
   seconds?: number;
   className?: string;
@@ -21,7 +20,7 @@ export function Marquee({
         items.map((item, i) => (
           <span key={`${n}-${i}`} className={styles.item}>
             {item}
-            <span className={styles.sep}>{sep}</span>
+            <span className={styles.sep}><Icon name="diamond" float={false} /></span>
           </span>
         )),
       )}
@@ -30,7 +29,7 @@ export function Marquee({
 
   return (
     <div className={`${styles.marquee} ${className}`}>
-      <p className="sr-only">{items.join(` ${sep} `)}</p>
+      <p className="sr-only">{items.join(" · ")}</p>
       <div
         className={styles.track}
         aria-hidden="true"

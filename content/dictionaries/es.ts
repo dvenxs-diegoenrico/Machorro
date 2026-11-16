@@ -32,7 +32,7 @@ export const es: Dictionary = {
     word: "Chorro",
     role: "músico, productor, ingeniero",
     book: "reserva una sesión",
-    hear: "escucha el trabajo ↓",
+    hear: "escucha el trabajo",
   },
   alt: {
     live01: "Chorro tocando una Stratocaster gastada con golpeador rojo bajo luces rojas",
@@ -76,17 +76,16 @@ export const es: Dictionary = {
     sub: "Canciones con mis panas, las más escuchadas primero.",
     caption: "Créditos, los más escuchados primero",
     filterLabel: "filtrar por rol",
-    chips: { all: "todo", gtr: "guitarra", prod: "productor", comp: "compositor", mix: "mezcla", eng: "ingeniero" },
+    chips: { all: "todo", gtr: "guitarra", prod: "productor", comp: "compositor", mix: "mezcla", eng: "ingeniero", multi: "varios roles" },
     coverAlt: "Portada de {title} de {artist}",
-    seeMore: "Ver todos los créditos →",
+    seeMore: "Ver todos los créditos",
     pageTitle: "Créditos — Daniel Chorro Machorro",
     pageDescription: "60+ créditos en línea: guitarra, producción, composición, mezcla e ingeniería para Teo, mattias, Matías Gruener, Moncho Berry y más.",
-    alsoWith: "Más canciones con:",
     cols: { art: "arte", cat: "cat", year: "año", artist: "artista", title: "título", role: "rol", listen: "escuchar" },
-    listen: "escuchar ↗",
+    listen: "escuchar",
     noLink: "[enlace]",
     empty: "todavía nada por aquí.",
-    muso: "créditos completos en muso.ai ↗",
+    muso: "créditos completos en muso.ai",
   },
   panas: {
     label: "la gente",
@@ -112,7 +111,7 @@ export const es: Dictionary = {
     headline: "Tres formas de tocar juntos.",
     body: "Todos con los que trabajo terminan siendo panas. Así empezamos casi siempre.",
     specs: { turnaround: "tiempo", delivery: "entrega", from: "desde" },
-    cta: "platiquemos →",
+    cta: "platiquemos",
     cards: [
       {
         title: "Sesión: guitarra en vivo, bajo, teclas y lo demás",
@@ -146,7 +145,7 @@ export const es: Dictionary = {
   cave: {
     kicker: "un estudio en miami, por daniel machorro",
     body: "Un cuarto con buen equipo, buena luz y un husky dormido en el piso. Ven a tocar.",
-    cta: "reserva el cuarto →",
+    cta: "reserva el cuarto",
     bandBottom: ["book the room", "reserva el cuarto"],
     specsLabel: "el cuarto",
     specs: [
@@ -189,16 +188,16 @@ export const es: Dictionary = {
       "el cuarto en la cueva de elvis",
       "todavía no sé",
     ],
-    send: "enviar →",
+    send: "enviar",
     sending: "enviando…",
     success: "Recibido. La escucho con calma y te escribo pronto.",
     error: "No se envió. Intenta de nuevo en un minuto.",
     notConfigured: "El formulario todavía no está conectado. Por ahora escribe a [correo de reservas].",
   },
-  strings: { hint: "toca una cuerda o escoge un acorde ♪", chords: "acordes", release: "soltar" },
+  strings: { hint: "toca una cuerda o escoge un acorde", chords: "acordes", release: "soltar" },
   footer: {
     handles: "encuéntranos",
-    clientLogin: "acceso panas →",
+    clientLogin: "acceso panas",
     credit: "sitio por Diego Enrico · Soluciones Creativas",
   },
 };

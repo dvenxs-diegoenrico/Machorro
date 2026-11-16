@@ -4,6 +4,7 @@ import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import styles from "./Sessions.module.css";
 import shared from "./sections.module.css";
+import { Icon } from "@/components/ui/Icon";
 
 export function Sessions({ locale, t }: { locale: Locale; t: Dictionary }) {
   const s = t.sessions;
@@ -44,7 +45,7 @@ export function Sessions({ locale, t }: { locale: Locale; t: Dictionary }) {
                   </div>
                 </dl>
                 <a className={`btn ${i === 0 ? "btn-red" : ""}`} href={`/${locale}#book`}>
-                  {s.cta}
+                  {s.cta} <Icon name="arrow-right" />
                 </a>
               </article>
             </li>

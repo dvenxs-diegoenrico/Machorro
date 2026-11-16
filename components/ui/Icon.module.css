@@ -1,0 +1,71 @@
+.icon {
+  display: inline-block;
+  flex: none;
+  width: 1.05em;
+  height: 1.05em;
+  vertical-align: -0.16em;
+  overflow: visible;
+}
+
+.icon path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.icon path.fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* the float: a slow bob, and a soft shadow underneath so it reads as lifted */
+@media (prefers-reduced-motion: no-preference) {
+  .float {
+    animation: bob 2.6s ease-in-out infinite;
+    filter: drop-shadow(0 3px 2px rgb(46 49 13 / 0.18));
+  }
+
+  /* hovering the button or link sends the icon its way */
+  :global(a):hover > .float,
+  :global(button):hover > .float {
+    animation-play-state: paused;
+    transition: transform 0.3s var(--ease-out);
+  }
+
+  :global(a):hover > .arrow-right,
+  :global(button):hover > .arrow-right {
+    transform: translateX(0.3em);
+  }
+
+  :global(a):hover > .arrow-down,
+  :global(button):hover > .arrow-down {
+    transform: translateY(0.3em);
+  }
+
+  :global(a):hover > .arrow-up-right,
+  :global(button):hover > .arrow-up-right {
+    transform: translate(0.22em, -0.22em);
+  }
+
+  :global(button):hover > .close {
+    transform: rotate(90deg);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.14em);
+  }
+}
+
+.diamond {
+  width: 0.55em;
+  height: 0.55em;
+  vertical-align: 0.1em;
+}

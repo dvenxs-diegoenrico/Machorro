@@ -30,7 +30,7 @@ export const en = {
     word: "Chorro",
     role: "performer, producer, engineer",
     book: "book a session",
-    hear: "hear the work ↓",
+    hear: "hear the work",
   },
   alt: {
     live01: "Chorro playing a worn Stratocaster with a red pickguard under red stage lights",
@@ -74,17 +74,16 @@ export const en = {
     sub: "Songs with my panas, most played first.",
     caption: "Credits, most played first",
     filterLabel: "filter by role",
-    chips: { all: "all", gtr: "guitar", prod: "producer", comp: "composer", mix: "mixing", eng: "engineer" },
+    chips: { all: "all", gtr: "guitar", prod: "producer", comp: "composer", mix: "mixing", eng: "engineer", multi: "various roles" },
     coverAlt: "Cover of {title} by {artist}",
-    seeMore: "See all credits →",
+    seeMore: "See all credits",
     pageTitle: "Credits — Daniel Chorro Machorro",
     pageDescription: "60+ credits online: guitar, production, composition, mixing and engineering for Teo, mattias, Matías Gruener, Moncho Berry and more.",
-    alsoWith: "More songs with:",
     cols: { art: "art", cat: "cat", year: "year", artist: "artist", title: "title", role: "role", listen: "listen" },
-    listen: "listen ↗",
+    listen: "listen",
     noLink: "[link]",
     empty: "nothing under this one yet.",
-    muso: "full credits on muso.ai ↗",
+    muso: "full credits on muso.ai",
   },
   panas: {
     label: "the people",
@@ -110,7 +109,7 @@ export const en = {
     headline: "Three ways to play together.",
     body: "Everyone I work with ends up a pana. This is how we usually start.",
     specs: { turnaround: "turnaround", delivery: "delivery", from: "from" },
-    cta: "let’s talk →",
+    cta: "let’s talk",
     cards: [
       {
         title: "Session: live guitar, bass, keys & the rest",
@@ -144,7 +143,7 @@ export const en = {
   cave: {
     kicker: "a miami studio, by daniel machorro",
     body: "A room with good gear, good light and a husky asleep on the floor. Come play.",
-    cta: "book the room →",
+    cta: "book the room",
     bandBottom: ["book the room", "reserva el cuarto"],
     specsLabel: "the room",
     specs: [
@@ -187,16 +186,16 @@ export const en = {
       "the room at elvis cave",
       "not sure yet",
     ],
-    send: "send it →",
+    send: "send it",
     sending: "sending…",
     success: "Got it. I’ll give it a proper listen and write back soon.",
     error: "That didn’t send. Try again in a minute.",
     notConfigured: "The form isn’t connected yet. Write to [booking email] for now.",
   },
-  strings: { hint: "tap a string or pick a chord ♪", chords: "chords", release: "let go" },
+  strings: { hint: "tap a string or pick a chord", chords: "chords", release: "let go" },
   footer: {
     handles: "find us",
-    clientLogin: "panas login →",
+    clientLogin: "panas login",
     credit: "site by Diego Enrico · Soluciones Creativas",
   },
 };

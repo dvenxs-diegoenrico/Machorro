@@ -9,6 +9,7 @@ import type { Dictionary } from "@/lib/i18n/dictionary";
 import { VideoEmbed } from "../VideoEmbed";
 import styles from "./Panas.module.css";
 import shared from "./sections.module.css";
+import { Icon } from "@/components/ui/Icon";
 
 const HASH = "#pana-";
 
@@ -96,7 +97,7 @@ export function Panas({ locale, t }: { locale: Locale; t: Dictionary }) {
                     {pana.media && <span className={styles.badge}>{p.media[pana.media.type]}</span>}
                   </span>
                   <span className={styles.arrow} aria-hidden="true">
-                    ↗
+                    <Icon name="arrow-up-right" />
                   </span>
                 </button>
               </li>
@@ -135,7 +136,7 @@ export function Panas({ locale, t }: { locale: Locale; t: Dictionary }) {
                 </h3>
               </div>
               <button type="button" className="btn" onClick={() => dialog.current?.close()}>
-                {p.close} ✕
+                {p.close} <Icon name="close" />
               </button>
             </header>
 
@@ -162,7 +163,7 @@ export function Panas({ locale, t }: { locale: Locale; t: Dictionary }) {
                     <blockquote>“{active.press.quote[locale]}”</blockquote>
                     <figcaption className="mono">
                       <a href={active.press.url} rel="noopener" target="_blank">
-                        {active.press.source} ↗
+                        {active.press.source} <Icon name="arrow-up-right" />
                       </a>
                     </figcaption>
                   </figure>
@@ -187,7 +188,7 @@ export function Panas({ locale, t }: { locale: Locale; t: Dictionary }) {
                       {p.more}:{" "}
                       {active.more.map((url, i) => (
                         <a key={url} href={url} rel="noopener" target="_blank">
-                          {String(i + 2).padStart(2, "0")} ↗
+                          {String(i + 2).padStart(2, "0")} <Icon name="arrow-up-right" />
                         </a>
                       ))}
                     </p>

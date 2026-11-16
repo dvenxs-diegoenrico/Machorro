@@ -6,17 +6,18 @@ import { useState, type CSSProperties } from "react";
 import { Vinyl } from "@/components/motion/graphics/Vinyl";
 import { Words } from "@/components/motion/Words";
 import credits from "@/content/credits.json";
-import { moreArtists } from "@/content/credits.more";
 import { siteConfig } from "@/content/site.config";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import styles from "./Ledger.module.css";
 import shared from "./sections.module.css";
+import { Icon } from "@/components/ui/Icon";
 
 const ROLES = ["all", "gtr", "prod", "comp", "mix", "eng"] as const;
 type Role = (typeof ROLES)[number];
 /** rows on the home page */
 const PREVIEW = 8;
+
 
 /**
  * Credits treated as data: catalogue numbers, one row per song, most played first.
@@ -105,17 +106,17 @@ export function Ledger({ t, locale, variant = "preview" }: { t: Dictionary; loca
                     )}
                   </td>
                   <td className={`mono ${styles.cat}`}>{row.cat}</td>
-                  <td className={`mono ${styles.year}`}>{row.year}</td>
+                  <td className={`mono ${styles.year}`}>{row.year || "—"}</td>
                   <td className={styles.artist}>{row.artist}</td>
                   <td className={styles.title}>{row.title}</td>
                   <td className={`mono ${styles.roles}`}>
-                    {row.roles.map((r) => l.chips[r as Role]).join(" · ")}
+                    {row.roles.map((r) => (l.chips as Record<string, string>)[r] ?? r).join(" · ")}
                   </td>
                   {hasLinks && (
                     <td className={`mono ${styles.listen}`}>
                       {row.listen && (
                         <a href={row.listen} rel="noopener">
-                          {l.listen}
+                          {l.listen} <Icon name="arrow-up-right" />
                         </a>
                       )}
                     </td>
@@ -129,20 +130,16 @@ export function Ledger({ t, locale, variant = "preview" }: { t: Dictionary; loca
 
         {!full && (
           <Link href={`/${locale}/credits`} className={`btn btn-red ${styles.more}`}>
-            {l.seeMore}
+            {l.seeMore} <Icon name="arrow-right" />
           </Link>
         )}
 
-        {full && (
-          <p className={styles.also}>
-            <span className="caps">{l.alsoWith}</span> {moreArtists.join(" · ")}
-          </p>
-        )}
+
 
         {siteConfig.musoUrl && (
           <p className={`mono ${styles.muso}`}>
             <a href={siteConfig.musoUrl} rel="noopener">
-              {l.muso}
+              {l.muso} <Icon name="arrow-up-right" />
             </a>
           </p>
         )}

@@ -5,6 +5,7 @@ import { siteConfig } from "@/content/site.config";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import styles from "./Footer.module.css";
+import { Icon } from "@/components/ui/Icon";
 
 export function Footer({ locale, t }: { locale: Locale; t: Dictionary }) {
   return (
@@ -21,7 +22,7 @@ export function Footer({ locale, t }: { locale: Locale; t: Dictionary }) {
           ))}
         </ul>
         <Link href={`/${locale}/sessions`} prefetch={false} className={`caps ${styles.login}`}>
-          {t.footer.clientLogin}
+          {t.footer.clientLogin} <Icon name="arrow-right" />
         </Link>
       </div>
       <p className={styles.giant} data-reveal="mask">

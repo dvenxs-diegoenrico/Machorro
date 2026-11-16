@@ -6,6 +6,7 @@ import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import { Marquee } from "../Marquee";
 import styles from "./Cave.module.css";
+import { Icon } from "@/components/ui/Icon";
 
 /** Elvis Cave, poster mode, Night theme. */
 export function Cave({ locale, t }: { locale: Locale; t: Dictionary }) {
@@ -54,7 +55,7 @@ export function Cave({ locale, t }: { locale: Locale; t: Dictionary }) {
             </div>
             <p>{t.cave.body}</p>
             <a className="btn btn-red" href={`/${locale}#book`}>
-              {t.cave.cta}
+              {t.cave.cta} <Icon name="arrow-right" />
             </a>
           </div>
         </div>

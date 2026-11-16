@@ -4,6 +4,7 @@ import { useEffect, useRef, type CSSProperties } from "react";
 import { CHORDS, heldChord, holdChord, NECK_FRETS, stringPitch, useHeldChord, type Chord } from "@/lib/audio/chords";
 import { isUnlocked, pluck, STANDARD_TUNING, unlock } from "@/lib/audio/pluck";
 import styles from "./SixStringRule.module.css";
+import { Icon } from "@/components/ui/Icon";
 
 const REST = "M0 8 L1000 8";
 const STRINGS = [0, 1, 2, 3, 4, 5]; // top (thick, low E) to bottom (thin, high E)
@@ -195,7 +196,7 @@ export function SixStringRule({ hint, chords }: { hint?: string; chords?: { labe
           </div>
         )}
 
-        {hint && !chords && <span className={`caps ${styles.hint}`}>{hint}</span>}
+        {hint && !chords && <span className={`caps ${styles.hint}`}>{hint} <Icon name="note" /></span>}
       </div>
 
       {chords && (
@@ -217,7 +218,7 @@ export function SixStringRule({ hint, chords }: { hint?: string; chords?: { labe
               {chords.release}
             </button>
           )}
-          {hint && <span className={`caps ${styles.chordHint}`}>{hint}</span>}
+          {hint && <span className={`caps ${styles.chordHint}`}>{hint} <Icon name="note" /></span>}
         </div>
       )}
     </div>
