@@ -1,0 +1,496 @@
+/* The console. Night theme: olive ground, cream ink. Mute lights red, solo lights blue. */
+
+.console {
+  --played: #e8394f;
+  --rest: #5d6133;
+  padding: clamp(6.5rem, 10vw, 8rem) var(--gutter) 3rem;
+  min-height: 100vh;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.console textarea {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.wait,
+.error {
+  padding: 10rem var(--gutter) 6rem;
+  font-weight: 800;
+  font-stretch: 70%;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+}
+
+/* ── top bar ───────────────────────── */
+.top {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.back {
+  justify-self: start;
+  color: var(--ink-muted);
+  text-decoration: none;
+  min-height: 32px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1rem;
+}
+
+.title {
+  font-size: clamp(2rem, 5vw, 3.6rem);
+}
+
+.artist {
+  color: var(--ink-muted);
+}
+
+.cat {
+  color: var(--elvis-red);
+}
+
+.lock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  margin-left: auto;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--rule);
+  color: var(--ink-muted);
+}
+
+.versions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pill {
+  min-height: 38px;
+  padding-inline: 1rem;
+  --btn-line: var(--rule);
+}
+
+.pill[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--ground);
+}
+
+.demo {
+  color: var(--electric);
+}
+
+/* ── waveform ──────────────────────── */
+.wave {
+  position: relative;
+  height: clamp(90px, 12vw, 150px);
+  background: var(--surface);
+  cursor: pointer;
+  touch-action: none;
+}
+
+.wave:focus-visible {
+  outline: 2px solid var(--electric);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.head {
+  position: absolute;
+  top: -6px;
+  bottom: -6px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--ink);
+  pointer-events: none;
+}
+
+.loop {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgb(90 169 255 / 0.18);
+  border-inline: 2px solid var(--electric);
+  pointer-events: none;
+}
+
+.marker {
+  position: absolute;
+  bottom: -7px;
+  width: 12px;
+  height: 12px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background: var(--electric);
+  box-shadow: 0 0 0 2px var(--ground);
+}
+
+.markerDone {
+  background: var(--ink-muted);
+}
+
+/* ── transport ─────────────────────── */
+.transport {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.play {
+  width: 56px;
+  min-height: 56px;
+  padding: 0;
+  font-size: 1.2rem;
+}
+
+.open:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.clock {
+  font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.modes {
+  display: inline-flex;
+  border: 1.5px solid var(--ink);
+}
+
+.modes button {
+  min-height: 42px;
+  padding: 0 1rem;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 700;
+  font-stretch: 75%;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.modes button + button {
+  border-left: 1.5px solid var(--ink);
+}
+
+.modes button[aria-checked="true"] {
+  background: var(--ink);
+  color: var(--ground);
+}
+
+.modes button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.clearLoop {
+  min-height: 40px;
+  border: 0;
+  background: none;
+  color: var(--electric);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+.note {
+  margin-top: 0.75rem;
+  color: var(--ink-muted);
+}
+
+/* ── mixer + comments ──────────────── */
+.body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  align-items: start;
+}
+
+.mixer {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  transition: opacity 0.3s;
+}
+
+.dim .strip:not(.masterStrip) {
+  opacity: 0.4;
+}
+
+.strip {
+  flex: none;
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  width: 86px;
+  padding: 0.75rem 0.4rem;
+  background: var(--surface);
+  border-top: 3px solid var(--rule);
+}
+
+.strip:focus-visible {
+  outline: 2px solid var(--electric);
+}
+
+.masterStrip {
+  margin-left: auto;
+  border-top-color: var(--elvis-red);
+  position: sticky;
+  right: 0;
+}
+
+.stripName {
+  width: 100%;
+  font-weight: 700;
+  font-stretch: 75%;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.knob {
+  position: relative;
+  width: 40px;
+  height: 52px;
+  display: grid;
+  justify-items: center;
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+.knob:focus-visible {
+  outline: 2px solid var(--electric);
+  outline-offset: 2px;
+}
+
+.knobFace {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--ink-muted);
+  background: var(--ground);
+  rotate: var(--rot);
+  position: relative;
+}
+
+.knobFace::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 3px;
+  width: 2px;
+  height: 11px;
+  margin-left: -1px;
+  background: var(--ink);
+}
+
+.knobText {
+  font-size: 0.65rem;
+  color: var(--ink-muted);
+}
+
+.knobSpace {
+  height: 52px;
+}
+
+.ms {
+  display: flex;
+  gap: 4px;
+}
+
+.m,
+.s {
+  width: 32px;
+  height: 30px;
+  border: 1.5px solid var(--ink-muted);
+  background: none;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* visibly loud states */
+.m[aria-pressed="true"] {
+  background: var(--elvis-red);
+  border-color: var(--elvis-red);
+  color: var(--cream);
+}
+
+.s[aria-pressed="true"] {
+  background: var(--electric);
+  border-color: var(--electric);
+  color: var(--olive);
+}
+
+.faderRow {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  height: 180px;
+}
+
+.fader {
+  writing-mode: vertical-lr;
+  direction: rtl;
+  width: 28px;
+  height: 100%;
+  margin: 0;
+  accent-color: var(--cream);
+  cursor: ns-resize;
+}
+
+.meter {
+  position: relative;
+  width: 8px;
+  height: 100%;
+  background: var(--ground);
+  overflow: hidden;
+}
+
+.meter > span {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 100%;
+  transform: scaleY(0);
+  background: linear-gradient(to top, #8fbf5a 0 70%, #e0c34a 70% 88%, var(--elvis-red) 88%);
+}
+
+.db {
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-muted);
+}
+
+.comments {
+  background: var(--surface);
+  padding: 1rem;
+}
+
+.h2 {
+  color: var(--ink-muted);
+  margin-bottom: 0.75rem;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.list li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.6rem;
+  align-items: start;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.empty {
+  display: block !important;
+  color: var(--ink-muted);
+}
+
+.resolved {
+  opacity: 0.5;
+}
+
+.at {
+  min-height: 28px;
+  padding: 0 0.4rem;
+  border: 1px solid var(--electric);
+  background: none;
+  color: var(--electric);
+  cursor: pointer;
+}
+
+.who {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+}
+
+.resolve {
+  border: 0;
+  background: none;
+  color: var(--ink-muted);
+  cursor: pointer;
+  font-size: 0.7rem;
+}
+
+.add {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+
+.add textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid var(--rule);
+  background: var(--ground);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+  resize: vertical;
+}
+
+.add .caps {
+  color: var(--ink-muted);
+}
+
+.add button {
+  justify-self: start;
+}
+
+.keys {
+  margin-top: 1.5rem;
+  color: var(--ink-muted);
+}
+
+@media (max-width: 900px) {
+  .body {
+    grid-template-columns: 1fr;
+  }
+
+  .lock {
+    margin-left: 0;
+  }
+
+  .faderRow {
+    height: 140px;
+  }
+}

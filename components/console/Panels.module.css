@@ -1,0 +1,277 @@
+/* Login, sessions list and the producer panel. Night theme. */
+
+.narrow,
+.wide {
+  padding: clamp(7rem, 12vw, 9rem) var(--gutter) 4rem;
+}
+
+.narrow {
+  max-width: 34rem;
+  display: grid;
+  gap: 1.25rem;
+  align-content: start;
+}
+
+.wide {
+  max-width: var(--max);
+  margin-inline: auto;
+}
+
+.h1 {
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+}
+
+.h2 {
+  margin: 2rem 0 0.75rem;
+  color: var(--ink-muted);
+}
+
+.h3 {
+  width: 100%;
+  color: var(--ink-muted);
+}
+
+.lead {
+  color: var(--ink-muted);
+  max-width: 46ch;
+}
+
+.ok {
+  font-weight: 800;
+  font-stretch: 70%;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.err,
+.errText {
+  color: #ff8a8f;
+}
+
+.form {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.form input,
+.inline input,
+.inline select,
+.queue input,
+.queue select {
+  min-height: 46px;
+  padding: 0 0.8rem;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px;
+}
+
+.form button {
+  justify-self: start;
+}
+
+.headRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-left: auto;
+}
+
+.backLink {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  color: var(--ink-muted);
+  text-decoration: none;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0;
+}
+
+.card {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.25rem;
+  background: var(--surface);
+  text-decoration: none;
+  border-top: 3px solid var(--elvis-red);
+  transition: transform 0.25s var(--ease-out);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.cat {
+  color: var(--elvis-red);
+}
+
+.cardTitle {
+  font-weight: 800;
+  font-stretch: 70%;
+  font-size: 1.8rem;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.cardArtist,
+.muted {
+  color: var(--ink-muted);
+}
+
+.cols {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  gap: 2.5rem;
+}
+
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.rows li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.rowMain {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
+.inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.inline input {
+  flex: 1 1 10rem;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pills :global(.btn)[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--ground);
+}
+
+.tag {
+  font-size: 0.68rem;
+  padding: 0.1rem 0.4rem;
+  border: 1px solid currentColor;
+  color: var(--ink-muted);
+  margin-left: 0.4rem;
+}
+
+.small {
+  min-height: 36px;
+  padding-inline: 0.8rem;
+  font-size: 0.75rem;
+}
+
+.log {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+  display: grid;
+  gap: 0.3rem;
+}
+
+.upload {
+  margin-top: 1rem;
+}
+
+.drop {
+  display: grid;
+  justify-items: start;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  border: 1.5px dashed var(--rule);
+  font-size: 1.4rem;
+}
+
+.drop p {
+  font-size: 0.95rem;
+  color: var(--ink-muted);
+  max-width: 52ch;
+}
+
+.dropOver {
+  border-color: var(--electric);
+  background: rgb(90 169 255 / 0.08);
+}
+
+.queue {
+  list-style: none;
+  margin: 1rem 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.queue li {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) auto auto;
+  gap: 0.4rem 0.5rem;
+}
+
+.step {
+  grid-column: 1 / -1;
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+}
+
+.bar {
+  grid-column: 1 / -1;
+  height: 3px;
+  background: var(--rule);
+  overflow: hidden;
+}
+
+.bar > span {
+  display: block;
+  height: 100%;
+  background: var(--elvis-red);
+  transform-origin: 0 50%;
+  transition: transform 0.2s;
+}
+
+@media (max-width: 900px) {
+  .cols {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    margin-left: 0;
+  }
+}

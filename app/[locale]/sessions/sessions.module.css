@@ -1,0 +1,14 @@
+/* On the private side the whole page is dark, so the site header switches to the night colours. */
+.root {
+  min-height: 100vh;
+}
+
+:global(body):has(.root) > :global(header) {
+  --ground: #2e310d;
+  --surface: #3b3e17;
+  --ink: #efebdd;
+  --ink-muted: #c4c19c;
+  --rule: #4f5226;
+  color: var(--ink);
+  background: var(--ground);
+}
