@@ -41,3 +41,10 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* a quiet footnote, not a headline */
+.school {
+  margin-top: 1.25rem;
+  color: var(--ink-muted);
+  max-width: 46ch;
+}

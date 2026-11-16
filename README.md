@@ -18,7 +18,8 @@ npm run typecheck
 - `styles/motion.css` — the motion system: enter, loop and touch animations (used via `data-reveal`), the liquid blobs and the liquid-screen ripples
 - `scripts/caustic.py` — generates the liquid-screen textures (inlined in `styles/motion.css`)
 - `scripts/hero_edit.py` — the hero photo edit (haze, olive blacks)
-- `content/credits.json` — rows for the credits ledger
+- `content/credits.json` — the credits ledger, most played first (from Dani's Muso profile); `content/credits.more.ts` lists more artists
+- `public/assets/live`, `public/assets/studio`, `public/assets/panas/<slug>` — photos (resized, metadata stripped)
 - `content/panas.ts` — the panas: bands and artists, their photos, Dani's story and one video each
 - `content/site.config.ts` — ticker, booking month, handles
 - `content/dictionaries/` — English and Spanish copy

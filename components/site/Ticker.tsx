@@ -14,6 +14,7 @@ export function Ticker({ locale, t }: { locale: Locale; t: Dictionary }) {
     t.ticker.where,
     t.ticker.vibe,
     t.ticker.panas,
+    t.ticker.credits,
     bookingOpen ? t.ticker.open : t.ticker.full,
   ];
 

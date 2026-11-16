@@ -7,10 +7,14 @@ import shared from "./sections.module.css";
 
 export function Guitar({ t }: { t: Dictionary }) {
   const photos = [
-    { src: "/assets/hands-acoustic.jpg", alt: t.alt.handsAcoustic, w: 528, h: 378 },
-    { src: "/assets/lespaul-blur.jpg", alt: t.alt.lespaulBlur, w: 528, h: 653 },
-    { src: "/assets/stage-strat.jpg", alt: t.alt.stageStrat, w: 527, h: 653 },
-    { src: "/assets/bw-live.jpg", alt: t.alt.bwLive, w: 527, h: 593 },
+    { src: "/assets/live/live-01.jpg", alt: t.alt.live01, w: 724, h: 1086 },
+    { src: "/assets/studio/studio-02.jpg", alt: t.alt.session01, w: 768, h: 1024 },
+    { src: "/assets/live/live-02.jpg", alt: t.alt.live02, w: 724, h: 1086 },
+    { src: "/assets/live/live-03.jpg", alt: t.alt.live03, w: 724, h: 1086 },
+    { src: "/assets/studio/studio-03.jpg", alt: t.alt.session02, w: 768, h: 1024 },
+    { src: "/assets/live/live-04.jpg", alt: t.alt.live04, w: 724, h: 1086 },
+    { src: "/assets/live/live-05.jpg", alt: t.alt.live05, w: 768, h: 1024 },
+    { src: "/assets/live/live-06.jpg", alt: t.alt.live06, w: 724, h: 1086 },
   ];
 
   return (
@@ -26,6 +30,9 @@ export function Guitar({ t }: { t: Dictionary }) {
           </h2>
           <p className={shared.body} data-reveal="rise" style={{ "--i": 2 } as CSSProperties}>
             {t.guitar.body}
+          </p>
+          <p className={`mono ${styles.school}`} data-reveal="rise" style={{ "--i": 3 } as CSSProperties}>
+            {t.guitar.school}
           </p>
         </div>
 

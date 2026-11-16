@@ -18,12 +18,6 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   if (!isLocale(locale)) notFound();
   const t = getDictionary(locale);
 
-  const artAlt = {
-    "chr-001": t.alt.artLayItAll,
-    "chr-002": t.alt.artSerDeMi,
-    "chr-003": t.alt.artBabyComeOn,
-    "chr-004": t.alt.artAquiEstoy,
-  };
 
   const Rule = ({ hint }: { hint?: boolean }) => (
     <div className="wrap">
@@ -40,7 +34,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       <Ticker locale={locale} t={t} />
       <Guitar t={t} />
       <Rule hint />
-      <Ledger t={t} artAlt={artAlt} />
+      <Ledger t={t} />
       <Panas locale={locale} t={t} />
       <Statement t={t} />
       <Sessions locale={locale} t={t} />

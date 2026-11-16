@@ -10,10 +10,10 @@ import styles from "./Cave.module.css";
 /** Elvis Cave, poster mode, Night theme. */
 export function Cave({ locale, t }: { locale: Locale; t: Dictionary }) {
   const photos = [
+    { src: "/assets/studio/studio-01.jpg", alt: t.alt.elvisGuitar, w: 768, h: 1024 },
     { src: "/assets/gear-room.jpg", alt: t.alt.gearRoom, w: 528, h: 654 },
     { src: "/assets/api-lamp.jpg", alt: t.alt.apiLamp, w: 528, h: 653 },
     { src: "/assets/big-room.jpg", alt: t.alt.bigRoom, w: 529, h: 654 },
-    { src: "/assets/hands-acoustic.jpg", alt: t.alt.handsAcoustic, w: 528, h: 378 },
   ];
 
   return (
