@@ -269,5 +269,269 @@
     ],
     "art": null,
     "listen": null
+  },
+  {
+    "cat": "chr-025",
+    "year": "",
+    "artist": "Tufic, Dstance",
+    "title": "Como Si Fuera La Primera Vez",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/como-si-fuera.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-026",
+    "year": "",
+    "artist": "Felicity Paige",
+    "title": "Attention Seeker",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/attention-seeker.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-027",
+    "year": "",
+    "artist": "Felicity Paige",
+    "title": "Strange Feeling",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/strange-feeling.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-028",
+    "year": "",
+    "artist": "Felicity Paige",
+    "title": "THE LIST",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/the-list.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-029",
+    "year": "",
+    "artist": "SOLO LO",
+    "title": "medicine",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/medicine.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-030",
+    "year": "",
+    "artist": "SOLO LO",
+    "title": "miento",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/miento.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-031",
+    "year": "",
+    "artist": "SOLO LO",
+    "title": "aquí estoy",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/aqui-estoy.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-032",
+    "year": "",
+    "artist": "SOLO LO",
+    "title": "volveré",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/volvere.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-033",
+    "year": "",
+    "artist": "SOLO LO",
+    "title": "interlude",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/interlude.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-034",
+    "year": "",
+    "artist": "Teo",
+    "title": "Nada Es Para Siempre",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/nada-es-para-siempre.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-035",
+    "year": "",
+    "artist": "Teo",
+    "title": "Tu Recuerdo",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/tu-recuerdo.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-036",
+    "year": "",
+    "artist": "Teo",
+    "title": "Que te faltó",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/que-te-falto.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-037",
+    "year": "",
+    "artist": "Teo",
+    "title": "Quiero Más",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/quiero-mas.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-038",
+    "year": "",
+    "artist": "Teo",
+    "title": "Ser De Mi",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/ser-de-mi.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-039",
+    "year": "",
+    "artist": "Matías Gruener",
+    "title": "Llévame",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/llevame.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-040",
+    "year": "",
+    "artist": "Matías Gruener",
+    "title": "Pa Mis Homies",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/pa-mis-homies.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-041",
+    "year": "",
+    "artist": "Alessandra Aguirre",
+    "title": "Tell Me",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/tell-me.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-042",
+    "year": "",
+    "artist": "Alessandra Aguirre",
+    "title": "Call out My Name",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/call-out-my-name.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-043",
+    "year": "",
+    "artist": "Alessandra Aguirre",
+    "title": "Contravía",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/contravia.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-044",
+    "year": "",
+    "artist": "Moncho Berry",
+    "title": "Solito",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/solito.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-045",
+    "year": "",
+    "artist": "Moncho Berry",
+    "title": "Por Las Tardes",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/por-las-tardes.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-046",
+    "year": "",
+    "artist": "Moncho Berry",
+    "title": "Moon",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/moon.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-047",
+    "year": "",
+    "artist": "mattias",
+    "title": "Whole Lotta",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/whole-lotta.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-048",
+    "year": "",
+    "artist": "mattias",
+    "title": "Up Again",
+    "roles": [
+      "multi"
+    ],
+    "art": "/assets/credits/up-again.jpg",
+    "listen": null
   }
 ]
