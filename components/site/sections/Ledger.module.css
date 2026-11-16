@@ -160,3 +160,37 @@
   .roles { grid-area: roles; }
   .listen { grid-area: listen; text-align: right; }
 }
+
+.sub {
+  margin-top: 1rem;
+  color: var(--ink-muted);
+  max-width: 40ch;
+}
+
+.noArt {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  background: var(--ink);
+  color: var(--ground);
+  font-weight: 800;
+  font-stretch: 70%;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+}
+
+.more {
+  margin-top: 1.25rem;
+}
+
+.also {
+  margin-top: 1.5rem;
+  max-width: 70ch;
+  color: var(--ink-muted);
+}
+
+.also :global(.caps) {
+  color: var(--ink);
+  margin-right: 0.4em;
+}

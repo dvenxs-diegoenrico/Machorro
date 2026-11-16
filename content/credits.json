@@ -1,6 +1,273 @@
 [
-  { "cat": "chr-001", "year": "[year]", "artist": "[artist]", "title": "Lay It All", "roles": ["gtr", "prod"], "art": "/assets/art-layitall.jpg", "listen": null },
-  { "cat": "chr-002", "year": "[year]", "artist": "[artist]", "title": "Ser de Mí", "roles": ["gtr", "keys"], "art": "/assets/art-serdemi.jpg", "listen": null },
-  { "cat": "chr-003", "year": "[year]", "artist": "[artist]", "title": "Baby Come On", "roles": ["gtr", "bass"], "art": "/assets/art-babycomeon.jpg", "listen": null },
-  { "cat": "chr-004", "year": "[year]", "artist": "[artist]", "title": "Aquí Estoy", "roles": ["prod", "gtr"], "art": "/assets/art-aquiestoy.jpg", "listen": null }
+  {
+    "cat": "chr-001",
+    "year": "2026",
+    "artist": "Matías Gruener",
+    "title": "Mi Mejor Arma",
+    "roles": [
+      "eng"
+    ],
+    "art": "/assets/credits/mi-mejor-arma.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-002",
+    "year": "2026",
+    "artist": "Matías Gruener",
+    "title": "Funk Love",
+    "roles": [
+      "eng"
+    ],
+    "art": "/assets/credits/funk-love.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-003",
+    "year": "2026",
+    "artist": "TEO",
+    "title": "Falta Por Vivir",
+    "roles": [
+      "comp",
+      "prod"
+    ],
+    "art": null,
+    "listen": null
+  },
+  {
+    "cat": "chr-004",
+    "year": "2026",
+    "artist": "TEO",
+    "title": "Pálpitos",
+    "roles": [
+      "mix"
+    ],
+    "art": "/assets/credits/palpitos.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-005",
+    "year": "2026",
+    "artist": "Matías Gruener",
+    "title": "Hogar Emocional",
+    "roles": [
+      "eng"
+    ],
+    "art": "/assets/credits/hogar-emocional.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-006",
+    "year": "2026",
+    "artist": "Matías Gruener",
+    "title": "Que Se Sienta",
+    "roles": [
+      "eng"
+    ],
+    "art": "/assets/credits/que-se-sienta.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-007",
+    "year": "2024",
+    "artist": "mattias",
+    "title": "Friendly Fire",
+    "roles": [
+      "comp"
+    ],
+    "art": "/assets/credits/friendly-fire.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-008",
+    "year": "2024",
+    "artist": "mattias",
+    "title": "Reason",
+    "roles": [
+      "comp"
+    ],
+    "art": "/assets/credits/reason.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-009",
+    "year": "2023",
+    "artist": "mattias",
+    "title": "Jamie’s Interlude (Crying Smiles)",
+    "roles": [
+      "comp"
+    ],
+    "art": "/assets/credits/jamies-interlude.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-010",
+    "year": "2025",
+    "artist": "mattias",
+    "title": "Odds In Favor",
+    "roles": [
+      "comp",
+      "gtr"
+    ],
+    "art": "/assets/credits/odds-in-favor.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-011",
+    "year": "2024",
+    "artist": "Alessandra Aguirre, Christian Pagán",
+    "title": "Fantasmas",
+    "roles": [
+      "gtr"
+    ],
+    "art": "/assets/credits/fantasmas.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-012",
+    "year": "2024",
+    "artist": "mattias",
+    "title": "Can You Feel It?",
+    "roles": [
+      "comp"
+    ],
+    "art": "/assets/credits/can-you-feel-it.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-013",
+    "year": "2023",
+    "artist": "mattias",
+    "title": "Paper Checks",
+    "roles": [
+      "comp"
+    ],
+    "art": "/assets/credits/paper-checks.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-014",
+    "year": "2023",
+    "artist": "Gustavo Moses",
+    "title": "This Fever",
+    "roles": [
+      "gtr"
+    ],
+    "art": "/assets/credits/this-fever.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-015",
+    "year": "2025",
+    "artist": "mattias",
+    "title": "Sweet Tooth",
+    "roles": [
+      "comp",
+      "prod"
+    ],
+    "art": "/assets/credits/sweet-tooth.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-016",
+    "year": "2022",
+    "artist": "Sebas Zúñiga, Fawke Beats",
+    "title": "Con Sabrosura",
+    "roles": [
+      "gtr"
+    ],
+    "art": "/assets/credits/con-sabrosura.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-017",
+    "year": "2025",
+    "artist": "mattias",
+    "title": "Everlasting View",
+    "roles": [
+      "comp",
+      "prod"
+    ],
+    "art": "/assets/credits/everlasting-view.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-018",
+    "year": "2026",
+    "artist": "Zesi",
+    "title": "VOODOO",
+    "roles": [
+      "gtr"
+    ],
+    "art": "/assets/credits/voodoo.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-019",
+    "year": "2026",
+    "artist": "Teo",
+    "title": "NO TIENE FORMA",
+    "roles": [
+      "comp",
+      "prod"
+    ],
+    "art": null,
+    "listen": null
+  },
+  {
+    "cat": "chr-020",
+    "year": "2026",
+    "artist": "Teo",
+    "title": "Tal Vez",
+    "roles": [
+      "mix",
+      "gtr"
+    ],
+    "art": "/assets/credits/tal-vez.jpg",
+    "listen": null
+  },
+  {
+    "cat": "chr-021",
+    "year": "2026",
+    "artist": "Teo",
+    "title": "desaparecer-t",
+    "roles": [
+      "comp",
+      "prod"
+    ],
+    "art": null,
+    "listen": null
+  },
+  {
+    "cat": "chr-022",
+    "year": "2026",
+    "artist": "Teo",
+    "title": "LA",
+    "roles": [
+      "mix"
+    ],
+    "art": null,
+    "listen": null
+  },
+  {
+    "cat": "chr-023",
+    "year": "2026",
+    "artist": "Teo",
+    "title": "Still Alive",
+    "roles": [
+      "mix"
+    ],
+    "art": null,
+    "listen": null
+  },
+  {
+    "cat": "chr-024",
+    "year": "2026",
+    "artist": "Teo",
+    "title": "Before it ends",
+    "roles": [
+      "mix"
+    ],
+    "art": null,
+    "listen": null
+  }
 ]
