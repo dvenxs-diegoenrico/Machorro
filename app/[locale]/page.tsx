@@ -34,7 +34,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       <Ticker locale={locale} t={t} />
       <Guitar t={t} />
       <Rule hint />
-      <Ledger t={t} />
+      <Ledger t={t} locale={locale} />
       <Panas locale={locale} t={t} />
       <Statement t={t} />
       <Sessions locale={locale} t={t} />

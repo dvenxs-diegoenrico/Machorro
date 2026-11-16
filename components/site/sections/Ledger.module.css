@@ -194,3 +194,12 @@
   color: var(--ink);
   margin-right: 0.4em;
 }
+
+/* the credits page: room for the header that sits on top */
+.fullPage {
+  padding-top: clamp(8rem, 14vw, 11rem);
+}
+
+.more {
+  display: inline-flex;
+}

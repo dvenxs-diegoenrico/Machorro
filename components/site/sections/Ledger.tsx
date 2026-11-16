@@ -1,49 +1,59 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState, type CSSProperties } from "react";
 import { Vinyl } from "@/components/motion/graphics/Vinyl";
 import { Words } from "@/components/motion/Words";
 import credits from "@/content/credits.json";
 import { moreArtists } from "@/content/credits.more";
 import { siteConfig } from "@/content/site.config";
+import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
 import styles from "./Ledger.module.css";
 import shared from "./sections.module.css";
 
 const ROLES = ["all", "gtr", "prod", "comp", "mix", "eng"] as const;
 type Role = (typeof ROLES)[number];
-/** rows shown before "show all" */
-const FIRST = 10;
+/** rows on the home page */
+const PREVIEW = 8;
 
-/** Credits treated as data: catalogue numbers, filter chips, one row per song, most played first. */
-export function Ledger({ t }: { t: Dictionary }) {
+/**
+ * Credits treated as data: catalogue numbers, one row per song, most played first.
+ * "preview" (home page): the top rows and a link to the credits page.
+ * "full" (credits page): every row, with role filters and the list of more artists.
+ */
+export function Ledger({ t, locale, variant = "preview" }: { t: Dictionary; locale: Locale; variant?: "preview" | "full" }) {
+  const full = variant === "full";
   const [role, setRole] = useState<Role>("all");
-  const [all, setAll] = useState(false);
   const matched = credits.filter((c) => role === "all" || c.roles.includes(role));
-  const rows = all ? matched : matched.slice(0, FIRST);
+  const rows = full ? matched : matched.slice(0, PREVIEW);
+  const Heading = full ? "h1" : "h2";
+  // on the credits page the top of the page is there at once; reveals are for scrolling into
+  const reveal = (kind: string) => (full ? undefined : kind);
   const hasLinks = credits.some((c) => c.listen);
   const c = t.ledger.cols;
   const l = t.ledger;
 
   return (
-    <section id="work" className={shared.section}>
+    <section id={full ? "credits" : "work"} className={`${shared.section} ${full ? styles.fullPage : ""}`}>
       <div className="wrap">
         <div className={styles.head}>
           <div>
-            <p className={`caps ${shared.label}`} data-reveal="rise">
+            <p className={`caps ${shared.label}`} data-reveal={reveal("rise")}>
               {l.label}
             </p>
-            <h2 className={shared.headline} data-reveal="mask">
+            <Heading className={shared.headline} data-reveal={reveal("mask")}>
               <Words text={l.headline} />
-            </h2>
-            <p className={styles.sub} data-reveal="rise">
+            </Heading>
+            <p className={styles.sub} data-reveal={reveal("rise")}>
               {l.sub}
             </p>
           </div>
-          <div className={styles.vinyl} data-reveal="slide-right">
+          <div className={styles.vinyl} data-reveal={reveal("slide-right")}>
             <Vinyl label={rows[0]?.cat ?? "chr"} />
           </div>
+          {full && (
           <div className={styles.chips} role="group" aria-label={l.filterLabel}>
             {ROLES.map((r) => (
               <button
@@ -57,6 +67,7 @@ export function Ledger({ t }: { t: Dictionary }) {
               </button>
             ))}
           </div>
+          )}
         </div>
 
         <div data-reveal="rows">
@@ -76,7 +87,7 @@ export function Ledger({ t }: { t: Dictionary }) {
               </tr>
             </thead>
             {/* keyed by filter so the rows deal back in when it changes */}
-            <tbody key={role + String(all)}>
+            <tbody key={role}>
               {rows.map((row, i) => (
                 <tr key={row.cat} className={styles.row} style={{ "--i": i } as CSSProperties}>
                   <td className={styles.art}>
@@ -116,15 +127,17 @@ export function Ledger({ t }: { t: Dictionary }) {
           {matched.length === 0 && <p className={`mono ${styles.empty}`}>{l.empty}</p>}
         </div>
 
-        {matched.length > FIRST && (
-          <button type="button" className={`btn ${styles.more}`} onClick={() => setAll(!all)} aria-expanded={all}>
-            {all ? l.showLess : l.showAll.replace("{n}", String(matched.length))}
-          </button>
+        {!full && (
+          <Link href={`/${locale}/credits`} className={`btn btn-red ${styles.more}`}>
+            {l.seeMore}
+          </Link>
         )}
 
-        <p className={styles.also}>
-          <span className="caps">{l.alsoWith}</span> {moreArtists.join(" · ")}
-        </p>
+        {full && (
+          <p className={styles.also}>
+            <span className="caps">{l.alsoWith}</span> {moreArtists.join(" · ")}
+          </p>
+        )}
 
         {siteConfig.musoUrl && (
           <p className={`mono ${styles.muso}`}>
