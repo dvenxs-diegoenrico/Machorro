@@ -30,13 +30,12 @@ export const graduate = Graduate({
   display: "swap",
 });
 
-/** Option 09: letters that melt along the YEAR axis. Only the chord buttons use it. */
+/** Option 09: letters that melt along the YEAR axis. The hero CHORRO and the chord buttons. */
 export const climateCrisis = Climate_Crisis({
   subsets: ["latin"],
   axes: ["YEAR"],
   variable: "--font-climate",
   display: "swap",
-  preload: false,
 });
 
 export const fontVariables = [
