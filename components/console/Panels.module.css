@@ -184,7 +184,7 @@
 }
 
 .tag {
-  font-size: 0.68rem;
+  font-size: 0.75rem;
   padding: 0.1rem 0.4rem;
   border: 1px solid currentColor;
   color: var(--ink-muted);
@@ -274,4 +274,55 @@
   .actions {
     margin-left: 0;
   }
+}
+
+/* invite link: a field you can tap to select, because auto-copy is refused on iOS after a network call */
+.invite {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border-left: 3px solid var(--electric);
+  background: var(--surface);
+}
+
+.inviteRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.inviteRow input {
+  flex: 1 1 14rem;
+  min-width: 0;
+  min-height: 46px;
+  padding: 0 0.8rem;
+  border: 1px solid var(--rule);
+  background: var(--ground);
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px; /* 16px stops iOS from zooming the page when the field is focused */
+}
+
+.actions2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.drop2 {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+  border: 0;
+  background: none;
+  color: var(--ink-muted);
+  cursor: pointer;
+}
+
+.queue li {
+  padding-bottom: 0.5rem;
 }

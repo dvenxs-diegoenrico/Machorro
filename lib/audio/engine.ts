@@ -43,6 +43,7 @@ export class Engine {
   private raf = 0;
   private timeCbs = new Set<(t: number) => void>();
   private levelCbs = new Set<(l: Levels) => void>();
+  private interruptCbs = new Set<() => void>();
   private scratch = new Float32Array(2048);
   duration = 0;
 
@@ -53,6 +54,14 @@ export class Engine {
     this.masterMeter = this.ctx.createAnalyser();
     this.masterMeter.fftSize = 2048;
     this.master.connect(this.masterMeter).connect(this.ctx.destination);
+    // a phone call, Siri, an unplugged headset or a locked iPhone can suspend the context under us:
+    // stop cleanly so the screen never says "playing" over silence
+    this.ctx.onstatechange = () => {
+      if (this.ctx.state !== "running" && this.running) {
+        this.pause();
+        this.interruptCbs.forEach((cb) => cb());
+      }
+    };
   }
 
   /** Register a track; its audio arrives later through setBuffer. */
@@ -84,6 +93,15 @@ export class Engine {
 
   /** iOS and Safari need this inside a tap before any sound. */
   async unlock() {
+    // iPhones mute Web Audio while the silent switch is on, unless the page says it is playback
+    const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession;
+    if (session) {
+      try {
+        session.type = "playback";
+      } catch {
+        /* older Safari */
+      }
+    }
     if (this.ctx.state !== "running") await this.ctx.resume();
   }
 
@@ -93,7 +111,8 @@ export class Engine {
 
   get position(): number {
     if (!this.running) return this.offset;
-    const t = this.offset + (this.ctx.currentTime - this.startedAt);
+    // sources start 60 ms ahead; until then the playhead stays put instead of going negative
+    const t = this.offset + Math.max(0, this.ctx.currentTime - this.startedAt);
     if (this.loop && t >= this.loop.end) return this.loop.start + ((t - this.loop.start) % (this.loop.end - this.loop.start));
     return Math.min(t, this.duration);
   }
@@ -117,6 +136,7 @@ export class Engine {
     if (this.running) return;
     if (this.offset >= this.duration - 0.01) this.offset = this.loop?.start ?? 0;
     this.startSources();
+    cancelAnimationFrame(this.raf); // one animation loop at a time
     this.tick();
   }
 
@@ -171,6 +191,11 @@ export class Engine {
     this.levelCbs.add(cb);
     return () => this.levelCbs.delete(cb);
   }
+  /** Called when the system stops the audio (call, headset, lock). The engine is already paused. */
+  onInterrupt(cb: () => void) {
+    this.interruptCbs.add(cb);
+    return () => this.interruptCbs.delete(cb);
+  }
 
   /** Free every buffer and node. Call when leaving the console. */
   async destroy() {
@@ -180,6 +205,8 @@ export class Engine {
     this.voices.clear();
     this.timeCbs.clear();
     this.levelCbs.clear();
+    this.interruptCbs.clear();
+    this.ctx.onstatechange = null;
     await this.ctx.close().catch(() => undefined);
   }
 

@@ -10,7 +10,7 @@ import type { Dictionary } from "@/lib/i18n/dictionary";
 import type { Project, Track, TrackKind, Version } from "@/lib/sessions/types";
 import { removeFiles, uploadFile } from "@/lib/storage";
 import { supabase } from "@/lib/supabase/browser";
-import { SignOut } from "./Panels";
+import { Login, SignOut } from "./Panels";
 import styles from "./Panels.module.css";
 
 type Pana = { id: string; name: string; email: string };
@@ -22,69 +22,113 @@ function db() {
   return sb;
 }
 
+type Who = "loading" | "out" | "other" | "producer";
+
 /** Only the producer gets past this. The database enforces it too. */
-function useProducer() {
-  const [ok, setOk] = useState<boolean | null>(null);
+function useProducer(): Who {
+  const [who, setWho] = useState<Who>("loading");
   useEffect(() => {
     const sb = supabase();
-    if (!sb) return setOk(false);
-    sb.rpc("is_admin").then(({ data }) => setOk(Boolean(data)));
+    if (!sb) return setWho("other");
+    (async () => {
+      const { data: u } = await sb.auth.getUser();
+      if (!u.user) return setWho("out");
+      const { data } = await sb.rpc("is_admin");
+      setWho(data ? "producer" : "other");
+    })();
   }, []);
-  return ok;
+  return who;
+}
+
+/** What a visitor sees instead of the panel: a sign-in if signed out, a clear message otherwise. */
+function Gate({ who, locale, t }: { who: Who; locale: Locale; t: Dictionary }) {
+  const p = t.panel;
+  if (who === "loading") return <p className={styles.narrow}>…</p>;
+  if (who === "out") return <Login locale={locale} t={t} note={p.signInFirst} next="admin" />;
+  return (
+    <section className={styles.narrow}>
+      <h1 className={styles.h1}>{t.console.label}</h1>
+      <p className={styles.lead}>{`${p.notProducer} ${p.wrongAccount}`}</p>
+      <div className={styles.actions}>
+        <Link href={`/${locale}/sessions`} className="btn">
+          {t.console.back}
+        </Link>
+        <SignOut locale={locale} t={t} />
+      </div>
+    </section>
+  );
 }
 
 // ── /sessions/admin ───────────────────────────────────────────
 
 export function ProducerHome({ locale, t }: { locale: Locale; t: Dictionary }) {
   const p = t.panel;
-  const ok = useProducer();
+  const who = useProducer();
   const [projects, setProjects] = useState<Project[]>([]);
   const [panas, setPanas] = useState<Pana[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState<"project" | "pana" | null>(null);
 
   const load = useCallback(async () => {
     const sb = db();
-    const [{ data: pr }, { data: cl }] = await Promise.all([
+    const [{ data: pr, error: e1 }, { data: cl, error: e2 }] = await Promise.all([
       sb.from("projects").select("id, catalogue_no, artist, title").order("catalogue_no", { ascending: false }),
       sb.from("clients").select("id, name, email").order("name"),
     ]);
+    if (e1 || e2) setError((e1 ?? e2)!.message);
     setProjects(pr ?? []);
     setPanas(cl ?? []);
   }, []);
 
   useEffect(() => {
-    if (ok) load();
-  }, [ok, load]);
+    if (who === "producer") load();
+  }, [who, load]);
 
   const createProject = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (busy) return; // a double tap must not make two projects
     const f = new FormData(e.currentTarget);
-    const nums = projects.map((x) => Number(x.catalogue_no.slice(3))).filter(Number.isFinite);
-    const catalogue_no = `ec-${String((nums.length ? Math.max(...nums) : 0) + 1).padStart(3, "0")}`;
+    setBusy("project");
+    setError(null);
+    // the next free catalogue number, read fresh so a second device can't collide with this one
+    const { data: latest } = await db().from("projects").select("catalogue_no").order("catalogue_no", { ascending: false }).limit(1);
+    const last = Number(latest?.[0]?.catalogue_no.slice(3));
+    const catalogue_no = `ec-${String((Number.isFinite(last) ? last : 0) + 1).padStart(3, "0")}`;
     const { data, error } = await db()
       .from("projects")
       .insert({ catalogue_no, artist: String(f.get("artist")).trim(), title: String(f.get("title")).trim() })
       .select("id")
       .single();
-    if (error) return setError(error.message);
-    await db().from("versions").insert({ project_id: data.id, label: "mix v1", is_current: true });
+    if (error || !data) {
+      setBusy(null);
+      return setError(error?.message ?? "");
+    }
+    const { error: ve } = await db().from("versions").insert({ project_id: data.id, label: "mix v1", is_current: true });
+    if (ve) {
+      await db().from("projects").delete().eq("id", data.id); // no half-made project
+      setBusy(null);
+      return setError(ve.message);
+    }
     location.href = `/${locale}/sessions/admin/${data.id}`;
   };
 
   const addPana = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (busy) return;
     const form = e.currentTarget;
     const f = new FormData(form);
+    setBusy("pana");
+    setError(null);
     const { error } = await db()
       .from("clients")
       .insert({ name: String(f.get("name")).trim(), email: String(f.get("email")).trim().toLowerCase() });
-    if (error) return setError(error.message);
+    setBusy(null);
+    if (error) return setError(error.code === "23505" ? `${String(f.get("email"))}: ${p.panaExists}` : error.message);
     form.reset();
     load();
   };
 
-  if (ok === null) return <p className={styles.narrow}>…</p>;
-  if (!ok) return <p className={styles.narrow}>{p.notProducer}</p>;
+  if (who !== "producer") return <Gate who={who} locale={locale} t={t} />;
 
   return (
     <section className={styles.wide}>
@@ -119,8 +163,8 @@ export function ProducerHome({ locale, t }: { locale: Locale; t: Dictionary }) {
             <h3 className={`caps ${styles.h3}`}>{p.newProject}</h3>
             <input name="artist" required placeholder={p.artist} aria-label={p.artist} maxLength={120} />
             <input name="title" required placeholder={p.title} aria-label={p.title} maxLength={160} />
-            <button type="submit" className="btn btn-red">
-              {p.create}
+            <button type="submit" className="btn btn-red" disabled={busy === "project"}>
+              {busy === "project" ? p.working : p.create}
             </button>
           </form>
         </div>
@@ -140,8 +184,8 @@ export function ProducerHome({ locale, t }: { locale: Locale; t: Dictionary }) {
             <h3 className={`caps ${styles.h3}`}>{p.addPana}</h3>
             <input name="name" required placeholder={p.name} aria-label={p.name} maxLength={120} />
             <input name="email" type="email" required placeholder={p.email} aria-label={p.email} />
-            <button type="submit" className="btn">
-              {p.add}
+            <button type="submit" className="btn" disabled={busy === "pana"}>
+              {busy === "pana" ? p.working : p.add}
             </button>
           </form>
         </div>
@@ -154,25 +198,27 @@ export function ProducerHome({ locale, t }: { locale: Locale; t: Dictionary }) {
 
 export function ProjectAdmin({ id, locale, t }: { id: string; locale: Locale; t: Dictionary }) {
   const p = t.panel;
-  const ok = useProducer();
+  const who = useProducer();
   const [project, setProject] = useState<Project | null>(null);
+  const [missing, setMissing] = useState(false);
   const [versions, setVersions] = useState<Version[]>([]);
   const [versionId, setVersionId] = useState<string | null>(null);
   const [tracks, setTracks] = useState<Track[]>([]);
   const [panas, setPanas] = useState<Pana[]>([]);
   const [access, setAccess] = useState<string[]>([]);
   const [listens, setListens] = useState<{ email: string; at: string; name: string }[]>([]);
-  const [copied, setCopied] = useState<string | null>(null);
+  const [invited, setInvited] = useState<{ clientId: string; name: string; url: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     const sb = db();
     const [{ data: pr }, { data: vs }, { data: cl }, { data: ac }] = await Promise.all([
-      sb.from("projects").select("id, catalogue_no, artist, title").eq("id", id).single(),
+      sb.from("projects").select("id, catalogue_no, artist, title").eq("id", id).maybeSingle(),
       sb.from("versions").select("*").eq("project_id", id).order("created_at"),
       sb.from("clients").select("id, name, email").order("name"),
       sb.from("project_access").select("client_id").eq("project_id", id),
     ]);
+    if (!pr) return setMissing(true);
     setProject(pr);
     setVersions(vs ?? []);
     setPanas(cl ?? []);
@@ -194,33 +240,41 @@ export function ProjectAdmin({ id, locale, t }: { id: string; locale: Locale; t:
   }, [versionId]);
 
   useEffect(() => {
-    if (ok) load();
-  }, [ok, load]);
+    if (who === "producer") load();
+  }, [who, load]);
   useEffect(() => {
-    if (ok) loadTracks();
-  }, [ok, loadTracks]);
+    if (who === "producer") loadTracks();
+  }, [who, loadTracks]);
 
   const newVersion = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
     const label = String(new FormData(form).get("label")).trim();
     const { data, error } = await db().from("versions").insert({ project_id: id, label }).select("id").single();
-    if (error) return setError(error.message);
+    if (error || !data) return setError(error?.message ?? "");
     form.reset();
     setVersionId(data.id);
     load();
   };
 
   const makeCurrent = async (vid: string) => {
-    await db().from("versions").update({ is_current: false }).eq("project_id", id);
-    await db().from("versions").update({ is_current: true }).eq("id", vid);
+    const a = await db().from("versions").update({ is_current: false }).eq("project_id", id);
+    const b = a.error ? a : await db().from("versions").update({ is_current: true }).eq("id", vid);
+    if (b.error) setError(b.error.message);
     load();
   };
 
+  // two-step delete: the first tap arms the button, and it disarms itself if you walk away
   const [armed, setArmed] = useState<string | null>(null);
+  useEffect(() => {
+    if (!armed) return;
+    const timer = setTimeout(() => setArmed(null), 4000);
+    return () => clearTimeout(timer);
+  }, [armed]);
   const removeTrack = async (tr: Track) => {
     if (armed !== tr.id) return setArmed(tr.id);
-    await db().from("tracks").delete().eq("id", tr.id);
+    const { error } = await db().from("tracks").delete().eq("id", tr.id);
+    if (error) return setError(error.message);
     await removeFiles([tr.stream_path]);
     setArmed(null);
     loadTracks();
@@ -233,24 +287,32 @@ export function ProjectAdmin({ id, locale, t }: { id: string; locale: Locale; t:
     load();
   };
   const revoke = async (clientId: string) => {
-    await db().from("project_access").delete().eq("project_id", id).eq("client_id", clientId);
+    const { error } = await db().from("project_access").delete().eq("project_id", id).eq("client_id", clientId);
+    if (error) setError(error.message);
+    if (invited?.clientId === clientId) setInvited(null);
     load();
   };
-  const invite = async (clientId: string) => {
-    const { data, error } = await db().from("invites").insert({ client_id: clientId }).select("token").single();
-    if (error) return setError(error.message);
-    const link = `${location.origin}/${locale}/sessions/join/${data.token}`;
-    try {
-      await navigator.clipboard.writeText(link);
-    } catch {
-      prompt(p.inviteLink, link);
-    }
-    setCopied(clientId);
-    setTimeout(() => setCopied(null), 2000);
+  // The link is shown in a field you can tap and copy. Auto-copy is a bonus: iOS refuses it
+  // once a network call has happened since the tap, so the field is what always works.
+  const invite = async (x: Pana) => {
+    const { data, error } = await db().from("invites").insert({ client_id: x.id }).select("token").single();
+    if (error || !data) return setError(error?.message ?? "");
+    const url = `${location.origin}/${locale}/sessions/join/${data.token}`;
+    setInvited({ clientId: x.id, name: x.name, url });
+    navigator.clipboard?.writeText(url).catch(() => undefined);
   };
 
-  if (ok === null) return <p className={styles.narrow}>…</p>;
-  if (!ok) return <p className={styles.narrow}>{p.notProducer}</p>;
+  if (who !== "producer") return <Gate who={who} locale={locale} t={t} />;
+  if (missing) {
+    return (
+      <section className={styles.narrow}>
+        <p className={styles.lead}>{p.projectMissing}</p>
+        <Link href={`/${locale}/sessions/admin`} className="btn">
+          {p.producer}
+        </Link>
+      </section>
+    );
+  }
   if (!project) return <p className={styles.narrow}>…</p>;
 
   const withAccess = panas.filter((x) => access.includes(x.id));
@@ -326,8 +388,8 @@ export function ProjectAdmin({ id, locale, t }: { id: string; locale: Locale; t:
                 <span className={styles.rowMain}>
                   {x.name} <span className={`mono ${styles.muted}`}>{x.email}</span>
                 </span>
-                <button type="button" className={`btn ${styles.small}`} onClick={() => invite(x.id)}>
-                  <Icon name="link" float={false} /> {copied === x.id ? p.copied : p.inviteLink}
+                <button type="button" className={`btn ${styles.small}`} onClick={() => invite(x)}>
+                  <Icon name="link" float={false} /> {p.inviteLink}
                 </button>
                 <button type="button" className={`btn ${styles.small}`} onClick={() => revoke(x.id)}>
                   {p.remove}
@@ -335,9 +397,24 @@ export function ProjectAdmin({ id, locale, t }: { id: string; locale: Locale; t:
               </li>
             ))}
           </ul>
+          {invited && (
+            <div className={styles.invite} role="status">
+              <label htmlFor="invite-url">{p.inviteReady.replace("{name}", invited.name)}</label>
+              <div className={styles.inviteRow}>
+                <input id="invite-url" readOnly value={invited.url} onFocus={(e) => e.currentTarget.select()} />
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => navigator.clipboard?.writeText(invited.url).then(() => setError(null), () => document.getElementById("invite-url")?.focus())}
+                >
+                  {p.copyThis}
+                </button>
+              </div>
+            </div>
+          )}
           {without.length > 0 && (
             <div className={styles.inline}>
-              <select aria-label={p.choosePana} defaultValue="" onChange={(e) => give(e.target.value)}>
+              <select key={without.length} aria-label={p.choosePana} defaultValue="" onChange={(e) => give(e.target.value)}>
                 <option value="" disabled>
                   {p.choosePana}
                 </option>
@@ -401,11 +478,38 @@ function Uploader({ projectId, versionId, start, t, onDone }: { projectId: strin
   const [busy, setBusy] = useState(false);
   const [over, setOver] = useState(false);
   const input = useRef<HTMLInputElement>(null);
-  const supported = typeof window === "undefined" || canEncode();
+  const [skipped, setSkipped] = useState(0);
+  // WAV needs the browser's encoder; MP3/AAC are kept as they are and don't
+  const canCompress = typeof window === "undefined" || canEncode();
+
+  // a long upload must survive a locked screen and a stray tab close
+  useEffect(() => {
+    if (!busy) return;
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+    addEventListener("beforeunload", warn);
+    type Lock = { release: () => Promise<void> };
+    const nav = navigator as Navigator & { wakeLock?: { request: (t: "screen") => Promise<Lock> } };
+    let lock: Lock | null = null;
+    let live = true;
+    nav.wakeLock?.request("screen").then((l) => (live ? (lock = l) : void l.release()), () => undefined);
+    return () => {
+      live = false;
+      removeEventListener("beforeunload", warn);
+      lock?.release().catch(() => undefined);
+    };
+  }, [busy]);
 
   const addFiles = (files: FileList | null) => {
     if (!files) return;
-    setItems((x) => [...x, ...[...files].filter((f) => /audio|wav|aiff?|flac|mp3|m4a|aac|ogg|opus/i.test(f.type + f.name)).map((file) => ({ file, ...guess(file), step: "queued" as const, pct: 0 }))]);
+    const all = [...files];
+    const audio = all.filter((f) => /audio|wav|aiff?|flac|mp3|m4a|aac|ogg|opus/i.test(f.type + f.name));
+    setSkipped(all.length - audio.length);
+    setItems((x) => {
+      const same = (a: File, b: File) => a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
+      const fresh = audio.filter((f) => !x.some((it) => same(it.file, f)));
+      return [...x, ...fresh.map((file) => ({ file, ...guess(file), step: "queued" as const, pct: 0 }))];
+    });
+    if (input.current) input.current.value = ""; // choosing the same file again must work
   };
   const patch = (i: number, p: Partial<Item>) => setItems((x) => x.map((it, k) => (k === i ? { ...it, ...p } : it)));
 
@@ -415,8 +519,11 @@ function Uploader({ projectId, versionId, start, t, onDone }: { projectId: strin
     for (let i = 0; i < items.length; i++) {
       const it = items[i];
       if (it.step === "done") continue;
+      let path = "";
+      let trackId = "";
       try {
-        patch(i, { step: "decoding", pct: 0 });
+        if (!isCompressed(it.file) && !canCompress) throw new Error(p.noEncoder);
+        patch(i, { step: "decoding", pct: 0, error: undefined });
         const pcm = await decodeFile(it.file);
         patch(i, { step: "encoding" });
         // MP3 and other compressed files are kept as they are; WAV/AIFF/FLAC get compressed
@@ -424,8 +531,9 @@ function Uploader({ projectId, versionId, start, t, onDone }: { projectId: strin
         const wave = peaks(pcm, 800);
         patch(i, { step: "encrypting", pct: 0 });
         const { cipher, key } = await encrypt(pack(enc));
-        const trackId = crypto.randomUUID();
-        const path = `${projectId}/${versionId}/${trackId}.chorro`;
+        if (cipher.length > 95e6) throw new Error(p.tooBig); // the storage bucket stops at 100 MB
+        trackId = crypto.randomUUID();
+        path = `${projectId}/${versionId}/${trackId}.chorro`;
         patch(i, { step: "uploading", pct: 0, ratio: cipher.length / it.file.size });
         await uploadFile(path, cipher, (pct) => patch(i, { pct }));
         const { error: e1 } = await sb.from("tracks").insert({
@@ -449,14 +557,15 @@ function Uploader({ projectId, versionId, start, t, onDone }: { projectId: strin
         if (e2) throw new Error(e2.message);
         patch(i, { step: "done", pct: 1 });
       } catch (e) {
-        patch(i, { step: "failed", error: (e as Error).message });
+        // leave nothing behind: a file with no track row, or a track with no key, can't be played
+        if (trackId) await sb.from("tracks").delete().eq("id", trackId);
+        if (path) await removeFiles([path]).catch(() => undefined);
+        patch(i, { step: "failed", error: path ? `${p.rollback} (${(e as Error).message})` : (e as Error).message });
       }
     }
     setBusy(false);
     onDone();
   };
-
-  if (!supported) return <p className={styles.err}>{p.encodeUnsupported}</p>;
 
   return (
     <div className={styles.upload}>
@@ -473,11 +582,13 @@ function Uploader({ projectId, versionId, start, t, onDone }: { projectId: strin
       >
         <Icon name="upload" />
         <p>{p.uploadHint}</p>
-        <button type="button" className="btn" onClick={() => input.current?.click()}>
+        <button type="button" className="btn" onClick={() => input.current?.click()} disabled={busy}>
           {p.chooseFiles}
         </button>
         <input ref={input} type="file" accept="audio/*,.wav,.aif,.aiff,.flac,.mp3,.m4a,.aac,.ogg,.opus" multiple hidden onChange={(e) => addFiles(e.target.files)} />
       </div>
+      {!canCompress && <p className={styles.err}>{p.noEncoder}</p>}
+      {skipped > 0 && <p className={styles.muted}>{p.skippedFiles.replace("{n}", String(skipped))}</p>}
       {items.length > 0 && (
         <>
           <ul className={styles.queue}>
@@ -501,8 +612,13 @@ function Uploader({ projectId, versionId, start, t, onDone }: { projectId: strin
                 <span className={`mono ${styles.step} ${it.step === "failed" ? styles.errText : ""}`}>
                   {p.steps[it.step]}
                   {(it.step === "encoding" || it.step === "uploading") && ` ${Math.round(it.pct * 100)}%`}
-                  {it.step === "done" && it.ratio && ` · ${p.saved.replace("{pct}", `${Math.round(it.ratio * 100)}%`)}`}
+                  {it.step === "done" && it.ratio !== undefined && it.ratio < 0.97 && ` · ${p.saved.replace("{pct}", `${Math.round((1 - it.ratio) * 100)}%`)}`}
                   {it.error && ` · ${it.error}`}
+                  {it.step !== "done" && !busy && (
+                    <button type="button" className={styles.drop2} onClick={() => setItems((x) => x.filter((_, k) => k !== i))} aria-label={`${p.removeFile}: ${it.name}`}>
+                      <Icon name="close" float={false} />
+                    </button>
+                  )}
                 </span>
                 <span className={styles.bar} aria-hidden="true">
                   <span style={{ transform: `scaleX(${it.step === "done" ? 1 : it.pct})` }} />
@@ -510,9 +626,17 @@ function Uploader({ projectId, versionId, start, t, onDone }: { projectId: strin
               </li>
             ))}
           </ul>
-          <button type="button" className="btn btn-red" disabled={busy || items.every((x) => x.step === "done")} onClick={run}>
-            {p.start} <Icon name="upload" />
-          </button>
+          <div className={styles.actions2}>
+            <button type="button" className="btn btn-red" disabled={busy || items.every((x) => x.step === "done")} onClick={run}>
+              {busy ? p.working : p.start} <Icon name="upload" />
+            </button>
+            {items.some((x) => x.step === "done") && !busy && (
+              <button type="button" className="btn" onClick={() => setItems((x) => x.filter((it) => it.step !== "done"))}>
+                {p.clearDone}
+              </button>
+            )}
+          </div>
+          {busy && <p className={styles.muted}>{p.keepOpen}</p>}
         </>
       )}
     </div>

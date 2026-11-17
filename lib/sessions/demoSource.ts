@@ -146,12 +146,12 @@ export const demoSource: SessionSource = {
     };
   },
   async loadTracks() {
-    const out: Track[] = [];
-    for (const [i, p] of PARTS.entries()) {
-      const b = await rendered(p);
-      out.push({ id: p.id, version_id: "demo-v3", name: p.name, kind: p.kind, grp: p.grp, sort: i, stream_path: "", channels: p.channels, frames: b.length, duration: b.duration, peaks: peaks(b, 600) });
-    }
-    return out;
+    // render all eight at once: the browser does it off the main thread
+    const buffers = await Promise.all(PARTS.map(rendered));
+    return PARTS.map((p, i): Track => {
+      const b = buffers[i];
+      return { id: p.id, version_id: "demo-v3", name: p.name, kind: p.kind, grp: p.grp, sort: i, stream_path: "", channels: p.channels, frames: b.length, duration: b.duration, peaks: peaks(b, 600) };
+    });
   },
   async loadComments() {
     return [...comments].sort((a, b) => a.time_seconds - b.time_seconds);

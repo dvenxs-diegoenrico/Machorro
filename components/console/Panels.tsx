@@ -10,21 +10,33 @@ import { supabase } from "@/lib/supabase/browser";
 import styles from "./Panels.module.css";
 
 /** Sign in by email link. `presetEmail` comes from an invite link. */
-export function Login({ locale, t, presetEmail, note }: { locale: Locale; t: Dictionary; presetEmail?: string; note?: string }) {
+export function Login({ locale, t, presetEmail, note, next }: { locale: Locale; t: Dictionary; presetEmail?: string; note?: string; next?: "admin" }) {
   const p = t.panel;
   const [email, setEmail] = useState(presetEmail ?? "");
-  const [state, setState] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [state, setState] = useState<"idle" | "sending" | "sent" | "error" | "rate">("idle");
+  const [wait, setWait] = useState(0);
 
-  const send = async (e: FormEvent) => {
-    e.preventDefault();
+  // the email can't be re-sent for a minute: say so instead of letting people hammer the button
+  useEffect(() => {
+    if (wait <= 0) return;
+    const timer = setTimeout(() => setWait((w) => w - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [wait]);
+
+  const send = async (e?: FormEvent) => {
+    e?.preventDefault();
     const sb = supabase();
     if (!sb) return;
     setState("sending");
     const { error } = await sb.auth.signInWithOtp({
       email: email.trim().toLowerCase(),
-      options: { emailRedirectTo: `${location.origin}/auth/callback?next=/${locale}/sessions`, shouldCreateUser: true },
+      options: { emailRedirectTo: `${location.origin}/auth/callback?next=/${locale}/sessions${next ? `/${next}` : ""}`, shouldCreateUser: true },
     });
-    setState(error ? "error" : "sent");
+    if (error) setState(error.status === 429 || /rate limit|seconds/i.test(error.message) ? "rate" : "error");
+    else {
+      setState("sent");
+      setWait(45);
+    }
   };
 
   return (
@@ -32,9 +44,15 @@ export function Login({ locale, t, presetEmail, note }: { locale: Locale; t: Dic
       <h1 className={styles.h1}>{p.loginTitle}</h1>
       <p className={styles.lead}>{note ?? p.loginBody}</p>
       {state === "sent" ? (
-        <p className={styles.ok} role="status">
-          {p.checkEmail}
-        </p>
+        <>
+          <p className={styles.ok} role="status">
+            {p.checkEmail}
+          </p>
+          <p className={styles.lead}>{p.checkSpam}</p>
+          <button type="button" className="btn" disabled={wait > 0} onClick={() => send()}>
+            {wait > 0 ? p.resendIn.replace("{s}", String(wait)) : p.resend}
+          </button>
+        </>
       ) : (
         <form className={styles.form} onSubmit={send}>
           <label htmlFor="login-email" className="caps">
@@ -44,9 +62,9 @@ export function Login({ locale, t, presetEmail, note }: { locale: Locale; t: Dic
           <button type="submit" className="btn btn-red" disabled={state === "sending"}>
             {state === "sending" ? p.sending : <>{p.sendLink} <Icon name="arrow-right" /></>}
           </button>
-          {state === "error" && (
+          {(state === "error" || state === "rate") && (
             <p className={styles.err} role="alert">
-              {p.loginError}
+              {state === "rate" ? p.loginRate : p.loginError}
             </p>
           )}
         </form>
@@ -146,8 +164,14 @@ export function Join({ token, locale, t }: { token: string; locale: Locale; t: D
   useEffect(() => {
     const sb = supabase();
     if (!sb) return setEmail(null);
-    sb.rpc("invite_email", { p_token: token }).then(({ data }) => setEmail((data as string) || null));
-  }, [token]);
+    (async () => {
+      const [{ data }, { data: u }] = await Promise.all([sb.rpc("invite_email", { p_token: token }), sb.auth.getUser()]);
+      const invited = (data as string) || null;
+      // already signed in as the invited pana: no second email needed
+      if (invited && u.user?.email?.toLowerCase() === invited.toLowerCase()) return void (location.href = `/${locale}/sessions`);
+      setEmail(invited);
+    })();
+  }, [token, locale]);
   if (email === undefined) return <p className={styles.narrow}>…</p>;
   if (email === null) {
     return (

@@ -24,6 +24,25 @@
   text-transform: uppercase;
 }
 
+.error {
+  display: grid;
+  justify-items: start;
+  gap: 1.5rem;
+}
+
+.error .btn {
+  font-size: 1rem;
+}
+
+/* something failed but the console still works: say so, and offer the retry on the open button */
+.notice {
+  margin-top: 0.75rem;
+  padding: 0.7rem 0.9rem;
+  border-left: 3px solid var(--played);
+  background: rgb(232 57 79 / 0.14);
+  color: var(--ink);
+}
+
 /* ── top bar ───────────────────────── */
 .top {
   display: grid;
@@ -35,7 +54,7 @@
   justify-self: start;
   color: var(--ink-muted);
   text-decoration: none;
-  min-height: 32px;
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
 }
@@ -56,7 +75,7 @@
 }
 
 .cat {
-  color: var(--elvis-red);
+  color: var(--played); /* the brand red is too dark on olive; this one reads */
 }
 
 .lock {
@@ -76,7 +95,7 @@
 }
 
 .pill {
-  min-height: 38px;
+  min-height: 44px;
   padding-inline: 1rem;
   --btn-line: var(--rule);
 }
@@ -96,7 +115,7 @@
   height: clamp(90px, 12vw, 150px);
   background: var(--surface);
   cursor: pointer;
-  touch-action: none;
+  touch-action: pan-y; /* sideways drags are ours (seek, loop); vertical swipes still scroll the page */
 }
 
 .wave:focus-visible {
@@ -118,6 +137,7 @@
   margin-left: -1px;
   background: var(--ink);
   pointer-events: none;
+  transition: left 0.1s linear; /* the clock updates ~10 times a second; this smooths the playhead */
 }
 
 .loop {
@@ -227,12 +247,33 @@
   align-items: start;
 }
 
+.mixerWrap {
+  min-width: 0;
+}
+
 .mixer {
   display: flex;
   gap: 6px;
   overflow-x: auto;
   padding-bottom: 0.5rem;
+  scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
   transition: opacity 0.3s;
+}
+
+.mixer > .strip {
+  scroll-snap-align: start;
+}
+
+.swipe {
+  display: none;
+  margin-top: 0.5rem;
+  color: var(--ink-muted);
+}
+
+.mixerLoading {
+  margin-top: 0.75rem;
+  color: var(--ink-muted);
 }
 
 .dim .strip:not(.masterStrip) {
@@ -311,7 +352,7 @@
 }
 
 .knobText {
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   color: var(--ink-muted);
 }
 
@@ -326,8 +367,8 @@
 
 .m,
 .s {
-  width: 32px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   border: 1.5px solid var(--ink-muted);
   background: none;
   color: var(--ink);
@@ -359,7 +400,7 @@
 .fader {
   writing-mode: vertical-lr;
   direction: rtl;
-  width: 28px;
+  width: 36px;
   height: 100%;
   margin: 0;
   accent-color: var(--cream);
@@ -383,9 +424,20 @@
 }
 
 .db {
-  font-size: 0.7rem;
+  min-width: 44px;
+  min-height: 36px;
+  padding: 0 0.4rem;
+  border: 0;
+  background: none;
+  font-size: 0.78rem;
   font-variant-numeric: tabular-nums;
   color: var(--ink-muted);
+  cursor: pointer;
+}
+
+.db:hover,
+.db:focus-visible {
+  color: var(--ink);
 }
 
 .comments {
@@ -427,7 +479,8 @@
 }
 
 .at {
-  min-height: 28px;
+  min-height: 36px;
+  min-width: 48px;
   padding: 0 0.4rem;
   border: 1px solid var(--electric);
   background: none;
@@ -442,11 +495,13 @@
 }
 
 .resolve {
+  min-height: 36px;
+  padding: 0 0.3rem;
   border: 0;
   background: none;
   color: var(--ink-muted);
   cursor: pointer;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
 }
 
 .add {
@@ -484,6 +539,18 @@
 @media (max-width: 900px) {
   .body {
     grid-template-columns: 1fr;
+  }
+
+  .swipe {
+    display: block;
+  }
+
+  /* a phone shows two or three strips at a time: the master goes first instead of
+     sticking to the right edge, where it would cover the stems you scroll to */
+  .masterStrip {
+    order: -1;
+    position: static;
+    margin-left: 0;
   }
 
   .lock {

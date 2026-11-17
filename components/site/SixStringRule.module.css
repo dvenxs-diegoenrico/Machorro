@@ -33,7 +33,7 @@
   position: absolute;
   right: 0;
   bottom: 0.4rem;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: var(--ink-muted);
   pointer-events: none;
 }
@@ -197,7 +197,7 @@
 
 .chordHint {
   margin-left: auto;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: var(--ink-muted);
 }
 
