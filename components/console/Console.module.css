@@ -561,3 +561,34 @@
     height: 140px;
   }
 }
+
+/* ── unreleased: the listener's email across the console ── */
+.guarded {
+  position: relative;
+  overflow: hidden;
+}
+
+.stamp {
+  position: absolute;
+  inset: -20%;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 5rem 6rem;
+  padding: 2rem;
+  transform: rotate(-18deg);
+  pointer-events: none;
+  user-select: none;
+  color: var(--ink);
+  opacity: 0.07;
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+.guardNote {
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+  max-width: 70ch;
+}

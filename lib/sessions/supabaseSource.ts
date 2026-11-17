@@ -15,7 +15,7 @@ export const supabaseSource: SessionSource = {
   async loadProject(id) {
     const sb = client();
     const [{ data: project, error }, { data: versions }, { data: admin }, { data: user }] = await Promise.all([
-      sb.from("projects").select("id, catalogue_no, artist, title").eq("id", id).single(),
+      sb.from("projects").select("id, catalogue_no, artist, title, sent").eq("id", id).single(),
       sb.from("versions").select("*").eq("project_id", id).order("created_at"),
       sb.rpc("is_admin"),
       sb.auth.getUser(),
@@ -23,7 +23,7 @@ export const supabaseSource: SessionSource = {
     if (error || !project) throw new Error("This session isn't shared with you.");
     const email = user.user?.email ?? "";
     const { data: me } = await sb.from("clients").select("name").eq("email", email.toLowerCase()).maybeSingle();
-    return { project, versions: versions ?? [], isAdmin: Boolean(admin), meName: admin ? "Chorro" : (me?.name ?? email.split("@")[0]) };
+    return { project, versions: versions ?? [], isAdmin: Boolean(admin), meEmail: email.toLowerCase(), meName: admin ? "Chorro" : (me?.name ?? email.split("@")[0]) };
   },
 
   async loadTracks(versionId) {

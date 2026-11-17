@@ -44,6 +44,7 @@ export class Engine {
   private timeCbs = new Set<(t: number) => void>();
   private levelCbs = new Set<(l: Levels) => void>();
   private interruptCbs = new Set<() => void>();
+  private mark: AudioNode[] | null = null;
   private scratch = new Float32Array(2048);
   duration = 0;
 
@@ -195,6 +196,39 @@ export class Engine {
   onInterrupt(cb: () => void) {
     this.interruptCbs.add(cb);
     return () => this.interruptCbs.delete(cb);
+  }
+
+  /**
+   * The listener's fingerprint (see fingerprint.ts): one looping period of noise, played at a level
+   * that follows the music (master → |x| → 6 Hz smoothing → the noise's gain), so it is silent when
+   * the music is and stays ~42 dB under it otherwise. It starts now and runs for the whole session
+   * at a constant offset, so any recording of the output carries one clean, aligned copy.
+   */
+  setFingerprint(signal: Float32Array | null, level = 0.01) {
+    this.mark?.forEach((n) => n.disconnect());
+    this.mark = null;
+    if (!signal) return;
+    const buf = this.ctx.createBuffer(1, signal.length, this.ctx.sampleRate);
+    buf.copyToChannel(signal as Float32Array<ArrayBuffer>, 0);
+    const src = this.ctx.createBufferSource();
+    src.buffer = buf;
+    src.loop = true;
+    const rect = this.ctx.createWaveShaper();
+    const curve = new Float32Array(1025);
+    for (let i = 0; i < curve.length; i++) curve[i] = Math.abs((i / 512) - 1);
+    rect.curve = curve;
+    const smooth = this.ctx.createBiquadFilter();
+    smooth.type = "lowpass";
+    smooth.frequency.value = 6;
+    smooth.Q.value = 0.5;
+    const scale = this.ctx.createGain();
+    scale.gain.value = level;
+    const vca = this.ctx.createGain();
+    vca.gain.value = 0;
+    this.master.connect(rect).connect(smooth).connect(scale).connect(vca.gain);
+    src.connect(vca).connect(this.ctx.destination);
+    src.start();
+    this.mark = [src, rect, smooth, scale, vca];
   }
 
   /** Free every buffer and node. Call when leaving the console. */

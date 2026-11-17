@@ -5,6 +5,7 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState, type CSSProper
 import { Icon } from "@/components/ui/Icon";
 import { canDecode } from "@/lib/audio/codec";
 import { Engine, type Mode } from "@/lib/audio/engine";
+import { fingerprintSignal, seedFor } from "@/lib/audio/fingerprint";
 import { clock, dbLabel, faderToGain } from "@/lib/audio/mixState";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
@@ -67,6 +68,7 @@ export function Console({ source, projectId, locale, t, demo = false }: { source
   const [versions, setVersions] = useState<Version[]>([]);
   const [versionId, setVersionId] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [meEmail, setMeEmail] = useState("");
   const [tracks, setTracks] = useState<Track[]>([]);
   const [comments, setComments] = useState<Comment[]>([]);
   const [error, setError] = useState<string | null>(null); // the session can't be shown at all
@@ -91,9 +93,10 @@ export function Console({ source, projectId, locale, t, demo = false }: { source
     let live = true;
     source
       .loadProject(projectId)
-      .then(({ project, versions, isAdmin }) => {
+      .then(({ project, versions, isAdmin, meEmail }) => {
         if (!live) return;
         setProject(project);
+        setMeEmail(meEmail);
         setVersions(versions);
         setIsAdmin(isAdmin);
         setVersionId((versions.find((v) => v.is_current) ?? versions[versions.length - 1])?.id ?? null);
@@ -133,6 +136,9 @@ export function Console({ source, projectId, locale, t, demo = false }: { source
     [versionId],
   );
 
+  // until Dani marks the project sent: fingerprint every play, name the listener on screen, pause when hidden
+  const protect = Boolean(project) && !project?.sent;
+
   const stems = tracks.filter((x) => x.kind === "stem" || x.kind === "group");
   const has = { mix: tracks.some((x) => x.kind === "mix"), master: tracks.some((x) => x.kind === "master"), stems: stems.length > 0 };
 
@@ -146,6 +152,7 @@ export function Console({ source, projectId, locale, t, demo = false }: { source
     engine.current = e;
     await e.unlock();
     setPhase("loading");
+    if (protect && meEmail) e.setFingerprint(await fingerprintSignal(seedFor(meEmail, projectId)));
 
     // what fits in memory: mix and master always; stems in order (groups first if over budget)
     const bytes = (x: Track) => x.frames * x.channels * 4;
@@ -202,7 +209,7 @@ export function Console({ source, projectId, locale, t, demo = false }: { source
       engine.current = null;
       void e.destroy();
     }
-  }, [tracks, stems, source, mode, c]);
+  }, [tracks, stems, source, mode, c, protect, meEmail, projectId]);
 
   const toggle = useCallback(async () => {
     const e = engine.current;
@@ -275,6 +282,19 @@ export function Console({ source, projectId, locale, t, demo = false }: { source
     return () => removeEventListener("keydown", onKey);
   }, [phase, toggle, seek, duration]);
 
+  // before it's sent: the music stops whenever the page isn't on screen
+  useEffect(() => {
+    if (!protect || !playing) return;
+    const stop = () => {
+      if (document.visibilityState !== "hidden") return;
+      engine.current?.pause();
+      setPlaying(false);
+      setNotice(c.pausedHidden);
+    };
+    document.addEventListener("visibilitychange", stop);
+    return () => document.removeEventListener("visibilitychange", stop);
+  }, [protect, playing, c]);
+
   // keep the screen on while playing: a sleeping phone stops the sound
   useEffect(() => {
     if (!playing) return;
@@ -339,7 +359,16 @@ export function Console({ source, projectId, locale, t, demo = false }: { source
   if (!project) return <p className={styles.wait}>…</p>;
 
   return (
-    <div className={styles.console} data-theme="night" onContextMenu={(e) => !(e.target as HTMLElement).closest("textarea") && e.preventDefault()}>
+    <div className={`${styles.console} ${protect ? styles.guarded : ""}`} data-theme="night" onContextMenu={(e) => !(e.target as HTMLElement).closest("textarea") && e.preventDefault()}>
+      {protect && meEmail && (
+        <div className={styles.stamp} aria-hidden="true">
+          {Array.from({ length: 36 }, (_, i) => (
+            <span key={i}>
+              {meEmail} · {project.catalogue_no} · {c.confidential}
+            </span>
+          ))}
+        </div>
+      )}
       <header className={styles.top}>
         <Link href={`/${locale}/sessions`} className={`caps ${styles.back}`}>
           {c.back}
@@ -353,6 +382,7 @@ export function Console({ source, projectId, locale, t, demo = false }: { source
             <Icon name="lock" float={false} /> {c.listenOnly}
           </span>
         </div>
+        {protect && meEmail && <p className={`mono ${styles.guardNote}`}>{c.guardNote.replace("{who}", meEmail)}</p>}
         {versions.length > 1 && (
           <nav className={styles.versions} aria-label={c.versions}>
             {versions.map((v) => (

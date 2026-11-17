@@ -143,6 +143,7 @@ export const demoSource: SessionSource = {
       ],
       isAdmin: false,
       meName: "You",
+      meEmail: "demo@chorro",
     };
   },
   async loadTracks() {

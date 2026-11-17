@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { Icon } from "@/components/ui/Icon";
 import { canEncode, decodeFile, encode, encrypt, isCompressed, keepAsIs, pack, peaks } from "@/lib/audio/codec";
+import { prepare, score, seedFor } from "@/lib/audio/fingerprint";
 import { clock } from "@/lib/audio/mixState";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionary";
@@ -213,7 +214,7 @@ export function ProjectAdmin({ id, locale, t }: { id: string; locale: Locale; t:
   const load = useCallback(async () => {
     const sb = db();
     const [{ data: pr }, { data: vs }, { data: cl }, { data: ac }] = await Promise.all([
-      sb.from("projects").select("id, catalogue_no, artist, title").eq("id", id).maybeSingle(),
+      sb.from("projects").select("id, catalogue_no, artist, title, sent").eq("id", id).maybeSingle(),
       sb.from("versions").select("*").eq("project_id", id).order("created_at"),
       sb.from("clients").select("id, name, email").order("name"),
       sb.from("project_access").select("client_id").eq("project_id", id),
@@ -300,6 +301,13 @@ export function ProjectAdmin({ id, locale, t }: { id: string; locale: Locale; t:
     const url = `${location.origin}/${locale}/sessions/join/${data.token}`;
     setInvited({ clientId: x.id, name: x.name, url });
     navigator.clipboard?.writeText(url).catch(() => undefined);
+  };
+
+  const toggleSent = async () => {
+    if (!project) return;
+    const { error } = await db().from("projects").update({ sent: !project.sent }).eq("id", id);
+    if (error) return setError(error.message);
+    load();
   };
 
   if (who !== "producer") return <Gate who={who} locale={locale} t={t} />;
@@ -429,6 +437,16 @@ export function ProjectAdmin({ id, locale, t }: { id: string; locale: Locale; t:
           <p className={styles.muted}>
             <Link href={`/${locale}/sessions/admin`}>{p.addPana}</Link>
           </p>
+
+          <h2 className={`caps ${styles.h2}`}>{p.sentTitle}</h2>
+          <p className={styles.muted}>{project.sent ? p.sentOn : p.sentOff}</p>
+          <div className={styles.actions2}>
+            <button type="button" className={`btn ${project.sent ? "" : "btn-red"}`} onClick={toggleSent}>
+              {project.sent ? p.markUnsent : p.markSent}
+            </button>
+          </div>
+
+          <LeakCheck projectId={id} panas={panas} t={t} />
 
           <h2 className={`caps ${styles.h2}`}>{p.listens}</h2>
           {listens.length === 0 ? (
@@ -639,6 +657,63 @@ function Uploader({ projectId, versionId, start, t, onDone }: { projectId: strin
           {busy && <p className={styles.muted}>{p.keepOpen}</p>}
         </>
       )}
+    </div>
+  );
+}
+
+// ── leak check: which pana's fingerprint is in this recording? ───
+
+function LeakCheck({ projectId, panas, t }: { projectId: string; panas: Pana[]; t: Dictionary }) {
+  const p = t.panel;
+  const [state, setState] = useState<{ busy: boolean; result?: { name: string; strength: number } | null; error?: string }>({ busy: false });
+  const input = useRef<HTMLInputElement>(null);
+
+  const check = async (file: File | undefined) => {
+    if (!file) return;
+    setState({ busy: true });
+    try {
+      const buf = await decodeFile(file); // 48 kHz, like the console's output
+      const mono = new Float32Array(buf.length);
+      for (let ch = 0; ch < buf.numberOfChannels; ch++) {
+        const d = buf.getChannelData(ch);
+        for (let i = 0; i < d.length; i++) mono[i] += d[i] / buf.numberOfChannels;
+      }
+      const prep = prepare(mono);
+      // everyone who could have played it: every pana, and the producer's own previews
+      const me = (await supabase()?.auth.getUser())?.data.user?.email ?? "";
+      const people = [...panas.map((x) => ({ name: `${x.name} (${x.email})`, email: x.email })), ...(me ? [{ name: me, email: me }] : [])];
+      const scored = [];
+      for (const x of people) scored.push({ name: x.name, strength: await score(prep, seedFor(x.email, projectId)) });
+      scored.sort((a, b) => b.strength - a.strength);
+      const [best, second] = scored;
+      // a match must stand well clear of the background and of everyone else
+      const found = best && best.strength >= 12 && best.strength >= 1.6 * Math.max(6, second?.strength ?? 0);
+      setState({ busy: false, result: found ? best : null });
+    } catch (e) {
+      setState({ busy: false, error: (e as Error).message });
+    }
+    if (input.current) input.current.value = "";
+  };
+
+  return (
+    <div className={styles.leak}>
+      <h2 className={`caps ${styles.h2}`}>{p.leakTitle}</h2>
+      <p className={styles.muted}>{p.leakHint}</p>
+      <button type="button" className="btn" disabled={state.busy} onClick={() => input.current?.click()}>
+        {state.busy ? p.leakWorking : p.leakChoose}
+      </button>
+      <input ref={input} type="file" accept="audio/*,video/*,.wav,.mp3,.m4a,.aac,.ogg,.opus,.webm,.mp4,.mov" hidden onChange={(e) => check(e.target.files?.[0])} />
+      {state.result && (
+        <p className={styles.leakHit} role="status">
+          {p.leakMatch.replace("{name}", state.result.name)} <span className="mono">· {p.leakStrength.replace("{n}", state.result.strength.toFixed(0))}</span>
+        </p>
+      )}
+      {state.result === null && (
+        <p className={styles.muted} role="status">
+          {p.leakNone}
+        </p>
+      )}
+      {state.error && <p className={styles.err}>{state.error}</p>}
     </div>
   );
 }

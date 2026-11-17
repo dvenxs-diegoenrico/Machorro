@@ -1,4 +1,5 @@
-export type Project = { id: string; catalogue_no: string; artist: string; title: string };
+/** `sent`: Dani has delivered the song, so the listening protections are off. */
+export type Project = { id: string; catalogue_no: string; artist: string; title: string; sent?: boolean };
 export type Version = { id: string; project_id: string; label: string; notes: string; is_current: boolean; created_at: string };
 export type TrackKind = "stem" | "group" | "mix" | "master";
 export type Track = {
@@ -27,7 +28,7 @@ export type Comment = {
 
 /** Everything the console needs, from wherever it comes (Supabase, or the demo). */
 export interface SessionSource {
-  loadProject(id: string): Promise<{ project: Project; versions: Version[]; isAdmin: boolean; meName: string }>;
+  loadProject(id: string): Promise<{ project: Project; versions: Version[]; isAdmin: boolean; meName: string; meEmail: string }>;
   loadTracks(versionId: string): Promise<Track[]>;
   loadComments(versionId: string): Promise<Comment[]>;
   addComment(versionId: string, seconds: number, body: string): Promise<Comment>;

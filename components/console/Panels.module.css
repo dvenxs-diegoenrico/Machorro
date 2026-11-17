@@ -334,3 +334,16 @@
 .headRow + .lead {
   margin-top: 1rem;
 }
+
+.leak {
+  display: grid;
+  justify-items: start;
+  gap: 0.6rem;
+}
+
+.leakHit {
+  padding: 0.6rem 0.8rem;
+  border-left: 3px solid var(--elvis-red);
+  background: var(--surface);
+  font-weight: 700;
+}
