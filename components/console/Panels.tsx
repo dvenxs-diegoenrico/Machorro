@@ -10,7 +10,7 @@ import { supabase } from "@/lib/supabase/browser";
 import styles from "./Panels.module.css";
 
 /** Sign in by email link. `presetEmail` comes from an invite link. */
-export function Login({ locale, t, presetEmail, note, next }: { locale: Locale; t: Dictionary; presetEmail?: string; note?: string; next?: "admin" }) {
+export function Login({ locale, t, presetEmail, note, next }: { locale: Locale; t: Dictionary; presetEmail?: string; note?: string; next?: "admin" | "master" }) {
   const p = t.panel;
   const [email, setEmail] = useState(presetEmail ?? "");
   const [state, setState] = useState<"idle" | "sending" | "sent" | "error" | "rate">("idle");
@@ -78,6 +78,7 @@ export function SessionsHome({ locale, t }: { locale: Locale; t: Dictionary }) {
   const p = t.panel;
   const [state, setState] = useState<"loading" | "out" | "in">("loading");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
@@ -86,11 +87,13 @@ export function SessionsHome({ locale, t }: { locale: Locale; t: Dictionary }) {
     (async () => {
       const { data } = await sb.auth.getUser();
       if (!data.user) return setState("out");
-      const [{ data: admin }, { data: rows }] = await Promise.all([
+      const [{ data: admin }, { data: owner }, { data: rows }] = await Promise.all([
         sb.rpc("is_admin"),
+        sb.rpc("is_owner"),
         sb.from("projects").select("id, catalogue_no, artist, title").order("catalogue_no", { ascending: false }),
       ]);
       setIsAdmin(Boolean(admin));
+      setIsOwner(Boolean(owner));
       setProjects(rows ?? []);
       setState("in");
     })();
@@ -118,6 +121,11 @@ export function SessionsHome({ locale, t }: { locale: Locale; t: Dictionary }) {
           {isAdmin && (
             <Link href={`/${locale}/sessions/admin`} className="btn btn-red">
               {p.producer} <Icon name="arrow-right" />
+            </Link>
+          )}
+          {isOwner && (
+            <Link href={`/${locale}/sessions/master`} className="btn btn-red">
+              {p.masterLink} <Icon name="arrow-right" />
             </Link>
           )}
           <SignOut locale={locale} t={t} />

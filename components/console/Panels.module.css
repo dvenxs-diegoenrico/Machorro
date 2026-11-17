@@ -134,6 +134,10 @@
   color: var(--ink-muted);
 }
 
+.cols > * {
+  min-width: 0;
+}
+
 .cols {
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
@@ -268,7 +272,7 @@
 
 @media (max-width: 900px) {
   .cols {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr); /* minmax(0): a wide table scrolls inside its box instead of stretching the page */
   }
 
   .actions {
@@ -325,4 +329,8 @@
 
 .queue li {
   padding-bottom: 0.5rem;
+}
+
+.headRow + .lead {
+  margin-top: 1rem;
 }

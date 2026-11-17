@@ -1,0 +1,280 @@
+/* Master control: the owner's read-only overview. Night theme, like the rest of the private side. */
+
+.lock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--rule);
+  color: var(--ink-muted);
+}
+
+.stamp {
+  margin-top: 0.4rem;
+  color: var(--ink-muted);
+  font-size: 0.8rem;
+}
+
+.note {
+  max-width: 62ch;
+  margin-bottom: 0.75rem;
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+}
+
+.cat {
+  color: var(--played, #e8394f);
+}
+
+/* ── tiles ─────────────────────────── */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+  gap: 8px;
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+}
+
+.tile {
+  display: grid;
+  align-content: start;
+  gap: 0.3rem;
+  padding: 1rem;
+  background: var(--surface);
+  border-top: 3px solid var(--rule);
+}
+
+.tileLabel {
+  color: var(--ink-muted);
+}
+
+.tileValue {
+  font-weight: 800;
+  font-stretch: 70%;
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.tileSub {
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+}
+
+.meter {
+  display: block;
+  height: 6px;
+  margin-top: 0.2rem;
+  background: var(--ground);
+  overflow: hidden;
+}
+
+.meter > span {
+  display: block;
+  height: 100%;
+  background: var(--electric);
+  transform-origin: 0 50%;
+}
+
+/* ── chart ─────────────────────────── */
+.chart {
+  position: relative;
+}
+
+.chartTools {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.4rem;
+}
+
+.plot {
+  position: relative;
+  background: var(--surface);
+  padding: 0.75rem 0.5rem 0.25rem;
+}
+
+.svg {
+  display: block;
+  max-width: 100%;
+  touch-action: pan-y;
+}
+
+.grid {
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+.axis {
+  stroke: var(--ink-muted);
+  stroke-width: 1;
+}
+
+.tick {
+  fill: var(--ink-muted);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.bar {
+  fill: var(--electric);
+}
+
+.barOn {
+  fill: var(--ink);
+}
+
+.zero {
+  stroke: var(--rule);
+  stroke-width: 2;
+}
+
+.hit {
+  fill: transparent;
+  cursor: crosshair;
+}
+
+.tip {
+  position: absolute;
+  top: 0.25rem;
+  z-index: 2;
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.5rem 0.7rem;
+  background: var(--ground);
+  border: 1px solid var(--rule);
+  font-size: 0.85rem;
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+.tip[data-side="left"] {
+  transform: translateX(-10%);
+}
+
+.tip[data-side="right"] {
+  transform: translateX(-90%);
+}
+
+/* ── tables ────────────────────────── */
+.tableWrap {
+  overflow-x: auto;
+  margin-bottom: 0.5rem;
+}
+
+.tableWrap:focus-visible {
+  outline: 2px solid var(--electric);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.table th {
+  padding: 0.5rem 0.75rem 0.5rem 0;
+  border-bottom: 1px solid var(--ink-muted);
+  color: var(--ink-muted);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 0.55rem 0.75rem 0.55rem 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* ── health ────────────────────────── */
+.health {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.health li {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* status is the word and the shape of the box, never colour alone */
+.state {
+  justify-self: start;
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--ink-muted);
+  color: var(--ink-muted);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.health li[data-state="look"] .state {
+  border-width: 2px;
+  border-color: #ffb454;
+  background: #ffb454;
+  color: #2e310d;
+  font-weight: 700;
+}
+
+.healthMain {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.why {
+  color: var(--ink-muted);
+  font-size: 0.85rem;
+}
+
+.count {
+  min-width: 2ch;
+  text-align: right;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem 1rem;
+  margin: 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.facts dt {
+  color: var(--ink-muted);
+}
+
+.facts dd {
+  margin: 0;
+  text-align: right;
+}
+
+/* ── comments ──────────────────────── */
+.comments {
+  display: grid;
+  gap: 0.9rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.commentMeta {
+  color: var(--ink-muted);
+  font-size: 0.75rem;
+}
