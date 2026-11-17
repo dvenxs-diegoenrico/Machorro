@@ -50,6 +50,7 @@ export function MasterControl({ locale, t }: { locale: Locale; t: Dictionary }) 
     setBusy(false);
     if (error) {
       if (error.code === "42501") return setWho("other");
+      setWho("owner"); // signed in, but the request failed: show the error and a retry, not a blank page
       return setError(error.message);
     }
     setStats(data as Stats);
